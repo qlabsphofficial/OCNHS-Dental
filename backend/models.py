@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base  # assuming you have a Base = declarative_base()
 
@@ -7,18 +7,21 @@ class Student(Base):
     __tablename__ = 'students'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    lastname = Column(String, nullable=True, default=None)
+    
     firstname = Column(String, nullable=True, default=None)
     middlename = Column(String, nullable=True, default=None)
+    lastname = Column(String, nullable=True, default=None)
     suffix = Column(String, nullable=True, default=None)
-    dateofbirth = Column(String, nullable=True, default=None)
-    birthplace = Column(String, nullable=True, default=None)
-    parent_guardian_name = Column(String, nullable=True, default=None)
-    adviser_name = Column(String, nullable=True, default=None)
+    dateofbirth = Column(Date, nullable=True, default=None)  # Changed to Date type
     gender = Column(Integer, nullable=True, default=None)  # will use index values
+    birthplace = Column(String, nullable=True, default=None)
     contact_no = Column(String, nullable=True, default=None)
     address = Column(String, nullable=True, default=None)
     email_address = Column(String, nullable=True, default=None)
+    password = Column(String, nullable=False, default=None)  # Added password column with nullable=False
+    
+    parent_guardian_name = Column(String, nullable=True, default=None)
+    adviser_name = Column(String, nullable=True, default=None)
     curriculum = Column(Integer, nullable=True, default=None)  # will use index values
     grade_level = Column(Integer, nullable=True, default=None)  # will use index values
     section = Column(String, nullable=True, default=None)
@@ -35,7 +38,7 @@ class MedicalHistory(Base):
 
     good_health = Column(Integer, nullable=True, default=None)
     under_medical_treatment = Column(Integer, nullable=True, default=None)
-    condition_being_treated = Column(String, nullable=True, default=None)
+    condition_being_treated = Column(String, nullable=True,     default=None)
     serious_illness = Column(Integer, nullable=True, default=None)
     illness_or_operation = Column(String, nullable=True, default=None)
     hospitalized = Column(Integer, nullable=True, default=None)
