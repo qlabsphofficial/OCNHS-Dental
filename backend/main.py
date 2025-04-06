@@ -329,6 +329,9 @@ async def get_student_appointments(student_id: int, db: Session = Depends(get_da
     
     appointments = db.query(Appointment).filter(Appointment.student_id == student_id).all()
     
+    if not appointments:
+        return {"message": "No appointments found for this student"}
+    
     return {"appointments": appointments}
 
 
@@ -358,3 +361,18 @@ async def update_student(student_data: StudentUpdateModel, db: Session = Depends
     db.refresh(student)
 
     return {"message": "Student updated successfully", "student_data": student}
+
+
+@app.get("/get_medical_history")
+async def get_medical_history(student_id: int, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).all()
+    
+    if not medical_history:
+        return {"message": "No medical history found for this student"}
+    
+    return {"medical_history": medical_history}
