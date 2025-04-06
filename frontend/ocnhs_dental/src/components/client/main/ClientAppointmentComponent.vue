@@ -12,7 +12,10 @@ const appointmentHistory = ref([]);
       <div class="flex flex-row h-10/12 w-11/12 gap-5 p-10 border-2 rounded-md">
             <div class="flex flex-col gap-3 w-1/2">
                   <h2 class="text-lg">Appointments</h2>
-                  <div v-for="appointment of appointments" :key="appointment">
+                  <div v-if="appointments.length == 0">
+                        <p>No appointments yet.</p>
+                  </div>
+                  <div v-else v-for="appointment of appointments" :key="appointment">
 
                   </div>
             </div>

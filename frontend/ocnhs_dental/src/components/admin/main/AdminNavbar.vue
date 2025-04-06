@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { 
-    Home, Calendar, Users, FileText, ClipboardList, FileSearch, BarChart
+    Home, Calendar, Users, FileText, ClipboardList, FileSearch, BarChart, Settings, LogOut 
 } from 'lucide-vue-next';
-import { defineEmits } from 'vue'; 
+import { ref, defineEmits } from 'vue'; 
+import { useRouter } from 'vue-router';
 
 const emit = defineEmits()
+const showOptions = ref(false)
+const router =  useRouter()
 
 function changeModule(moduleName) {
       this.emit('update-module', {
@@ -40,11 +43,20 @@ function changeModule(moduleName) {
             </div>
 
             <div class="flex flex-row justify-between items-center w-full h-1/12 p-5 bg-gray-500">
-                  <img src="" alt="">
-                  <h5>Username</h5>
-                  <button class="flex items-center gap-2">
-                        <FileText class="w-5 h-5" /> Settings
-                  </button>
+                  <div class="flex flex-row gap-4">
+                        <img src="" alt="">
+                        <h5>Username</h5>
+                  </div>
+
+                  <div>
+                        <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 bottom-20 negative-margin p-5 rounded-md">
+                              <button class="flex flex-row justify-center gap-4"><Settings />Settings</button>
+                              <button class="flex flex-row justify-center gap-4" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
+                        </div>
+                        <button class="flex items-center gap-2">
+                              <Settings class="w-5 h-5" @click="() => { showOptions = !showOptions }" />
+                        </button>
+                  </div>
             </div>
       </div>
 </template>
@@ -65,5 +77,9 @@ function changeModule(moduleName) {
 
 .overlay-color-2 {
       background-color: #9cc7be;
+}
+
+.negative-margin {
+      margin-top: -10%;
 }
 </style>

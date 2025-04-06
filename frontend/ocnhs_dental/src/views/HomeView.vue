@@ -1,7 +1,8 @@
 <script setup>
 import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
+import { useRouter } from 'vue-router';
 
-
+const router = useRouter()
 </script>
 
 <template>
@@ -25,7 +26,7 @@ import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
       <a>ABOUT US</a>
       <a>BLOGS</a>
       <a>SERVICES</a>
-      <button class="w-20 text-white rounded-sm main-color" @click="() => { this.$router.push('login') }">LOGIN</button>
+      <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 
