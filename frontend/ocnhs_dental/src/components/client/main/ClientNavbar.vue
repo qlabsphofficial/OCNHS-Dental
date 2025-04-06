@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defineEmits } from 'vue'; 
+import { defineEmits } from 'vue';
+import { ClipboardPlus, ScrollText, UserRound  } from 'lucide-vue-next';
 
 const emit = defineEmits()
 
@@ -21,9 +22,9 @@ function changeModule(moduleName) {
             </div>
 
             <div class="flex flex-col items-start gap-10 p-5 mt-10">
-                  <button type="button" @click="changeModule('appointment')">APPOINTMENT</button>
-                  <button type="button" @click="changeModule('personalDetails')">PERSONAL DETAILS</button>
-                  <button type="button" @click="changeModule('medicalHistory')">MEDICAL HISTORY</button>
+                  <button type="button" class="flex flex-row gap-4" @click="changeModule('appointment')"><ClipboardPlus /> APPOINTMENT</button>
+                  <button type="button" class="flex flex-row gap-4" @click="changeModule('personalDetails')"><UserRound /> PERSONAL DETAILS</button>
+                  <button type="button" class="flex flex-row gap-4" @click="changeModule('medicalHistory')"><ScrollText /> MEDICAL HISTORY</button>
             </div>
       </div>
 </template>

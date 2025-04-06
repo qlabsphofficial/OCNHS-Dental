@@ -1,4 +1,6 @@
 <script setup>
+import { Facebook } from 'lucide-vue-next';
+
 </script>
 
 <template>
@@ -14,7 +16,7 @@
 
             <!-- Dental Staff -->
             <div class="w-full h-full p-20 overlay-color">
-            <h2 class="text-3xl mb-60">DENTAL STAFF</h2>
+            <h2 class="text-5xl mb-60">DENTAL STAFF</h2>
 
             <div class="flex flex-row justify-evenly w-full">
             <div class="flex flex-col w-5/12 h-8/12 items-center">
@@ -22,7 +24,11 @@
             <div id="about-1" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
             <h4 class="text-xl font-bold mt-14 mb-5">EMILY CASTILLO-FANCUBERTA, DMD</h4>
             <p>DENTIST II</p>
-            <p class="mt-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mollitia iusto aliquid et. Ex hic illum qui non animi unde id dolore?</p>
+            <p class="mt-5">Dr. Emily Castillo-Fancuberta is dedicated to promoting oral health education and preventative care for the students of Olongapo City National High School. We believe that early intervention is key to preventing dental problems and ensuring a lifetime of healthy smiles. Our services include regular checkups, cleanings, and educational programs designed to empower students to take charge of their oral hygiene.</p>
+            <div>
+              <a href="">TEST</a>
+              <a href="">TEST</a>
+            </div>
             </div>
             </div>
 
@@ -31,17 +37,20 @@
             <div id="about-2" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
             <h4 class="text-xl font-bold mt-14 mb-5">SHIELA MAE C. DALANGBAYAN</h4>
             <p>DENTAL ASSISTANT</p>
-            <p class="mt-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mollitia iusto aliquid et. Ex hic illum qui non animi unde id dolore?</p>
+            <p class="mt-5">Shiela Mae Dalangbayan is dedicated to providing compassionate and efficient support to Dr. Emily Castillo-Fancuberta and our young patients at Olongapo City National High School. She is committed to creating a welcoming and reassuring environment for all students during their dental visits.</p>
+            <div>
+              <a href="">TEST</a>
+              <a href="">TEST</a>
+            </div>
             </div>
             </div>
 
-            <div></div>
             </div>
             </div>
 
             <!-- About Us -->
             <div class="w-full p-20">
-            <h2 class="text-3xl">ABOUT US</h2>
+            <h2 class="text-5xl">ABOUT US</h2>
 
             <div class="flex flex-row w-full gap-3 mt-20">
             <div class="w-3/12 p-3 border-1 rounded-md">
@@ -66,7 +75,7 @@
 
             <!-- Appointments -->
             <div class="w-full p-20 overlay-color">
-            <h2 class="text-3xl">APPOINTMENTS SCHEDULE</h2>
+            <h2 class="text-5xl">APPOINTMENTS SCHEDULE</h2>
 
             <div class="flex flex-row justify-evenly w-full">
             <!-- TODO Calendar -->
@@ -86,7 +95,7 @@
 
             <!-- Blogs -->
             <div class="w-full h-full p-20">
-            <h2 class="text-3xl">BLOGS</h2>
+            <h2 class="text-5xl">BLOGS</h2>
 
             <div class="flex flex-row gap-5 w-full mt-20">
             <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-20">

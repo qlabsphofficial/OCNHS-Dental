@@ -20,37 +20,37 @@ const section = ref('');
 
 <template>
       <div class="flex flex-col justify-center h-8/12 w-8/12 gap-10 p-20 border-2 rounded-md">
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Name</h4>
-                  <input type="text" v-model="name" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="name" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Date of Birth</h4>
-                  <input type="text" v-model="dateOfBirth" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="dateOfBirth" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Parent / Guardian</h4>
-                  <input type="text" v-model="parentGuardian" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="parentGuardian" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Adviser</h4>
-                  <input type="text" v-model="adviser" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="adviser" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Gender</h4>
-                  <input type="text" v-model="gender" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="gender" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Age</h4>
-                  <input type="text" v-model="age" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="age" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Contact Number</h4>
-                  <input type="text" v-model="contactNumber" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="contactNumber" disabled>
             </div>
-            <div class="flex flex-row gap-5">
+            <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Address</h4>
-                  <input type="text" v-model="address" disabled>
+                  <input type="text" class="w-10/12 bg-gray-300 rounded-sm" v-model="address" disabled>
             </div>
             <div class="flex flex-row justify-between">
                   <div class="flex flex-row gap-5">

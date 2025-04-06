@@ -30,9 +30,7 @@ async function attemptLogin() {
 <template>
   <div class="flex flex-row w-full h-full top-0 left-0 absolute bg-black">
       <!-- Login Banner -->
-      <div class="h-full w-1/2">
-
-      </div>
+      <div id="banner" class="h-full w-1/2"></div>
 
       <!-- Login -->
       <div class="flex flex-col items-center justify-center h-full w-1/2 bg-white p-20">
@@ -78,5 +76,12 @@ async function attemptLogin() {
 #error {
   color: white;
   background-color: #dc9c3a;
+}
+
+#banner {
+  background: url('@/assets/Clinic Assets/Dental Clinic images/image/login.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>

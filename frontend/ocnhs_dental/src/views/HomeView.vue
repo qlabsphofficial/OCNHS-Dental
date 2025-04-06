@@ -7,14 +7,14 @@ import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
 <template>
 <div class="absolute top-0 left-0 w-full">
   <!-- Header -->
-  <div class="flex flex-row justify-between w-full h-20 p-14 main-color">
+  <div class="flex flex-row justify-between w-full h-20 p-16 main-color">
     <div class="flex flex-row gap-5 h-full items-center">
-      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="90px" width="70px">
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="120px" width="100px">
       <h3 class="text-white font-bold text-lg">OLONGAPO CITY NATIONAL HIGH SCHOOL DENTAL CLINIC</h3>
     </div>
 
     <div class="flex h-full items-center">
-      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="90px" width="70px">
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="120px" width="100px">
     </div>
   </div>
 
@@ -80,7 +80,7 @@ import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
   <!-- Footer 2 -->
   <div class="flex flex-row justify-evenly items-evenly h-full w-full overlay-color p-10">
     <div class="flex flex-col justify-center 3/12">
-      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="240px">
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo3.png" height="240px" width="240px">
     </div>
 
     <div class="flex flex-col justify-center 3/12 text-white">

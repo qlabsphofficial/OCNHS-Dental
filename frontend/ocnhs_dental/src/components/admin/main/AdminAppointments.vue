@@ -1,0 +1,50 @@
+<script setup>
+import { ref } from 'vue';
+import { X, Check, CalendarSync  } from 'lucide-vue-next';
+
+const page = ref('')
+const appointments = ref([{'name': 1, 'date': 'hi', 'status': 'Pending'}])
+</script>
+
+<template>
+      <div class="flex flex-col justify-between h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md">
+            <table>
+                  <tr class="border-2">
+                        <th class="text-lg">NAME</th>
+                        <th class="text-lg">SECTION</th>
+                        <th class="text-lg">DATE & TIME</th>
+                        <th class="text-lg">APPOINTMENT TYPE</th>
+                        <th class="text-lg">STATUS</th>
+                        <th class="text-lg">APPROVE</th>
+                        <th class="text-lg">CANCEL</th>
+                        <th class="text-lg">RESCHEDULE</th>
+                  </tr>
+
+                  <!-- ITERATE THROUGH RECORDS HERE -->
+                  <tr v-for="appointment, index of appointments" :key="appointment">
+                        <td class="p-2">{{ index + 1 }}. </td>
+                        <td class="text-center p-2">{{ appointment.date }}</td>
+                        <td class="text-center p-2">{{ appointment.status }}</td>
+                        <td class="text-center p-2">{{ appointment.status }}</td>
+                        <td class="text-center p-2">{{ appointment.status }}</td>
+                        <td class="text-center p-2"><button><Check /></button></td>
+                        <td class="text-center p-2"><button><X /></button></td>
+                        <td class="text-center p-2"><button><CalendarSync /></button></td>
+                  </tr>
+            </table>
+            
+            <div class="flex flex-row justify-between w-full">
+                  <p>Page: {{ page }}</p>
+                  <div class="flex flex-row w-3/12 justify-evenly">
+                        <button class="border-2 rounded-md p-1 w-5/12">Previous</button>
+                        <button class="border-2 rounded-md p-1 w-5/12">Next</button>
+                  </div>
+            </div>
+      </div>
+</template>
+
+
+
+<style scoped>
+
+</style>

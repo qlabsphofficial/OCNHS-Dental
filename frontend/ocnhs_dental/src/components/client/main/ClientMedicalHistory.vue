@@ -150,12 +150,12 @@ const others = ref('');
             </div>
       
             <div class="flex flex-row gap-4">
-            <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
+            <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="brushingTimes">
             <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
             </div>
       
             <div class="flex flex-row gap-4">
-            <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
+            <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="toothbrushChange">
             <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
             </div>
       
@@ -165,7 +165,7 @@ const others = ref('');
             </div>
       
             <div class="flex flex-row gap-4">
-            <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
+            <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="dentistVisits">
             <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
             </div>
             </div>
