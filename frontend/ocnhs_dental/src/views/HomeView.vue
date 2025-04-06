@@ -2,9 +2,16 @@
 import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { useServiceStore } from '@/stores/services';
 
 const router = useRouter()
-const skip = ref('')
+const servicesVisible = ref(false)
+const serviceStore = useServiceStore()
+
+function accessService(service){
+  serviceStore.currentService = service
+  router.push('/service')
+}
 </script>
 
 <template>
@@ -27,13 +34,22 @@ const skip = ref('')
       <a>HOME</a>
       <a @click="() => { skip = 'about' } ">ABOUT US</a>
       <a @click="() => { skip = 'blogs' } ">BLOGS</a>
-      <a>SERVICES</a>
+      <div class="flex flex-col">
+        <a @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
+
+        <div v-if="servicesVisible" class="absolute top-50 border-2 p-6 bg-white">
+          <button @click="accessService(1)">FLOURIDE APPLICATION</button>
+          <button @click="accessService(2)">ORAL PROPHYLAXIS/CLEANING</button>
+          <button @click="accessService(3)">RESTORATION/PASTA</button>
+          <button @click="accessService(4)">EXTRACTION/BUNOT</button>
+        </div>
+      </div>
       <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/adminLogin') }">ADMIN</button>
       <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 
-  <HomeComponent :skip="skip" />
+  <HomeComponent/>
 
   <!-- Footer -->
   <div class="flex flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
