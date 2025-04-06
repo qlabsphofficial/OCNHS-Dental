@@ -5,7 +5,7 @@ from sqlalchemy import func, desc
 from database import SessionLocal, engine, Base
 from pydantic import BaseModel
 from typing import Optional
-from models import Student, MedicalHistory, Appointment
+from models import Student, MedicalHistory, Appointment, Admin
 from datetime import date, datetime
 
 app = FastAPI()
@@ -42,6 +42,7 @@ class StudentModel(BaseModel):
     address: str
     email_address: str
     password: str
+    confirm_password: str
 
     class Config:
         orm_mode = True
@@ -152,11 +153,33 @@ class StudentUpdateModel(BaseModel):
 
     class Config:
         orm_mode = True
+
+    
+class AdminRegisterModel(BaseModel):
+    firstname: Optional[str] = None
+    middlename: Optional[str] = None
+    lastname: Optional[str] = None
+    suffix: Optional[str] = None
+    dateofbirth: Optional[date] = None
+    gender: Optional[int] = None
+    birthplace: Optional[str] = None
+    contact_number: Optional[str] = None
+    address: Optional[str] = None
+    email: str
+    password: str
+    confirm_password: str
+
+    class Config:
+        orm_mode = True
+
     
 
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
-    # First, check if the email is already registered
+    # Confirm password validation
+    if student.password != student.confirm_password:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
+
     existing_student = db.query(Student).filter(Student.email_address == student.email_address).first()
     if existing_student:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -376,3 +399,38 @@ async def get_medical_history(student_id: int, db: Session = Depends(get_databas
         return {"message": "No medical history found for this student"}
     
     return {"medical_history": medical_history}
+
+
+@app.post("/register_admin")
+async def register_admin(admin_data: AdminRegisterModel, db: Session = Depends(get_database)):
+    try:
+        if admin_data.password != admin_data.confirm_password:
+            raise HTTPException(status_code=400, detail="Passwords do not match")
+        
+        existing_admin = db.query(Admin).filter(Admin.email == admin_data.email).first()
+        if existing_admin:
+            raise HTTPException(status_code=400, detail="Email already registered")
+
+        new_admin = Admin(
+            firstname=admin_data.firstname,
+            middlename=admin_data.middlename,
+            lastname=admin_data.lastname,
+            suffix=admin_data.suffix,
+            dateofbirth=admin_data.dateofbirth,
+            gender=admin_data.gender,
+            birthplace=admin_data.birthplace,
+            contact_number=admin_data.contact_number,
+            address=admin_data.address,
+            email=admin_data.email,
+            password=admin_data.password
+        )
+
+        db.add(new_admin)
+        db.commit()
+        db.refresh(new_admin)
+
+        return {"message": "Admin registration successful", "status_code": 200}
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")

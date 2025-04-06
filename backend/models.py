@@ -105,3 +105,20 @@ class Appointment(Base):
     status = Column(String, default='PENDING')
 
     student = relationship('Student', back_populates='appointments')
+
+
+class Admin(Base):
+    __tablename__ = "admins"
+
+    id = Column(Integer, primary_key=True, index=True)
+    firstname = Column(String, nullable=True, default=None)
+    middlename = Column(String, nullable=True, default=None)
+    lastname = Column(String, nullable=True, default=None)
+    suffix = Column(String, nullable=True, default=None)
+    dateofbirth = Column(Date, nullable=True, default=None)
+    gender = Column(Integer, nullable=True, default=None)
+    birthplace = Column(String, nullable=True, default=None)
+    contact_number = Column(String, nullable=True, default=None)
+    address = Column(String, nullable=True, default=None)
+    email = Column(String, nullable=True, default=None)
+    password = Column(String, nullable=False)
