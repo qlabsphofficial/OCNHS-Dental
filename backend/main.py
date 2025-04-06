@@ -173,6 +173,10 @@ class AdminRegisterModel(BaseModel):
         orm_mode = True
 
     
+class AdminLoginModel(BaseModel):
+    email: str
+    password: str
+
 
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
@@ -434,3 +438,17 @@ async def register_admin(admin_data: AdminRegisterModel, db: Session = Depends(g
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
+    
+
+@app.post("/login_admin")
+async def login_admin(login_data: AdminLoginModel, db: Session = Depends(get_database)):
+    admin = db.query(Admin).filter(Admin.email == login_data.email).first()
+
+    if not admin or admin.password != login_data.password:
+        raise HTTPException(status_code=400, detail="Invalid email or password")
+    
+    return {
+        "message": "Login successful",
+        "admin_data": admin
+    }
+    
