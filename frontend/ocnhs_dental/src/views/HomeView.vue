@@ -1,14 +1,16 @@
 <script setup>
 import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const router = useRouter()
+const skip = ref('')
 </script>
 
 <template>
 <div class="absolute top-0 left-0 w-full">
   <!-- Header -->
-  <div class="flex flex-row justify-between w-full h-20 p-16 main-color">
+  <div id="home" class="flex flex-row justify-between w-full h-20 p-16 main-color">
     <div class="flex flex-row gap-5 h-full items-center">
       <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="120px" width="100px">
       <h3 class="text-white font-bold text-lg">OLONGAPO CITY NATIONAL HIGH SCHOOL DENTAL CLINIC</h3>
@@ -23,15 +25,15 @@ const router = useRouter()
   <div class="flex flex-row justify-end items-center p-8 secondary-color">
     <div class="flex flex-row gap-5">
       <a>HOME</a>
-      <a>ABOUT US</a>
-      <a>BLOGS</a>
+      <a @click="() => { skip = 'about' } ">ABOUT US</a>
+      <a @click="() => { skip = 'blogs' } ">BLOGS</a>
       <a>SERVICES</a>
       <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/adminLogin') }">ADMIN</button>
       <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 
-  <HomeComponent />
+  <HomeComponent :skip="skip" />
 
   <!-- Footer -->
   <div class="flex flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
@@ -50,7 +52,7 @@ const router = useRouter()
       <p>ocnhsdentalpage@gmail.com</p>
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col footer-links-2">
       <p>DEPED QUICK LINKS</p>
       <a>DepEd Central Office</a>
       <a>DepEd Regional Office III</a>
@@ -60,7 +62,7 @@ const router = useRouter()
       <a>PAGASA</a>
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col footer-links-2">
       <p>DEPED PORTALS</p>
       <a>Enhanced Basic Education</a>
       <a>Information System (EBEIS)</a>
@@ -103,7 +105,7 @@ const router = useRouter()
       <p>Official Gazette</p>
     </div>
 
-    <div class="flex flex-col w-3/12">
+    <div class="flex flex-col w-3/12 footer-links-1">
       <a>Office of the President</a>
       <a>Office of the Vice President</a>
       <a>Senate of the Philippines</a>
@@ -215,7 +217,11 @@ a {
   background-position: center;
 }
 
-.footer-links a {
+.footer-links-1 a {
+  color: white;
+}
 
+.footer-links-2 a {
+  color: black;
 }
 </style>

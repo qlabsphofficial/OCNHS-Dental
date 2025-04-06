@@ -1,5 +1,5 @@
 <script setup>
-import { Facebook } from 'lucide-vue-next';
+import { defineProps } from 'vue';
 
 </script>
 
@@ -226,9 +226,5 @@ a {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-}
-
-.footer-links a {
-
 }
 </style>

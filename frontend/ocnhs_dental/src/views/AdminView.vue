@@ -12,12 +12,12 @@ import AdminDentalExam from '@/components/admin/main/AdminDentalExam.vue';
 import AdminReports from '@/components/admin/main/AdminReports.vue';
 
 import { ref, shallowRef  } from 'vue';
+import { useRouter } from 'vue-router';
 
 const currentComponent = shallowRef(null) 
+const router = useRouter()
 
 function handleUpdateModule(data){
-      console.log(data)
-
       switch(data.moduleName) {
             case 'dashboard':
                   currentComponent.value = AdminDashboard
@@ -42,6 +42,10 @@ function handleUpdateModule(data){
                   break
       }
 }
+
+function attemptLogout() {
+      router.push('/')
+}
 </script>
 
 
@@ -50,8 +54,13 @@ function handleUpdateModule(data){
             <HeaderComponent />
 
             <div class="flex flex-row h-11/12 w-full">
-                  <AdminNavbar @update-module="handleUpdateModule" />
+                  <AdminNavbar @update-module="handleUpdateModule" @log-out="attemptLogout()" />
                   <div class="flex items-center justify-center w-10/12 h-full">
+                        <!-- <div class="flex items-center justify-center absolute">
+                              <div>
+                                    Test
+                              </div>
+                        </div> -->
                         <component :is="currentComponent"></component>
                   </div>
             </div>

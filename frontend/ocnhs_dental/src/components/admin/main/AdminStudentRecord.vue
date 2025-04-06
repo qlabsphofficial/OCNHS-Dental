@@ -139,7 +139,7 @@ const studentOptionsShowing = ref(false)
             </div>
             <hr class="mt-5 mb-20">
 
-            <div class="flex flex-row justify-between w-full mb-20">
+            <div class="flex flex-row justify-between w-full mb-20" @click="() => { studentOptionsShowing = false; }">
                   <div class="flex flex-col gap-6 w-1/2">
                         <div class="flex flex-row gap-4">
                               <h4>NAME:</h4>
@@ -196,7 +196,7 @@ const studentOptionsShowing = ref(false)
             </div>
 
             <!-- Medical Data -->
-            <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false; }">
                   <div class="flex flex-col gap-2 h-1/2 w-1/2">
                   <div class="flex flex-row gap-5">
                   <input type="checkbox" v-model="goodHealth">

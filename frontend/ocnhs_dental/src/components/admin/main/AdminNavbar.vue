@@ -14,6 +14,10 @@ function changeModule(moduleName) {
             'moduleName': moduleName
       })
 }
+
+function attemptLogout() {
+      emit('log-out')
+}
 </script>
 
 <template>
@@ -51,7 +55,7 @@ function changeModule(moduleName) {
                   <div>
                         <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 bottom-20 negative-margin p-5 rounded-md">
                               <button class="flex flex-row justify-center gap-4"><Settings />Settings</button>
-                              <button class="flex flex-row justify-center gap-4" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
+                              <button class="flex flex-row justify-center gap-4" @click="attemptLogout()"><LogOut />Sign Out</button>
                         </div>
                         <button class="flex items-center gap-2">
                               <Settings class="w-5 h-5" @click="() => { showOptions = !showOptions }" />
