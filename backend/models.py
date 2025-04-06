@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base  # assuming you have a Base = declarative_base()
+from database import Base
 
-# --- Students Table ---
 class Student(Base):
     __tablename__ = 'students'
 
@@ -12,18 +11,18 @@ class Student(Base):
     middlename = Column(String, nullable=True, default=None)
     lastname = Column(String, nullable=True, default=None)
     suffix = Column(String, nullable=True, default=None)
-    dateofbirth = Column(Date, nullable=True, default=None)  # Changed to Date type
-    gender = Column(Integer, nullable=True, default=None)  # will use index values
+    dateofbirth = Column(Date, nullable=True, default=None)
+    gender = Column(Integer, nullable=True, default=None)
     birthplace = Column(String, nullable=True, default=None)
     contact_no = Column(String, nullable=True, default=None)
     address = Column(String, nullable=True, default=None)
     email_address = Column(String, nullable=True, default=None)
-    password = Column(String, nullable=False, default=None)  # Added password column with nullable=False
+    password = Column(String, nullable=False, default=None)
     
     parent_guardian_name = Column(String, nullable=True, default=None)
     adviser_name = Column(String, nullable=True, default=None)
-    curriculum = Column(Integer, nullable=True, default=None)  # will use index values
-    grade_level = Column(Integer, nullable=True, default=None)  # will use index values
+    curriculum = Column(Integer, nullable=True, default=None)
+    grade_level = Column(Integer, nullable=True, default=None)
     section = Column(String, nullable=True, default=None)
 
     medical_history = relationship('MedicalHistory', back_populates='student')
