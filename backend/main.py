@@ -5,8 +5,8 @@ from sqlalchemy import func, desc
 from database import SessionLocal, engine, Base
 from pydantic import BaseModel
 from typing import Optional
-from models import Student, MedicalHistory
-from datetime import date
+from models import Student, MedicalHistory, Appointment
+from datetime import date, datetime
 
 app = FastAPI()
 
@@ -116,6 +116,16 @@ class MedicalHistoryModel(BaseModel):
     curriculum: Optional[int] = None
     grade_level: Optional[int] = None
     section: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
+
+class AppointmentModel(BaseModel):
+    student_id: int
+    appointment_type: str
+    appointment_datetime: datetime
+    status: Optional[str] = 'PENDING'
 
     class Config:
         orm_mode = True
@@ -257,3 +267,25 @@ async def create_medical_history(medical_history_data: MedicalHistoryModel, db: 
 
     return {"message": "Student and medical history updated successfully"}
 
+
+@app.post("/appointments")
+async def create_appointment(appointment_data: AppointmentModel, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == appointment_data.student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=400, detail="Student not found")
+    
+    new_appointment = Appointment(
+        student_id=appointment_data.student_id,
+        appointment_type=appointment_data.appointment_type,
+        appointment_datetime=appointment_data.appointment_datetime,
+        status=appointment_data.status
+    )
+    
+    db.add(new_appointment)
+    db.commit()
+    db.refresh(new_appointment)
+
+    return {
+        "message": "Appointment created successfully",
+    }
