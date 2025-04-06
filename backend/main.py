@@ -5,7 +5,7 @@ from sqlalchemy import func, desc
 from database import SessionLocal, engine, Base
 from pydantic import BaseModel
 from typing import Optional
-from models import Student, MedicalHistory, Appointment
+from models import Student, MedicalHistory, Appointment, Admin
 from datetime import date, datetime
 
 app = FastAPI()
@@ -42,6 +42,7 @@ class StudentModel(BaseModel):
     address: str
     email_address: str
     password: str
+    confirm_password: str
 
     class Config:
         orm_mode = True
@@ -115,7 +116,7 @@ class MedicalHistoryModel(BaseModel):
     adviser_name: Optional[str] = None
     curriculum: Optional[int] = None
     grade_level: Optional[int] = None
-    section: Optional[str] = None
+    section: Optional[int] = None
 
     class Config:
         orm_mode = True
@@ -129,15 +130,66 @@ class AppointmentModel(BaseModel):
 
     class Config:
         orm_mode = True
+    
+    
+class StudentUpdateModel(BaseModel):
+    student_id: int
+    firstname: Optional[str] = None
+    middlename: Optional[str] = None
+    lastname: Optional[str] = None
+    suffix: Optional[str] = None
+    dateofbirth: Optional[date] = None
+    gender: Optional[int] = None
+    birthplace: Optional[str] = None
+    contact_no: Optional[str] = None
+    address: Optional[str] = None
+    # email_address: Optional[str] = None
+    # password: Optional[str] = None
+    parent_guardian_name: Optional[str] = None
+    adviser_name: Optional[str] = None
+    curriculum: Optional[int] = None
+    grade_level: Optional[int] = None
+    section: Optional[int] = None
+
+    class Config:
+        orm_mode = True
+
+    
+class AdminRegisterModel(BaseModel):
+    firstname: Optional[str] = None
+    middlename: Optional[str] = None
+    lastname: Optional[str] = None
+    suffix: Optional[str] = None
+    dateofbirth: Optional[date] = None
+    gender: Optional[int] = None
+    birthplace: Optional[str] = None
+    contact_number: Optional[str] = None
+    address: Optional[str] = None
+    email: str
+    password: str
+    confirm_password: str
+
+    class Config:
+        orm_mode = True
+
+    
+class AdminLoginModel(BaseModel):
+    email: str
+    password: str
 
 
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
-    try:
-        existing_student = db.query(Student).filter(Student.email_address == student.email_address).first()
-        if existing_student:
-            raise HTTPException(status_code=400, detail="Email already registered")
+    # Confirm password validation
+    if student.password != student.confirm_password:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
 
+    existing_student = db.query(Student).filter(Student.email_address == student.email_address).first()
+    if existing_student:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    try:
+        # Create a new student record
         new_student = Student(
             firstname=student.firstname,
             middlename=student.middlename,
@@ -152,14 +204,18 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
             password=student.password
         )
 
+        # Add the new student to the session and commit the transaction
         db.add(new_student)
         db.commit()
+        db.refresh(new_student)  # Refresh to get the student ID
 
+        # Return the response with the new student ID
         return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
 
     except Exception as e:
+        # Rollback the transaction in case of error and log the exception
         db.rollback()
-        raise HTTPException(status_code=500, detail="Registration failed")
+        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
 
 
 @app.post("/login")
@@ -293,13 +349,106 @@ async def create_appointment(appointment_data: AppointmentModel, db: Session = D
 
 @app.get("/get_student_appointments")
 async def get_student_appointments(student_id: int, db: Session = Depends(get_database)):
-    # Query the student by ID
     student = db.query(Student).filter(Student.id == student_id).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
-    # Manually query for the appointments related to this student
     appointments = db.query(Appointment).filter(Appointment.student_id == student_id).all()
     
+    if not appointments:
+        return {"message": "No appointments found for this student"}
+    
     return {"appointments": appointments}
+
+
+@app.put("/update_student")
+async def update_student(student_data: StudentUpdateModel, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_data.student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    student.firstname = student_data.firstname
+    student.middlename = student_data.middlename
+    student.lastname = student_data.lastname
+    student.suffix = student_data.suffix
+    student.dateofbirth = student_data.dateofbirth
+    student.gender = student_data.gender
+    student.birthplace = student_data.birthplace
+    student.contact_no = student_data.contact_no
+    student.address = student_data.address
+    student.parent_guardian_name = student_data.parent_guardian_name
+    student.adviser_name = student_data.adviser_name
+    student.curriculum = student_data.curriculum
+    student.grade_level = student_data.grade_level
+    student.section = student_data.section
+
+    db.commit()
+    db.refresh(student)
+
+    return {"message": "Student updated successfully", "student_data": student}
+
+
+@app.get("/get_medical_history")
+async def get_medical_history(student_id: int, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).all()
+    
+    if not medical_history:
+        return {"message": "No medical history found for this student"}
+    
+    return {"medical_history": medical_history}
+
+
+@app.post("/register_admin")
+async def register_admin(admin_data: AdminRegisterModel, db: Session = Depends(get_database)):
+    try:
+        if admin_data.password != admin_data.confirm_password:
+            raise HTTPException(status_code=400, detail="Passwords do not match")
+        
+        existing_admin = db.query(Admin).filter(Admin.email == admin_data.email).first()
+        if existing_admin:
+            raise HTTPException(status_code=400, detail="Email already registered")
+
+        new_admin = Admin(
+            firstname=admin_data.firstname,
+            middlename=admin_data.middlename,
+            lastname=admin_data.lastname,
+            suffix=admin_data.suffix,
+            dateofbirth=admin_data.dateofbirth,
+            gender=admin_data.gender,
+            birthplace=admin_data.birthplace,
+            contact_number=admin_data.contact_number,
+            address=admin_data.address,
+            email=admin_data.email,
+            password=admin_data.password
+        )
+
+        db.add(new_admin)
+        db.commit()
+        db.refresh(new_admin)
+
+        return {"message": "Admin registration successful", "status_code": 200}
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
+    
+
+@app.post("/login_admin")
+async def login_admin(login_data: AdminLoginModel, db: Session = Depends(get_database)):
+    admin = db.query(Admin).filter(Admin.email == login_data.email).first()
+
+    if not admin or admin.password != login_data.password:
+        raise HTTPException(status_code=400, detail="Invalid email or password")
+    
+    return {
+        "message": "Login successful",
+        "admin_data": admin
+    }
+    
