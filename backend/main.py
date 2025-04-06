@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import Optional
 from models import Student, MedicalHistory, Appointment, Admin
 from datetime import date, datetime
+from sqlalchemy import extract
 
 app = FastAPI()
 
@@ -37,6 +38,7 @@ class StudentModel(BaseModel):
     suffix: Optional[str] = None
     dateofbirth: date
     gender: int
+    age: int
     birthplace: str
     contact_no: str
     address: str
@@ -178,9 +180,13 @@ class AdminLoginModel(BaseModel):
     password: str
 
 
+class AppointmentFilterRequest(BaseModel):
+    year: int
+    month: int
+
+    
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
-    # Confirm password validation
     if student.password != student.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
@@ -188,36 +194,28 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
     if existing_student:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    try:
-        # Create a new student record
-        new_student = Student(
-            firstname=student.firstname,
-            middlename=student.middlename,
-            lastname=student.lastname,
-            suffix=student.suffix,
-            dateofbirth=student.dateofbirth,
-            gender=student.gender,
-            birthplace=student.birthplace,
-            contact_no=student.contact_no,
-            address=student.address,
-            email_address=student.email_address,
-            password=student.password
-        )
+    new_student = Student(
+        firstname=student.firstname,
+        middlename=student.middlename,
+        lastname=student.lastname,
+        suffix=student.suffix,
+        dateofbirth=student.dateofbirth,
+        gender=student.gender,
+        age=student.age,
+        birthplace=student.birthplace,
+        contact_no=student.contact_no,
+        address=student.address,
+        email_address=student.email_address,
+        password=student.password
+    )
 
-        # Add the new student to the session and commit the transaction
-        db.add(new_student)
-        db.commit()
-        db.refresh(new_student)  # Refresh to get the student ID
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
 
-        # Return the response with the new student ID
-        return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
+    return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
 
-    except Exception as e:
-        # Rollback the transaction in case of error and log the exception
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
-
-
+    
 @app.post("/login")
 async def login(login_data: LoginModel, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.email_address == login_data.email_address).first()
@@ -451,4 +449,96 @@ async def login_admin(login_data: AdminLoginModel, db: Session = Depends(get_dat
         "message": "Login successful",
         "admin_data": admin
     }
+
+
+@app.get("/get_pending_appointments")
+async def get_pending_appointments(db: Session = Depends(get_database)):
+    results = (
+        db.query(Appointment, Student)
+        .join(Student, Student.id == Appointment.student_id)  # INNER JOIN
+        .filter(Appointment.status == 'PENDING')
+        .all()
+    )
+
+    # Format results nicely
+    formatted_results = []
+    for appointment, student in results:
+        formatted_results.append({
+        # Student fields
+        "student_id": student.id if student else None,
+        "firstname": student.firstname if student else None,
+        "middlename": student.middlename if student else None,
+        "lastname": student.lastname if student else None,
+        "suffix": student.suffix if student else None,
+        "dateofbirth": student.dateofbirth if student else None,
+        "gender": student.gender if student else None,
+        "birthplace": student.birthplace if student else None,
+        "contact_no": student.contact_no if student else None,
+        "address": student.address if student else None,
+        "email_address": student.email_address if student else None,
+        "password": student.password if student else None,
+        "parent_guardian_name": student.parent_guardian_name if student else None,
+        "adviser_name": student.adviser_name if student else None,
+        "curriculum": student.curriculum if student else None,
+        "grade_level": student.grade_level if student else None,
+        "section": student.section if student else None,
+
+        # Appointment fields
+        "appointment_id": appointment.id,
+        "appointment_type": appointment.appointment_type,
+        "appointment_datetime": appointment.appointment_datetime,
+        "status": appointment.status,
+    })
+
+    return {"pending_appointments": formatted_results}
+
+
+@app.post("/appointments_by_month") 
+async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Session = Depends(get_database)):
+    year = filter.year
+    month = filter.month
     
+    # Query appointments with the extracted year and month
+    results = (
+        db.query(Appointment, Student)
+        .join(Student, Student.id == Appointment.student_id)  # INNER JOIN to ensure only matching students
+        .filter(
+            extract('year', Appointment.appointment_datetime) == year,
+            extract('month', Appointment.appointment_datetime) == month
+        )
+        .all()
+    )
+    
+    if not results:
+        raise HTTPException(status_code=404, detail="No appointments found for the given month and year")
+    
+    formatted_results = []
+    for appointment, student in results:
+        formatted_results.append({
+            # Student fields
+        "student_id": student.id if student else None,
+        "firstname": student.firstname if student else None,
+        "middlename": student.middlename if student else None,
+        "lastname": student.lastname if student else None,
+        "suffix": student.suffix if student else None,
+        "dateofbirth": student.dateofbirth if student else None,
+        "gender": student.gender if student else None,
+        "birthplace": student.birthplace if student else None,
+        "contact_no": student.contact_no if student else None,
+        "address": student.address if student else None,
+        "email_address": student.email_address if student else None,
+        "password": student.password if student else None,
+        "parent_guardian_name": student.parent_guardian_name if student else None,
+        "adviser_name": student.adviser_name if student else None,
+        "curriculum": student.curriculum if student else None,
+        "grade_level": student.grade_level if student else None,
+        "section": student.section if student else None,
+
+        # Appointment fields
+        "appointment_id": appointment.id,
+        "appointment_type": appointment.appointment_type,
+        "appointment_datetime": appointment.appointment_datetime,
+        "status": appointment.status,
+        })
+
+    return {"appointments": formatted_results}
