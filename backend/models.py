@@ -24,7 +24,7 @@ class Student(Base):
     adviser_name = Column(String, nullable=True, default=None)
     curriculum = Column(Integer, nullable=True, default=None)
     grade_level = Column(Integer, nullable=True, default=None)
-    section = Column(String, nullable=True, default=None)
+    section = Column(Integer, nullable=True, default=None)
 
     medical_history = relationship('MedicalHistory', back_populates='student')
     appointments = relationship('Appointment', back_populates='student')

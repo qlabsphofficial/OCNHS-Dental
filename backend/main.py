@@ -115,7 +115,7 @@ class MedicalHistoryModel(BaseModel):
     adviser_name: Optional[str] = None
     curriculum: Optional[int] = None
     grade_level: Optional[int] = None
-    section: Optional[str] = None
+    section: Optional[int] = None
 
     class Config:
         orm_mode = True
@@ -129,15 +129,40 @@ class AppointmentModel(BaseModel):
 
     class Config:
         orm_mode = True
+    
+    
+class StudentUpdateModel(BaseModel):
+    student_id: int
+    firstname: Optional[str] = None
+    middlename: Optional[str] = None
+    lastname: Optional[str] = None
+    suffix: Optional[str] = None
+    dateofbirth: Optional[date] = None
+    gender: Optional[int] = None
+    birthplace: Optional[str] = None
+    contact_no: Optional[str] = None
+    address: Optional[str] = None
+    # email_address: Optional[str] = None
+    # password: Optional[str] = None
+    parent_guardian_name: Optional[str] = None
+    adviser_name: Optional[str] = None
+    curriculum: Optional[int] = None
+    grade_level: Optional[int] = None
+    section: Optional[int] = None
 
+    class Config:
+        orm_mode = True
+    
 
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
-    try:
-        existing_student = db.query(Student).filter(Student.email_address == student.email_address).first()
-        if existing_student:
-            raise HTTPException(status_code=400, detail="Email already registered")
+    # First, check if the email is already registered
+    existing_student = db.query(Student).filter(Student.email_address == student.email_address).first()
+    if existing_student:
+        raise HTTPException(status_code=400, detail="Email already registered")
 
+    try:
+        # Create a new student record
         new_student = Student(
             firstname=student.firstname,
             middlename=student.middlename,
@@ -152,14 +177,18 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
             password=student.password
         )
 
+        # Add the new student to the session and commit the transaction
         db.add(new_student)
         db.commit()
+        db.refresh(new_student)  # Refresh to get the student ID
 
+        # Return the response with the new student ID
         return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
 
     except Exception as e:
+        # Rollback the transaction in case of error and log the exception
         db.rollback()
-        raise HTTPException(status_code=500, detail="Registration failed")
+        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
 
 
 @app.post("/login")
@@ -293,13 +322,39 @@ async def create_appointment(appointment_data: AppointmentModel, db: Session = D
 
 @app.get("/get_student_appointments")
 async def get_student_appointments(student_id: int, db: Session = Depends(get_database)):
-    # Query the student by ID
     student = db.query(Student).filter(Student.id == student_id).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
-    # Manually query for the appointments related to this student
     appointments = db.query(Appointment).filter(Appointment.student_id == student_id).all()
     
     return {"appointments": appointments}
+
+
+@app.put("/update_student")
+async def update_student(student_data: StudentUpdateModel, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_data.student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    student.firstname = student_data.firstname
+    student.middlename = student_data.middlename
+    student.lastname = student_data.lastname
+    student.suffix = student_data.suffix
+    student.dateofbirth = student_data.dateofbirth
+    student.gender = student_data.gender
+    student.birthplace = student_data.birthplace
+    student.contact_no = student_data.contact_no
+    student.address = student_data.address
+    student.parent_guardian_name = student_data.parent_guardian_name
+    student.adviser_name = student_data.adviser_name
+    student.curriculum = student_data.curriculum
+    student.grade_level = student_data.grade_level
+    student.section = student_data.section
+
+    db.commit()
+    db.refresh(student)
+
+    return {"message": "Student updated successfully", "student_data": student}
