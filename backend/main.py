@@ -37,7 +37,7 @@ class StudentModel(BaseModel):
     lastname: str
     suffix: Optional[str] = None
     dateofbirth: date
-    gender: int
+    gender: str
     age: int
     birthplace: str
     contact_no: str
@@ -116,9 +116,9 @@ class MedicalHistoryModel(BaseModel):
 
     parent_guardian_name: Optional[str] = None
     adviser_name: Optional[str] = None
-    curriculum: Optional[int] = None
-    grade_level: Optional[int] = None
-    section: Optional[int] = None
+    curriculum: Optional[str] = None
+    grade_level: Optional[str] = None
+    section: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -141,17 +141,16 @@ class StudentUpdateModel(BaseModel):
     lastname: Optional[str] = None
     suffix: Optional[str] = None
     dateofbirth: Optional[date] = None
-    gender: Optional[int] = None
+    gender: Optional[str] = None
+    age: Optional[int] = None
     birthplace: Optional[str] = None
     contact_no: Optional[str] = None
     address: Optional[str] = None
-    # email_address: Optional[str] = None
-    # password: Optional[str] = None
     parent_guardian_name: Optional[str] = None
     adviser_name: Optional[str] = None
-    curriculum: Optional[int] = None
-    grade_level: Optional[int] = None
-    section: Optional[int] = None
+    curriculum: Optional[str] = None
+    grade_level: Optional[str] = None
+    section: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -163,7 +162,8 @@ class AdminRegisterModel(BaseModel):
     lastname: Optional[str] = None
     suffix: Optional[str] = None
     dateofbirth: Optional[date] = None
-    gender: Optional[int] = None
+    gender: Optional[str] = None
+    age: Optional[int] = None
     birthplace: Optional[str] = None
     contact_number: Optional[str] = None
     address: Optional[str] = None
@@ -373,6 +373,7 @@ async def update_student(student_data: StudentUpdateModel, db: Session = Depends
     student.suffix = student_data.suffix
     student.dateofbirth = student_data.dateofbirth
     student.gender = student_data.gender
+    student.age = student_data.age
     student.birthplace = student_data.birthplace
     student.contact_no = student_data.contact_no
     student.address = student_data.address
@@ -420,6 +421,7 @@ async def register_admin(admin_data: AdminRegisterModel, db: Session = Depends(g
             suffix=admin_data.suffix,
             dateofbirth=admin_data.dateofbirth,
             gender=admin_data.gender,
+            age=admin_data.age,
             birthplace=admin_data.birthplace,
             contact_number=admin_data.contact_number,
             address=admin_data.address,
@@ -472,6 +474,7 @@ async def get_pending_appointments(db: Session = Depends(get_database)):
         "suffix": student.suffix if student else None,
         "dateofbirth": student.dateofbirth if student else None,
         "gender": student.gender if student else None,
+        "age": student.age if student else None,
         "birthplace": student.birthplace if student else None,
         "contact_no": student.contact_no if student else None,
         "address": student.address if student else None,
@@ -523,6 +526,7 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
         "suffix": student.suffix if student else None,
         "dateofbirth": student.dateofbirth if student else None,
         "gender": student.gender if student else None,
+        "age": student.age if student else None,
         "birthplace": student.birthplace if student else None,
         "contact_no": student.contact_no if student else None,
         "address": student.address if student else None,
