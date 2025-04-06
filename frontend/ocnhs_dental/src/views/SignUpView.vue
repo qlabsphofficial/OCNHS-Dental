@@ -144,7 +144,7 @@ async function attemptRegister() {
 
                   <div class="flex flex-row items-center justify-center w-full gap-5 mt-5">
                         <button class="rounded-md border-1 w-2/12 p-2 main-color text-white" @click="attemptRegister()">Save</button>
-                        <button class="rounded-md border-1 w-2/12 p-2" @click="() => { this.$router.push('/login') }">Cancel</button>
+                        <button class="rounded-md border-1 w-2/12 p-2" @click="() => { router.push('/login') }">Cancel</button>
                   </div>
             </div>
       </div>
