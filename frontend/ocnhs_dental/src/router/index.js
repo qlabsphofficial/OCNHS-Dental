@@ -6,6 +6,7 @@ import SignUpView from '@/views/SignUpView.vue'
 
 import ClientView from '@/views/ClientView.vue'
 import AdminView from '@/views/AdminView.vue'
+import AdminLoginView from '@/views/AdminLoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,12 @@ const router = createRouter({
       path: '/client',
       name: 'client',
       component: ClientView,
+    },
+
+    {
+      path: '/adminLogin',
+      name: 'adminLogin',
+      component: AdminLoginView,
     },
 
     {

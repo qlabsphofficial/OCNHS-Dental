@@ -26,6 +26,7 @@ const router = useRouter()
       <a>ABOUT US</a>
       <a>BLOGS</a>
       <a>SERVICES</a>
+      <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/adminLogin') }">ADMIN</button>
       <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
