@@ -13,6 +13,13 @@ const students = ref([{'test': 'hello'}])
 // Student Info
 const showStudentInfo = ref(false)
 const studentOptionsShowing = ref(false)
+
+const actionButton = ref('Edit')
+
+function changeButton(module) {
+      actionButton.value = module
+      studentOptionsShowing.value = false
+}
 </script>
 
 <template>
@@ -92,7 +99,7 @@ const studentOptionsShowing = ref(false)
             </div>
 
             <div class="w-full">
-                  <div class="flex w-full items-center justify-center mt-10 mb-5"><h1 class="text-3xl">STUDENT LIST</h1></div>
+                  <div class="flex w-full items-center justify-center mt-10 mb-5"><h1 class="text-3xl">STUDENT LIST (ACCOUNTS)</h1></div>
                   <hr>
 
                   <table class="w-full mt-10">
@@ -127,9 +134,9 @@ const studentOptionsShowing = ref(false)
       
                               <!-- Dropdown -->
                               <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-90 absolute bg-white">
-                                    <button class="flex flex-row items-center gap-20 w-full"><Edit /> EDIT</button>
-                                    <button class="flex flex-row items-center gap-20 w-full"><Archive /> ARCHIVE / OLD FILES</button>
-                                    <button class="flex flex-row items-center gap-20 w-full"><Trash2 /> DELETE / DEACTIVATE</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Edit')"><Edit /> EDIT</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Archive')"><Archive /> ARCHIVE / OLD FILES</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Trash')"><Trash2 /> DELETE / DEACTIVATE</button>
                               </div>
                         </div>
                         <!-- TODO -->
@@ -140,7 +147,7 @@ const studentOptionsShowing = ref(false)
             </div>
             <hr class="mt-5 mb-20">
 
-            <div class="flex flex-row justify-between w-full mb-20">
+            <div class="flex flex-row justify-between w-full mb-20" @click="() => { studentOptionsShowing = false }">
                   <div class="flex flex-col gap-6 w-1/2">
                         <div class="flex flex-row gap-4">
                               <h4>NAME:</h4>
@@ -197,7 +204,7 @@ const studentOptionsShowing = ref(false)
             </div>
 
             <!-- Medical Data -->
-            <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false }">
                   <div class="flex flex-col gap-2 h-1/2 w-1/2">
                   <div class="flex flex-row gap-5">
                   <input type="checkbox" v-model="goodHealth">
@@ -304,7 +311,14 @@ const studentOptionsShowing = ref(false)
                   <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
                   </div>
                   </div>
-            </div>            
+            </div>
+            
+            <div class="flex flex-row justify-end mt-3">
+                  <!-- TODO, Add functionality here -->
+                  <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm">Save Changes</button>
+                  <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm">Archive / Old Files</button>
+                  <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm">Deactivate / Delete</button>
+            </div>
       </div>
 </template>
 

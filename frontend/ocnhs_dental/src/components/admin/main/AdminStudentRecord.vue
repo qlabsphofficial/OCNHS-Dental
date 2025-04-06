@@ -13,6 +13,8 @@ const students = ref([{'test': 'hello'}])
 // Student Info
 const showStudentInfo = ref(false)
 const studentOptionsShowing = ref(false)
+
+const actionButton = ref(false)
 </script>
 
 <template>
@@ -92,7 +94,7 @@ const studentOptionsShowing = ref(false)
             </div>
 
             <div class="w-full">
-                  <div class="flex w-full items-center justify-center mt-10 mb-5"><h1 class="text-3xl">STUDENT LIST</h1></div>
+                  <div class="flex w-full items-center justify-center mt-10 mb-5"><h1 class="text-3xl">STUDENT LIST (STUDENT RECORDS)</h1></div>
                   <hr>
 
                   <table class="w-full mt-10">
@@ -127,7 +129,7 @@ const studentOptionsShowing = ref(false)
       
                               <!-- Dropdown -->
                               <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-60 absolute bg-white">
-                                    <button class="flex flex-row items-center gap-20 w-full"><Edit /> EDIT</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="() => { actionButton = 'Edit'; studentOptionsShowing = false; }"><Edit /> EDIT</button>
                                     <button class="flex flex-row items-center gap-20 w-full"><Printer /> PRINT</button>
                               </div>
                         </div>
@@ -303,7 +305,13 @@ const studentOptionsShowing = ref(false)
                   <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
                   </div>
                   </div>
-            </div>            
+            </div>      
+            
+            <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Edit'">
+                  <!-- TODO, Add functionality here -->
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm">Save Changes</button>
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="() => { actionButton = '' }">Cancel</button>
+            </div>
       </div>
 </template>
 
