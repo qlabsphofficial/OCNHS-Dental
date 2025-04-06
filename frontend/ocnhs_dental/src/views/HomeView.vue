@@ -1,4 +1,6 @@
 <script setup>
+import HomeComponent from '@/components/client/homepage/HomeComponent.vue';
+
 
 </script>
 
@@ -23,48 +25,96 @@
       <a>ABOUT US</a>
       <a>BLOGS</a>
       <a>SERVICES</a>
-      <button class="w-20 text-white rounded-sm main-color">LOGIN</button>
+      <button class="w-20 text-white rounded-sm main-color" @click="() => { this.$router.push('login') }">LOGIN</button>
     </div>
   </div>
 
-  <!-- Hero -->
-  <div class="flex flex-row justify-between items-center h-full w-full">
-    <img src="@/assets/Clinic Assets/Dental Clinic images/image/homebg.png" height="100%" width="100%">
-    
-    <div class="flex flex-col w-8/12">
-      <h1 class="text-green-800 text-6xl font-bold">SMILE, LEARN, AND GROW</h1>
-      <p class="mt-5 text-lg">Discover the importance of medical care at our school clinic.</p>
+  <HomeComponent />
+
+  <!-- Footer -->
+  <div class="flex flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
+    <div>
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="240px" width="240px">
+    </div>
+
+    <div>
+      <h4>OLONGAPO CITY NATIONAL HIGH SCHOOL</h4>
+      <p>Address:</p>
+      <p>Rizal Av. Cor 14th St. East  Tapinac, Olongapo City</p>
+      <p>Contact Details: </p>
+      <p>(047) 222-2568/(047) 603-0570/ (+63) 920-905-8815</p>
+      <p>Email Address:</p>
+      <p>olongapo.city@deped.gov.ph</p>
+      <p>ocnhsdentalpage@gmail.com</p>
+    </div>
+
+    <div class="flex flex-col">
+      <p>DEPED QUICK LINKS</p>
+      <a>DepEd Central Office</a>
+      <a>DepEd Regional Office III</a>
+      <a>Civil Service Commission</a>
+      <a>Department of Budget & Management</a>
+      <a>Commission on Audit</a>
+      <a>PAGASA</a>
+    </div>
+
+    <div class="flex flex-col">
+      <p>DEPED PORTALS</p>
+      <a>Enhanced Basic Education</a>
+      <a>Information System (EBEIS)</a>
+      <a>Learner Information System (LIS)</a>
+      <a>Learning Resources Management</a>
+      <a>and Development System (LRMDS)</a>
+      <a>Program Management Information</a>
+      <a>System (PMIS)</a>
+      <a>Enterprise Human Resources</a>
+      <a>Information System (EHRIS)</a>
+      <a>WASH in School System (WINS)</a>
+    </div>
+
+    <div>
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="240px">
     </div>
   </div>
 
-  <!-- Dental Staff -->
-  <div class="w-full h-full p-20 overlay-color">
-    <h2 class="text-3xl mb-60">DENTAL STAFF</h2>
+  <!-- Footer 2 -->
+  <div class="flex flex-row justify-evenly items-evenly h-full w-full overlay-color p-10">
+    <div class="flex flex-col justify-center 3/12">
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="240px">
+    </div>
 
-    <div class="flex flex-row justify-evenly w-full">
-      <div class="flex flex-col w-5/12 h-8/12 items-center">
-        <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white">
-          <div id="about-1" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
-          <h4 class="text-xl font-bold mt-14 mb-5">EMILY CASTILLO-FANCUBERTA, DMD</h4>
-          <p>DENTIST II</p>
-          <p class="mt-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mollitia iusto aliquid et. Ex hic illum qui non animi unde id dolore?</p>
-        </div>
-      </div>
+    <div class="flex flex-col justify-center 3/12 text-white">
+      <h4>REPUBLIC OF THE PHILIPPINES</h4>
+      <p>All content is in the public domain unless otherwise stated.</p>
+    </div>
 
-      <div class="flex flex-col w-5/12 h-8/12 items-center">
-        <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white">
-          <div id="about-2" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
-          <h4 class="text-xl font-bold mt-14 mb-5">SHIELA MAE C. DALANGBAYAN</h4>
-          <p>DENTAL ASSISTANT</p>
-          <p class="mt-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mollitia iusto aliquid et. Ex hic illum qui non animi unde id dolore?</p>
-        </div>
-      </div>
+    <div class="flex flex-col justify-center 3/12 text-white">
+      <p>ABOUT GOVPH</p>
+      <p>
+        Learn more about the Philippine
+        government, its structure, how
+        government works and the people
+        behind it.
+      </p>
+      <p>GOV.PH</p>
+      <p>Open Data Portal</p>
+      <p>Official Gazette</p>
+    </div>
 
-      <div></div>
+    <div class="flex flex-col w-3/12">
+      <a>Office of the President</a>
+      <a>Office of the Vice President</a>
+      <a>Senate of the Philippines</a>
+      <a>House of Representatives</a>
+      <a>Supreme Court</a>
+      <a>Court of Appeals</a>
+      <a>Sandiganbayan</a>
     </div>
   </div>
 
-  <!-- About Us -->
+  <div class="flex justify-center items-center w-full main-color">
+    <p class="text-white">2025 All Rights Reserved.</p>
+  </div>
 </div>
 </template>
 
@@ -79,6 +129,10 @@
 
 .overlay-color {
   background-color: #80B1B1;
+}
+
+.overlay-color-2 {
+  background-color: #9cc7be;
 }
 
 a {
@@ -101,5 +155,65 @@ a {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+#blog-1 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-2 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-3 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-4 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/4.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-5 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/5.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-6 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/6.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-7 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/7.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blog-8 {
+  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/8.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.footer-links a {
+
 }
 </style>

@@ -3,7 +3,6 @@
 
 #app {
   max-width: 1280px;
-  font-weight: normal;
 }
 
 a,
@@ -28,4 +27,12 @@ a,
   #app {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.chewy {
+  font-family: 'Chewy', system-ui;
+}
+
+body {
+  font-family: 'Poppins', system-ui;
 }
