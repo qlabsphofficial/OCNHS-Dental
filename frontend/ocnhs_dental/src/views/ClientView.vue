@@ -1,7 +1,9 @@
 <script setup>
 import HeaderComponent from '@/components/shared/HeaderComponent.vue';
 import ClientNavbar from '@/components/client/main/ClientNavbar.vue';
-import LoginView from './LoginView.vue';
+import ClientAppointmentComponent from '@/components/client/main/ClientAppointmentComponent.vue';
+import ClientPersonalDetailsComponent from '@/components/client/main/ClientPersonalDetailsComponent.vue';
+import ClientMedicalHistory from '@/components/client/main/ClientMedicalHistory.vue';
 
 // Dynamic Components
 
@@ -9,16 +11,18 @@ import { ref, shallowRef  } from 'vue';
 
 const currentComponent = shallowRef(null) 
 
-function handleUpdateModule(moduleName){
-      switch(moduleName) {
+function handleUpdateModule(data){
+      switch(data.moduleName) {
             case 'appointment':
-                  currentComponent.value = LoginView
+                  currentComponent.value = ClientAppointmentComponent
                   break;
 
             case 'personalDetails':
+                  currentComponent.value = ClientPersonalDetailsComponent
                   break;
 
             case 'medicalHistory':
+                  currentComponent.value = ClientMedicalHistory
                   break;
       }
 }
@@ -29,9 +33,11 @@ function handleUpdateModule(moduleName){
       <div class="w-full h-full top-0 left-0 absolute">
             <HeaderComponent />
 
-            <div class="flex flex-row h-full w-full">
+            <div class="flex flex-row h-11/12 w-full">
                   <ClientNavbar @update-module="handleUpdateModule" />
-                  <component :is="currentComponent"></component>
+                  <div class="flex items-center justify-center w-10/12 h-full">
+                        <component :is="currentComponent"></component>
+                  </div>
             </div>
       </div>
 </template>
