@@ -185,7 +185,7 @@ async def login(login_data: LoginModel, db: Session = Depends(get_database)):
         }
     
 
-@app.post("/medical-history")
+@app.post("/create_medical_history")
 async def create_medical_history(medical_history_data: MedicalHistoryModel, db: Session = Depends(get_database)):
 
     student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
@@ -268,7 +268,7 @@ async def create_medical_history(medical_history_data: MedicalHistoryModel, db: 
     return {"message": "Student and medical history updated successfully"}
 
 
-@app.post("/appointments")
+@app.post("/create_appointment")
 async def create_appointment(appointment_data: AppointmentModel, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == appointment_data.student_id).first()
 
@@ -281,7 +281,7 @@ async def create_appointment(appointment_data: AppointmentModel, db: Session = D
         appointment_datetime=appointment_data.appointment_datetime,
         status=appointment_data.status
     )
-    
+
     db.add(new_appointment)
     db.commit()
     db.refresh(new_appointment)
@@ -289,3 +289,17 @@ async def create_appointment(appointment_data: AppointmentModel, db: Session = D
     return {
         "message": "Appointment created successfully",
     }
+
+
+@app.get("/get_student_appointments")
+async def get_student_appointments(student_id: int, db: Session = Depends(get_database)):
+    # Query the student by ID
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    # Manually query for the appointments related to this student
+    appointments = db.query(Appointment).filter(Appointment.student_id == student_id).all()
+    
+    return {"appointments": appointments}
