@@ -37,6 +37,7 @@ class StudentModel(BaseModel):
     suffix: Optional[str] = None
     dateofbirth: date
     gender: int
+    age: int
     birthplace: str
     contact_no: str
     address: str
@@ -180,7 +181,6 @@ class AdminLoginModel(BaseModel):
 
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
-    # Confirm password validation
     if student.password != student.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
@@ -188,36 +188,28 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
     if existing_student:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    try:
-        # Create a new student record
-        new_student = Student(
-            firstname=student.firstname,
-            middlename=student.middlename,
-            lastname=student.lastname,
-            suffix=student.suffix,
-            dateofbirth=student.dateofbirth,
-            gender=student.gender,
-            birthplace=student.birthplace,
-            contact_no=student.contact_no,
-            address=student.address,
-            email_address=student.email_address,
-            password=student.password
-        )
+    new_student = Student(
+        firstname=student.firstname,
+        middlename=student.middlename,
+        lastname=student.lastname,
+        suffix=student.suffix,
+        dateofbirth=student.dateofbirth,
+        gender=student.gender,
+        age=student.age,
+        birthplace=student.birthplace,
+        contact_no=student.contact_no,
+        address=student.address,
+        email_address=student.email_address,
+        password=student.password
+    )
 
-        # Add the new student to the session and commit the transaction
-        db.add(new_student)
-        db.commit()
-        db.refresh(new_student)  # Refresh to get the student ID
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
 
-        # Return the response with the new student ID
-        return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
+    return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
 
-    except Exception as e:
-        # Rollback the transaction in case of error and log the exception
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
-
-
+    
 @app.post("/login")
 async def login(login_data: LoginModel, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.email_address == login_data.email_address).first()

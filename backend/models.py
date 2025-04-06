@@ -14,6 +14,7 @@ class Student(Base):
     suffix = Column(String, nullable=True, default=None)
     dateofbirth = Column(Date, nullable=True, default=None)
     gender = Column(Integer, nullable=True, default=None)
+    age = Column(Integer, nullable=True, default=None)
     birthplace = Column(String, nullable=True, default=None)
     contact_no = Column(String, nullable=True, default=None)
     address = Column(String, nullable=True, default=None)

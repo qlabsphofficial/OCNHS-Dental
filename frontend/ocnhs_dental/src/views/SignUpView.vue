@@ -1,52 +1,68 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { register } from '@/services/RegisterService';
 import { useRouter } from 'vue-router';
 
-const firstName = ref('')
-const middleName = ref('')
-const lastName = ref('')
-const suffix = ref('')
+const firstName = ref('');
+const middleName = ref('');
+const lastName = ref('');
+const suffix = ref('');
 
-const birthDate = ref('')
-const gender = ref('')
-const age = ref('')
-const placeOfBirth = ref('')
+const birthDate = ref('');
+const gender = ref('');
+const age = ref('');
+const placeOfBirth = ref('');
 
-const contact = ref('')
-const address = ref('')
-const email = ref('')
+const contact = ref('');
+const address = ref('');
+const email = ref('');
 
-const password = ref('')
-const confirmPassword = ref('')
+const password = ref('');
+const confirmPassword = ref('');
 
-const router = useRouter()
+const router = useRouter();
+
+// Watch the birthDate and automatically update age
+watch(birthDate, (newBirthDate) => {
+  if (newBirthDate) {
+    const today = new Date();
+    const birth = new Date(newBirthDate);
+    let calculatedAge = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      calculatedAge--;
+    }
+    age.value = calculatedAge;
+  } else {
+    age.value = '';
+  }
+});
 
 async function attemptRegister() {
-      const registerInfo = {
-            firstName: firstName.value,
-            middleName: middleName.value,
-            lastName: lastName.value,
-            suffix: suffix.value,
+  const registerInfo = {
+    firstName: firstName.value,
+    middleName: middleName.value,
+    lastName: lastName.value,
+    suffix: suffix.value,
 
-            birthDate: birthDate.value,
-            gender: gender.value,
-            age: age.value,
-            placeOfBirth: placeOfBirth.value,
+    birthDate: birthDate.value,
+    gender: gender.value,
+    age: age.value,
+    placeOfBirth: placeOfBirth.value,
 
-            contact: contact.value,
-            address: address.value,
-            email: email.value,
+    contact: contact.value,
+    address: address.value,
+    email: email.value,
 
-            password: password.value,
-            confirmPassword: confirmPassword.value
-      };
+    password: password.value,
+    confirmPassword: confirmPassword.value
+  };
 
-      let registerResult = await register(registerInfo)
+  let registerResult = await register(registerInfo);
 
-      if (registerResult){
-            router.push('/login')
-      }
+  if (registerResult) {
+    router.push('/login');
+  }
 }
 </script>
 
@@ -81,13 +97,13 @@ async function attemptRegister() {
                   <div class="flex flex-row justify-between w-full gap-5 mt-10">
                         <div class="w-3/12">
                               <h5>Date of Birth</h5>
-                              <input v-model="birthDate" type="date">
+                              <input v-model="birthDate" type="date" @input="calculateAge">
                         </div>
                         <div class="w-3/12">
                               <h5>Gender</h5>
                               <select v-model="gender">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
                               </select>
                         </div>
                         <div class="w-3/12">
@@ -103,7 +119,7 @@ async function attemptRegister() {
                   <div class="flex flex-row justify-between w-full gap-5 mt-10">
                         <div class="w-4/12">
                               <h5>Contact Number</h5>
-                              <input v-model="contact" class="w-full bg-gray-300 p-4" type="number" placeholder="Enter your contact number...">
+                              <input v-model="contact" class="w-full bg-gray-300 p-4" type="text" placeholder="Enter your contact number...">
                         </div>
                         <div class="w-4/12">
                               <h5>Address</h5>
