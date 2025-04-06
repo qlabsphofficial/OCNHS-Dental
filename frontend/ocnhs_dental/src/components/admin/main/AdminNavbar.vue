@@ -10,7 +10,7 @@ const showOptions = ref(false)
 const router =  useRouter()
 
 function changeModule(moduleName) {
-      this.emit('update-module', {
+      emit('update-module', {
             'moduleName': moduleName
       })
 }
