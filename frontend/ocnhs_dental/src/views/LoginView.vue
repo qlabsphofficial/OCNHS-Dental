@@ -13,7 +13,7 @@ async function attemptLogin() {
     const attempt = await login(username.value, password.value) // No "this", use .value
 
     if (attempt) {
-      router.push('/') // Navigate to home if login is successful
+      router.push('/client') // Navigate to home if login is successful
     } else {
       errorMessage.value = 'Invalid credentials'
       setTimeout(() => {
@@ -61,8 +61,8 @@ async function attemptLogin() {
           
           <button @click="attemptLogin()" id="submit" class="w-full rounded-md mt-10 mb-20 p-3">Login</button>
 
-          <p>DON'T HAVE AN ACCOUNT? <a href="">CLICK HERE</a></p>
-          <a href="">FORGOT PASSWORD</a>
+          <p>DON'T HAVE AN ACCOUNT? <a @click="() => { this.$router.push('/signUp') }">CLICK HERE</a></p>
+          <a href="" class="mt-5">FORGOT PASSWORD</a>
         </div>
       </div>
   </div>
