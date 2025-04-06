@@ -443,4 +443,45 @@ async def login_admin(login_data: AdminLoginModel, db: Session = Depends(get_dat
         "message": "Login successful",
         "admin_data": admin
     }
-    
+
+
+@app.get("/get_pending_appointments")
+async def get_pending_appointments(db: Session = Depends(get_database)):
+    results = (
+        db.query(Appointment, Student)
+        .join(Student, Student.id == Appointment.student_id)  # INNER JOIN
+        .filter(Appointment.status == 'PENDING')
+        .all()
+    )
+
+    # Format results nicely
+    formatted_results = []
+    for appointment, student in results:
+        formatted_results.append({
+        # Student fields
+        "student_id": student.id if student else None,
+        "firstname": student.firstname if student else None,
+        "middlename": student.middlename if student else None,
+        "lastname": student.lastname if student else None,
+        "suffix": student.suffix if student else None,
+        "dateofbirth": student.dateofbirth if student else None,
+        "gender": student.gender if student else None,
+        "birthplace": student.birthplace if student else None,
+        "contact_no": student.contact_no if student else None,
+        "address": student.address if student else None,
+        "email_address": student.email_address if student else None,
+        "password": student.password if student else None,
+        "parent_guardian_name": student.parent_guardian_name if student else None,
+        "adviser_name": student.adviser_name if student else None,
+        "curriculum": student.curriculum if student else None,
+        "grade_level": student.grade_level if student else None,
+        "section": student.section if student else None,
+
+        # Appointment fields
+        "appointment_id": appointment.id,
+        "appointment_type": appointment.appointment_type,
+        "appointment_datetime": appointment.appointment_datetime,
+        "status": appointment.status,
+    })
+
+    return {"pending_appointments": formatted_results}
