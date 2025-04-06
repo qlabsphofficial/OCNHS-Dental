@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
+from datetime import datetime
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -26,6 +27,7 @@ class Student(Base):
     section = Column(String, nullable=True, default=None)
 
     medical_history = relationship('MedicalHistory', back_populates='student')
+    appointments = relationship('Appointment', back_populates='student')
 
 
 # --- Medical History Table ---
@@ -91,3 +93,15 @@ class MedicalHistory(Base):
     other_diseases = Column(String, nullable=True, default=None)
 
     student = relationship('Student', back_populates='medical_history')
+    
+
+class Appointment(Base):
+    __tablename__ = 'appointments'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    student_id = Column(Integer, ForeignKey('students.id'), nullable=True)
+    appointment_type = Column(String, nullable=True)
+    appointment_datetime = Column(DateTime, default=datetime.utcnow)
+    status = Column(String, default='PENDING')
+
+    student = relationship('Student', back_populates='appointments')
