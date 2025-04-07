@@ -3,17 +3,31 @@ import { useBlogStore } from '@/stores/blogs';
 import { useRouter } from 'vue-router';
 import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
 import { ref } from "vue"
+import { ScheduleXCalendar } from '@schedule-x/vue'
+import {
+  createCalendar,
+  createViewDay,
+  createViewMonthAgenda,
+  createViewMonthGrid,
+  createViewWeek,
+} from '@schedule-x/calendar'
+import '@schedule-x/theme-default/dist/index.css'
 
 import 'vue-simple-calendar/dist/vue-simple-calendar.css'
 
 const blogStore = useBlogStore()
 const router = useRouter()
-
-const showDate = ref(null)
-
-function setShowDate(d) {
-      this.showDate = d;
-}
+const currentDate = '2025-04-01'
+const viewWeek = createViewWeek()
+ 
+// Do not use a ref here, as the calendar instance is not reactive, and doing so might cause issues
+// For updating events, use the events service plugin
+const calendarApp = createCalendar({
+  selectedDate: currentDate,
+  views: [viewWeek],
+  defaultView: viewWeek.name,
+  events: [],
+})
 </script>
 
 <template>
@@ -94,12 +108,8 @@ function setShowDate(d) {
 
             <div class="flex flex-row justify-evenly w-full mt-10 gap-4">
             <!-- TODO Calendar -->
-            <div class="flex flex-col items-center justify-center w-6/12 p-20 bg-white rounded-md border-2">
-                <CalendarView :show-date="showDate">
-                      <template #header="{ headerProps }">
-                              <CalendarViewHeader :header-props />
-                      </template>
-                </CalendarView>
+            <div class="flex flex-col w-6/12 h-200 overflow-y-scroll p-10 bg-white rounded-md border-2">
+              <ScheduleXCalendar :calendar-app="calendarApp" />
             </div>
 
             <div class="flex flex-col items-center justify-center w-6/12 p-20 border-2 rounded-md bg-white">
