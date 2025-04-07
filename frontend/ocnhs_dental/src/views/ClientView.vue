@@ -2,6 +2,7 @@
 import HeaderComponent from '@/components/shared/HeaderComponent.vue';
 import ClientNavbar from '@/components/client/main/ClientNavbar.vue';
 import ClientAppointmentComponent from '@/components/client/main/ClientAppointmentComponent.vue';
+import ClientNewAppointmentComponent from '@/components/client/main/ClientNewAppointmentComponent.vue';
 import ClientPersonalDetailsComponent from '@/components/client/main/ClientPersonalDetailsComponent.vue';
 import ClientMedicalHistory from '@/components/client/main/ClientMedicalHistory.vue';
 
@@ -9,12 +10,17 @@ import ClientMedicalHistory from '@/components/client/main/ClientMedicalHistory.
 
 import { ref, shallowRef  } from 'vue';
 
+
 const currentComponent = shallowRef(null) 
 
 function handleUpdateModule(data){
       switch(data.moduleName) {
             case 'appointment':
                   currentComponent.value = ClientAppointmentComponent
+                  break;
+
+            case 'newAppointment':
+                  currentComponent.value = ClientNewAppointmentComponent
                   break;
 
             case 'personalDetails':

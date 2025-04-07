@@ -13,7 +13,7 @@ async function attemptLogin() {
     const attempt = await login(username.value, password.value) // No "this", use .value
 
     if (attempt) {
-      router.push('/client') // Navigate to home if login is successful
+      router.push('/client')
     } else {
       errorMessage.value = 'Invalid credentials'
       setTimeout(() => {

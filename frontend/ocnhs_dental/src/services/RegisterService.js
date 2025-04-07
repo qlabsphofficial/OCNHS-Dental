@@ -1,3 +1,5 @@
+import current_address from "@/address";
+
 export async function register({
       firstName,
       middleName,
@@ -16,7 +18,7 @@ export async function register({
       let registerSuccessful = false;
       
       try {
-        const response = await fetch('http://127.0.0.1:8000/register', {
+        const response = await fetch(`${current_address}/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

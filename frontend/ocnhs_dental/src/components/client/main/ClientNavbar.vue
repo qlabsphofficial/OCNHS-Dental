@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { defineEmits, ref } from 'vue';
-import { ClipboardPlus, ScrollText, UserRound, Settings, LogOut  } from 'lucide-vue-next';
+import { Book, ClipboardPlus, ScrollText, UserRound, Settings, LogOut  } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 
 const emit = defineEmits()
 const router = useRouter()
 const showOptions = ref(false)
+const loggedInUser = ref('')
+
+loggedInUser.value = JSON.parse(sessionStorage.getItem('user'))
 
 function changeModule(moduleName) {
       emit('update-module', {
@@ -19,7 +22,7 @@ function changeModule(moduleName) {
             <div class="flex flex-row justify-between items-center w-full h-1/12 p-5 bg-gray-500">
                   <div class="flex flex-row gap-4">
                         <img src="" alt="">
-                        <h5>Username</h5>
+                        <h5>{{ loggedInUser.firstname }} {{ loggedInUser.lastname }}</h5>
                   </div>
 
                   <div>
@@ -35,6 +38,7 @@ function changeModule(moduleName) {
 
             <div class="flex flex-col items-start gap-10 p-5 mt-10">
                   <button type="button" class="flex flex-row gap-4" @click="changeModule('appointment')"><ClipboardPlus /> APPOINTMENT</button>
+                  <button type="button" class="flex flex-row gap-4" @click="changeModule('newAppointment')"><Book /> BOOK APPOINTMENT</button>
                   <button type="button" class="flex flex-row gap-4" @click="changeModule('personalDetails')"><UserRound /> PERSONAL DETAILS</button>
                   <button type="button" class="flex flex-row gap-4" @click="changeModule('medicalHistory')"><ScrollText /> MEDICAL HISTORY</button>
             </div>

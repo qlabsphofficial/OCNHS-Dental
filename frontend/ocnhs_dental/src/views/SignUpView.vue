@@ -102,8 +102,8 @@ async function attemptRegister() {
                         <div class="w-3/12">
                               <h5>Gender</h5>
                               <select v-model="gender">
-                                    <option value="0">Male</option>
-                                    <option value="1">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
                               </select>
                         </div>
                         <div class="w-3/12">
