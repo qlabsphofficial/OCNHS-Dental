@@ -55,7 +55,7 @@ onMounted(async() => {
             <div class="flex flex-row items-between justify-between mt-10">
                   <div class="w-1/2">
                         <h3 class="text-lg">Appointment Requests</h3>
-                        <div class="w-full flex flex-col gap-3 mt-5">
+                        <div class="w-full flex flex-col gap-3 mt-5 overflow-y-scroll p-2">
                               <div v-for="appointment of appointments" :key="appointment" class="flex flex-row items-between justify-between bg-gray-300 rounded-md p-4">
                                     <h4>{{ appointment.student_info.firstname }}  {{ appointment.student_info.last_name }}</h4>
                                     <h4>{{ appointment.appointment_type }}</h4>

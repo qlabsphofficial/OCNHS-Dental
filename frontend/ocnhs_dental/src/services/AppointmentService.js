@@ -137,3 +137,32 @@ export async function cancelAppointment(id) {
       return false;
       }
 }
+
+export async function rescheduleAppointment(id, date) {
+      try {
+      const response = await fetch(`${current_address}/reschedule_appointment`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                  'appointment_id': id,
+                  'date': date
+            })
+      });
+      
+      if (!response.ok) {
+            throw new Error('Failed to reschedule appointment');
+      }
+      
+      const data = await response.json();
+      console.log('Server Response:', data);
+      
+      if(data.message == "Appointment rescheduled successfully") {
+
+      }
+      } catch (error) {
+            console.error('Reschedule error:', error);
+      return false;
+      }
+}

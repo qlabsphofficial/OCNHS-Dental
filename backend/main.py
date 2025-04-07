@@ -256,6 +256,11 @@ class CancelAppointmentRequest(BaseModel):
     appointment_id: int
     
     
+class RescheduleAppointmentRequest(BaseModel):
+    appointment_id: int
+    date: datetime 
+    
+    
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -460,7 +465,7 @@ async def update_student(student_data: StudentUpdateModel, db: Session = Depends
     return {"message": "Student updated successfully", "student_data": student}
 
 
-@app.get("get_medical_history")
+@app.get("/get_medical_history")
 async def get_medical_history(student_id: int, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == student_id).first()
     
@@ -468,6 +473,16 @@ async def get_medical_history(student_id: int, db: Session = Depends(get_databas
         raise HTTPException(status_code=404, detail="Student not found")
     
     medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).all()
+    
+    if not medical_history:
+        return {"message": "No medical history found for this student"}
+    
+    return {"medical_history": medical_history}
+
+
+@app.get("/get_all_medical_history")
+async def get_all_medical_history(db: Session = Depends(get_database)):
+    medical_history = db.query(MedicalHistory).all()
     
     if not medical_history:
         return {"message": "No medical history found for this student"}
@@ -740,3 +755,18 @@ async def cancel_appointment(request: CancelAppointmentRequest, db: Session = De
     db.refresh(appointment)
 
     return { "message": "Appointment cancelled successfully" }
+
+
+@app.put("/reschedule_appointment")
+async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Session = Depends(get_database)):
+    appointment = db.query(Appointment).filter(Appointment.id == request.appointment_id).first()
+
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    appointment.status = "RESCHEDULED"
+    appointment.appointment_datetime = request.date
+    db.commit()
+    db.refresh(appointment)
+
+    return { "message": "Appointment rescheduled successfully" }
