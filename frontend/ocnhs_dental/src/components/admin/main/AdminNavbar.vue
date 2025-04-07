@@ -4,10 +4,12 @@ import {
 } from 'lucide-vue-next';
 import { ref, defineEmits } from 'vue'; 
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 const emit = defineEmits()
 const showOptions = ref(false)
 const router =  useRouter()
+const userStore = useUserStore()
 
 function changeModule(moduleName) {
       emit('update-module', {
@@ -49,7 +51,7 @@ function attemptLogout() {
             <div class="flex flex-row justify-between items-center w-full h-1/12 p-5 bg-gray-500">
                   <div class="flex flex-row gap-4">
                         <img src="" alt="">
-                        <h5>Username</h5>
+                        <h5>{{ userStore.user.firstname }} {{ userStore.user.lastname }}</h5>
                   </div>
 
                   <div>

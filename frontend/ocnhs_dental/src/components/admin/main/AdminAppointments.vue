@@ -1,9 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { X, Check, CalendarSync  } from 'lucide-vue-next';
+import { retrieveAllAppointments } from '@/services/AppointmentService';
 
 const page = ref('')
-const appointments = ref([{'name': 1, 'date': 'hi', 'status': 'Pending'}])
+const appointments = ref([])
+
+onMounted(async() => {
+      appointments.value = await retrieveAllAppointments()
+})
 </script>
 
 <template>
@@ -22,10 +27,10 @@ const appointments = ref([{'name': 1, 'date': 'hi', 'status': 'Pending'}])
 
                   <!-- ITERATE THROUGH RECORDS HERE -->
                   <tr v-for="appointment, index of appointments" :key="appointment">
-                        <td class="p-2">{{ index + 1 }}. </td>
-                        <td class="text-center p-2">{{ appointment.date }}</td>
-                        <td class="text-center p-2">{{ appointment.status }}</td>
-                        <td class="text-center p-2">{{ appointment.status }}</td>
+                        <td class="p-2">{{ index + 1 }}. {{ appointment }}</td>
+                        <td class="text-center p-2"></td>
+                        <td class="text-center p-2">{{ appointment.appointment_datetime }}</td>
+                        <td class="text-center p-2">{{ appointment.appointment_type }}</td>
                         <td class="text-center p-2">{{ appointment.status }}</td>
                         <td class="text-center p-2"><button><Check /></button></td>
                         <td class="text-center p-2"><button><X /></button></td>

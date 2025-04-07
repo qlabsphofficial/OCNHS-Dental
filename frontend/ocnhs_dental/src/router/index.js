@@ -9,6 +9,7 @@ import AdminView from '@/views/AdminView.vue'
 import AdminLoginView from '@/views/AdminLoginView.vue'
 import BlogView from '@/views/BlogView.vue'
 import ServiceView from '@/views/ServiceView.vue'
+import AdminSignUpView from '@/views/AdminSignUpView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,12 @@ const router = createRouter({
       path: '/signUp',
       name: 'signUp',
       component: SignUpView,
+    },
+
+    {
+      path: '/adminSignUp',
+      name: 'adminSignUp',
+      component: AdminSignUpView,
     },
 
     {

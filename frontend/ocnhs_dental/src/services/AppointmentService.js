@@ -18,6 +18,24 @@ export async function retrieveAppointments() {
       return appointments
 }
 
+export async function retrieveAllAppointments() {
+      let appointments = [];
+
+      try {
+            const response = await fetch(`${current_address}/get_all_appointments`)
+            const data = await response.json()
+
+            appointments = data.appointments
+      }
+      catch (error){
+
+      }
+
+      return appointments
+}
+
+
+
 export async function retrieveAppointmentHistory() {
       let appointmentHistory = [];
 
