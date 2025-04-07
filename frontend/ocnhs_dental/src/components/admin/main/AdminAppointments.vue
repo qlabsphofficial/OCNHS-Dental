@@ -27,8 +27,8 @@ onMounted(async() => {
 
                   <!-- ITERATE THROUGH RECORDS HERE -->
                   <tr v-for="appointment, index of appointments" :key="appointment">
-                        <td class="p-2">{{ index + 1 }}. {{ appointment }}</td>
-                        <td class="text-center p-2"></td>
+                        <td class="p-2">{{ index + 1 }}. {{ appointment.student_info.lastname }}, {{ appointment.student_info.firstname }} {{ appointment.student_info.middlename[0] }}</td>
+                        <td class="text-center p-2">{{ appointment.student_info.section }}</td>
                         <td class="text-center p-2">{{ appointment.appointment_datetime }}</td>
                         <td class="text-center p-2">{{ appointment.appointment_type }}</td>
                         <td class="text-center p-2">{{ appointment.status }}</td>
@@ -38,13 +38,13 @@ onMounted(async() => {
                   </tr>
             </table>
             
-            <div class="flex flex-row justify-between w-full">
+            <!-- <div class="flex flex-row justify-between w-full">
                   <p>Page: {{ page }}</p>
                   <div class="flex flex-row w-3/12 justify-evenly">
                         <button class="border-2 rounded-md p-1 w-5/12">Previous</button>
                         <button class="border-2 rounded-md p-1 w-5/12">Next</button>
                   </div>
-            </div>
+            </div> -->
       </div>
 </template>
 

@@ -1,24 +1,41 @@
 <script setup>
 import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 
-import 'vue-simple-calendar/dist/vue-simple-calendar.css'
+import { ScheduleXCalendar } from '@schedule-x/vue'
+import {
+  createCalendar,
+  createViewDay,
+  createViewMonthAgenda,
+  createViewMonthGrid,
+  createViewWeek,
+} from '@schedule-x/calendar'
+import '@schedule-x/theme-default/dist/index.css'
+import { retrieveAllAppointments } from "@/services/AppointmentService"
 
 
-const showDate = ref(null)
+const currentDate = '2025-04-01'
+const viewWeek = createViewWeek()
 
-function setShowDate(d) {
-      this.showDate = d;
-}
+const calendarApp = createCalendar({
+  selectedDate: currentDate,
+  views: [viewWeek],
+  defaultView: viewWeek.name,
+  events: [],
+})
+
+onMounted(async() => {
+      let allAppointments = await retrieveAllAppointments()
+      
+      for (let appointment of allAppointments){
+            calendarApp.events.set(appointment)
+      }
+})
 </script>
 
 <template>
-      <div class="w-11/12 h-11/12">
-            <CalendarView :show-date="showDate">
-                  <template #header="{ headerProps }">
-                          <CalendarViewHeader :header-props @input="setShowDate" />
-                  </template>
-            </CalendarView>
+      <div class="w-11/12 h-11/12 overflow-y-scroll">
+            <ScheduleXCalendar :calendar-app="calendarApp" />
       </div>
 </template>
 

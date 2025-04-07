@@ -1,12 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { retrieveAllAppointments } from '@/services/AppointmentService';
+import { onMounted, ref } from 'vue';
 
-const patientsToday = ref(1)
-const totalPatients = ref(2)
-const requests = ref(3)
+const patientsToday = ref(0)
+const totalPatients = ref(0)
+const requests = ref(0)
 
 const appointments = ref([])
 const appointmentsToday = ref([])
+
+onMounted(async() => {
+      let allAppointments = await retrieveAllAppointments() 
+
+      appointments.value = allAppointments
+      requests.value = allAppointments.length
+})
 </script>
 
 <template>
@@ -47,8 +55,13 @@ const appointmentsToday = ref([])
             <div class="flex flex-row items-between justify-between mt-10">
                   <div class="w-1/2">
                         <h3 class="text-lg">Appointment Requests</h3>
-                        <div>
-                              
+                        <div class="w-full flex flex-col gap-3 mt-5">
+                              <div v-for="appointment of appointments" :key="appointment" class="flex flex-row items-between justify-between bg-gray-300 rounded-md p-4">
+                                    <h4>{{ appointment.student_info.firstname }}  {{ appointment.student_info.last_name }}</h4>
+                                    <h4>{{ appointment.appointment_type }}</h4>
+                                    <h4>{{ appointment.appointment_datetime }}</h4>
+                                    <h4>{{ appointment.status }}</h4>
+                              </div>
                         </div>
                   </div>
 

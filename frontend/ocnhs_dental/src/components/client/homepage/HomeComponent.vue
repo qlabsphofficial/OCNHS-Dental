@@ -13,8 +13,6 @@ import {
 } from '@schedule-x/calendar'
 import '@schedule-x/theme-default/dist/index.css'
 
-import 'vue-simple-calendar/dist/vue-simple-calendar.css'
-
 const blogStore = useBlogStore()
 const router = useRouter()
 const currentDate = '2025-04-01'
