@@ -248,6 +248,14 @@ class UpdateMedicalRecordRequest(BaseModel):
         orm_mode = True
     
     
+class ApproveAppointmentRequest(BaseModel):
+    appointment_id: int
+    
+    
+class CancelAppointmentRequest(BaseModel):
+    appointment_id: int
+    
+    
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -704,3 +712,31 @@ async def update_medical_record(medical_history_data: UpdateMedicalRecordRequest
         db.refresh(medical_history)
 
         return {"message": "Medical history updated successfully", "medical_history": medical_history}
+    
+    
+@app.put("/approve_appointment")
+async def approve_appointment(request: ApproveAppointmentRequest, db: Session = Depends(get_database)):
+    appointment = db.query(Appointment).filter(Appointment.id == request.appointment_id).first()
+
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    appointment.status = "APPROVED"
+    db.commit()
+    db.refresh(appointment)
+
+    return { "message": "Appointment approved successfully" }
+
+
+@app.put("/cancel_appointment")
+async def cancel_appointment(request: CancelAppointmentRequest, db: Session = Depends(get_database)):
+    appointment = db.query(Appointment).filter(Appointment.id == request.appointment_id).first()
+
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    appointment.status = "CANCELLED"
+    db.commit()
+    db.refresh(appointment)
+
+    return { "message": "Appointment cancelled successfully" }
