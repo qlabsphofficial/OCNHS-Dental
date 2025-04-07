@@ -248,7 +248,7 @@ class UpdateMedicalRecordRequest(BaseModel):
         orm_mode = True
     
     
-@app.post("register")
+@app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
@@ -279,7 +279,7 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
     return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
 
     
-@app.post("login")
+@app.post("/login")
 async def login(login_data: LoginModel, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.email_address == login_data.email_address).first()
 
@@ -302,7 +302,7 @@ async def login(login_data: LoginModel, db: Session = Depends(get_database)):
         }
     
 
-@app.post("create_medical_history")
+@app.post("/create_medical_history")
 async def create_medical_history(medical_history_data: MedicalHistoryModel, db: Session = Depends(get_database)):
 
     student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
@@ -385,7 +385,7 @@ async def create_medical_history(medical_history_data: MedicalHistoryModel, db: 
     return {"message": "Student and medical history updated successfully"}
 
 
-@app.post("create_appointment")
+@app.post("/create_appointment")
 async def create_appointment(appointment_data: AppointmentModel, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == appointment_data.student_id).first()
 
@@ -408,7 +408,7 @@ async def create_appointment(appointment_data: AppointmentModel, db: Session = D
     }
 
 
-@app.get("get_student_appointments")
+@app.get("/get_student_appointments")
 async def get_student_appointments(student_id: int, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == student_id).first()
     
@@ -467,7 +467,7 @@ async def get_medical_history(student_id: int, db: Session = Depends(get_databas
     return {"medical_history": medical_history}
 
 
-@app.post("register_admin")
+@app.post("/register_admin")
 async def register_admin(admin_data: AdminRegisterModel, db: Session = Depends(get_database)):
     try:
         if admin_data.password != admin_data.confirm_password:
@@ -503,7 +503,7 @@ async def register_admin(admin_data: AdminRegisterModel, db: Session = Depends(g
         raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
     
 
-@app.post("login_admin")
+@app.post("/login_admin")
 async def login_admin(login_data: AdminLoginModel, db: Session = Depends(get_database)):
     admin = db.query(Admin).filter(Admin.email == login_data.email).first()
 
@@ -516,7 +516,7 @@ async def login_admin(login_data: AdminLoginModel, db: Session = Depends(get_dat
     }
 
 
-@app.get("get_pending_appointments")
+@app.get("/get_pending_appointments")
 async def get_pending_appointments(db: Session = Depends(get_database)):
     results = (
         db.query(Appointment, Student)
@@ -559,7 +559,7 @@ async def get_pending_appointments(db: Session = Depends(get_database)):
     return {"pending_appointments": formatted_results}
 
 
-@app.post("appointments_by_month") 
+@app.post("/appointments_by_month") 
 async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Session = Depends(get_database)):
     year = filter.year
     month = filter.month
@@ -611,7 +611,7 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
     return {"appointments": formatted_results}
 
 
-@app.get("get_all_appointments")
+@app.get("/get_all_appointments")
 async def get_all_appointments(db: Session = Depends(get_database)):
     appointments = db.query(Appointment).all()
     
@@ -631,7 +631,7 @@ async def get_all_appointments(db: Session = Depends(get_database)):
     return {"appointments": formatted_appointments}
 
 
-@app.post("update_medical_record")
+@app.post("/update_medical_record")
 async def update_medical_record(medical_history_data: UpdateMedicalRecordRequest, db: Session = Depends(get_database)):
     # Check if the student exists
     student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
