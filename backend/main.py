@@ -184,6 +184,69 @@ class AppointmentFilterRequest(BaseModel):
     year: int
     month: int
 
+
+class UpdateMedicalRecordRequest(BaseModel):
+    student_id: int
+
+    good_health: Optional[int] = None
+    under_medical_treatment: Optional[int] = None
+    condition_being_treated: Optional[str] = None
+    serious_illness: Optional[int] = None
+    illness_or_operation: Optional[str] = None
+    hospitalized: Optional[int] = None
+    hospitalization_details: Optional[str] = None
+    taking_medication: Optional[int] = None
+    medication_details: Optional[str] = None
+    use_tobacco: Optional[int] = None
+    use_alcohol_or_drugs: Optional[int] = None
+    pregnant_nursing_birth_control: Optional[int] = None
+    pregnant_nursing_birth_control_details: Optional[str] = None
+
+    toothbrush: Optional[int] = None
+    brush_times_per_day: Optional[int] = None
+    change_toothbrush_per_year: Optional[int] = None
+    use_toothpaste: Optional[int] = None
+    dentist_visits_per_year: Optional[int] = None
+
+    allergy: Optional[int] = None
+    allergy_details: Optional[str] = None
+    emphysema: Optional[int] = None
+    bleeding_problems: Optional[int] = None
+    blood_diseases: Optional[int] = None
+    head_injuries: Optional[int] = None
+    arthritis_rheumatism: Optional[int] = None
+    high_fever: Optional[int] = None
+    diabetes: Optional[int] = None
+    chest_pain: Optional[int] = None
+    stroke: Optional[int] = None
+    cancer_tumors: Optional[int] = None
+    anemia: Optional[int] = None
+    angina: Optional[int] = None
+    asthma: Optional[int] = None
+    high_blood_pressure: Optional[int] = None
+    low_blood_pressure: Optional[int] = None
+    aids_hiv_infection: Optional[int] = None
+    sexually_transmitted_disease: Optional[int] = None
+    stomach_troubles_ulcers: Optional[int] = None
+    fainting_seizure: Optional[int] = None
+    rapid_weight_loss_radiation_therapy: Optional[int] = None
+    joint_replacement_implant: Optional[int] = None
+    heart_surgery_heart_attack: Optional[int] = None
+    thyroid_problem: Optional[int] = None
+    heart_disease: Optional[int] = None
+    heart_murmur: Optional[int] = None
+    hepatitis_liver_disease: Optional[int] = None
+    rheumatic_seizure: Optional[int] = None
+    respiratory_problems: Optional[int] = None
+    hepatitis_jaundice: Optional[int] = None
+    tuberculosis: Optional[int] = None
+    swollen_ankles: Optional[int] = None
+    kidney_disease: Optional[int] = None
+    other_diseases: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+    
     
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
@@ -566,3 +629,77 @@ async def get_all_appointments(db: Session = Depends(get_database)):
         })
     
     return {"appointments": formatted_appointments}
+
+
+@app.post("/update_medical_record")
+async def update_medical_record(medical_history_data: UpdateMedicalRecordRequest, db: Session = Depends(get_database)):
+    # Check if the student exists
+    student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == medical_history_data.student_id).first()
+    
+    if not medical_history:
+        raise HTTPException(status_code=404, detail="Medical record not found for the student")
+
+    else:
+        medical_history.good_health = medical_history_data.good_health
+        medical_history.under_medical_treatment = medical_history_data.under_medical_treatment
+        medical_history.condition_being_treated = medical_history_data.condition_being_treated
+        medical_history.serious_illness = medical_history_data.serious_illness
+        medical_history.illness_or_operation = medical_history_data.illness_or_operation
+        medical_history.hospitalized = medical_history_data.hospitalized
+        medical_history.hospitalization_details = medical_history_data.hospitalization_details
+        medical_history.taking_medication = medical_history_data.taking_medication
+        medical_history.medication_details = medical_history_data.medication_details
+        medical_history.use_tobacco = medical_history_data.use_tobacco
+        medical_history.use_alcohol_or_drugs = medical_history_data.use_alcohol_or_drugs
+        medical_history.pregnant_nursing_birth_control = medical_history_data.pregnant_nursing_birth_control
+        medical_history.pregnant_nursing_birth_control_details = medical_history_data.pregnant_nursing_birth_control_details
+        medical_history.toothbrush = medical_history_data.toothbrush
+        medical_history.brush_times_per_day = medical_history_data.brush_times_per_day
+        medical_history.change_toothbrush_per_year = medical_history_data.change_toothbrush_per_year
+        medical_history.use_toothpaste = medical_history_data.use_toothpaste
+        medical_history.dentist_visits_per_year = medical_history_data.dentist_visits_per_year
+        medical_history.allergy = medical_history_data.allergy
+        medical_history.allergy_details = medical_history_data.allergy_details
+        medical_history.emphysema = medical_history_data.emphysema
+        medical_history.bleeding_problems = medical_history_data.bleeding_problems
+        medical_history.blood_diseases = medical_history_data.blood_diseases
+        medical_history.head_injuries = medical_history_data.head_injuries
+        medical_history.arthritis_rheumatism = medical_history_data.arthritis_rheumatism
+        medical_history.high_fever = medical_history_data.high_fever
+        medical_history.diabetes = medical_history_data.diabetes
+        medical_history.chest_pain = medical_history_data.chest_pain
+        medical_history.stroke = medical_history_data.stroke
+        medical_history.cancer_tumors = medical_history_data.cancer_tumors
+        medical_history.anemia = medical_history_data.anemia
+        medical_history.angina = medical_history_data.angina
+        medical_history.asthma = medical_history_data.asthma
+        medical_history.high_blood_pressure = medical_history_data.high_blood_pressure
+        medical_history.low_blood_pressure = medical_history_data.low_blood_pressure
+        medical_history.aids_hiv_infection = medical_history_data.aids_hiv_infection
+        medical_history.sexually_transmitted_disease = medical_history_data.sexually_transmitted_disease
+        medical_history.stomach_troubles_ulcers = medical_history_data.stomach_troubles_ulcers
+        medical_history.fainting_seizure = medical_history_data.fainting_seizure
+        medical_history.rapid_weight_loss_radiation_therapy = medical_history_data.rapid_weight_loss_radiation_therapy
+        medical_history.joint_replacement_implant = medical_history_data.joint_replacement_implant
+        medical_history.heart_surgery_heart_attack = medical_history_data.heart_surgery_heart_attack
+        medical_history.thyroid_problem = medical_history_data.thyroid_problem
+        medical_history.heart_disease = medical_history_data.heart_disease
+        medical_history.heart_murmur = medical_history_data.heart_murmur
+        medical_history.hepatitis_liver_disease = medical_history_data.hepatitis_liver_disease
+        medical_history.rheumatic_seizure = medical_history_data.rheumatic_seizure
+        medical_history.respiratory_problems = medical_history_data.respiratory_problems
+        medical_history.hepatitis_jaundice = medical_history_data.hepatitis_jaundice
+        medical_history.tuberculosis = medical_history_data.tuberculosis
+        medical_history.swollen_ankles = medical_history_data.swollen_ankles
+        medical_history.kidney_disease = medical_history_data.kidney_disease
+        medical_history.other_diseases = medical_history_data.other_diseases
+        
+        db.commit()
+        db.refresh(medical_history)
+
+        return {"message": "Medical history updated successfully", "medical_history": medical_history}
