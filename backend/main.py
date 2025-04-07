@@ -546,3 +546,23 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
         })
 
     return {"appointments": formatted_results}
+
+
+@app.get("/get_all_appointments")
+async def get_all_appointments(db: Session = Depends(get_database)):
+    appointments = db.query(Appointment).all()
+    
+    if not appointments:
+        raise HTTPException(status_code=404, detail="No appointments found")
+    
+    formatted_appointments = []
+    for appointment in appointments:
+        formatted_appointments.append({
+            "appointment_id": appointment.id,
+            "student_id": appointment.student_id,
+            "appointment_type": appointment.appointment_type,
+            "appointment_datetime": appointment.appointment_datetime,
+            "status": appointment.status,
+        })
+    
+    return {"appointments": formatted_appointments}
