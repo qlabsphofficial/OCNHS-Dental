@@ -81,3 +81,59 @@ export async function bookAppointment(category, date) {
 
       return message
 }
+
+export async function approveAppointment(id) {
+      try {
+      const response = await fetch(`${current_address}/approve_appointment`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                  'appointment_id': id,
+            })
+      });
+      
+      if (!response.ok) {
+            throw new Error('Failed to approve appointment');
+      }
+      
+      const data = await response.json();
+      console.log('Server Response:', data);
+      
+      if(data.message == "Appointment approved successfully") {
+
+      }
+      } catch (error) {
+            console.error('Approval error:', error);
+      return false;
+      }
+}
+
+export async function cancelAppointment(id) {
+      try {
+      const response = await fetch(`${current_address}/cancel_appointment`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                  'appointment_id': id,
+            })
+      });
+      
+      if (!response.ok) {
+            throw new Error('Failed to cancel appointment');
+      }
+      
+      const data = await response.json();
+      console.log('Server Response:', data);
+      
+      if(data.message == "Appointment cancelled successfully") {
+
+      }
+      } catch (error) {
+            console.error('Cancel error:', error);
+      return false;
+      }
+}

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { X, Check, CalendarSync  } from 'lucide-vue-next';
-import { retrieveAllAppointments } from '@/services/AppointmentService';
+import { retrieveAllAppointments, approveAppointment, cancelAppointment } from '@/services/AppointmentService';
 
 const page = ref('')
 const appointments = ref([])
@@ -9,6 +9,16 @@ const appointments = ref([])
 onMounted(async() => {
       appointments.value = await retrieveAllAppointments()
 })
+
+async function attemptApprove(id){
+      approveAppointment(id)
+      appointments.value = await retrieveAllAppointments()
+}
+
+async function attemptCancel(id){
+      cancelAppointment(id)
+      appointments.value = await retrieveAllAppointments()
+}
 </script>
 
 <template>
@@ -32,8 +42,8 @@ onMounted(async() => {
                         <td class="text-center p-2">{{ appointment.appointment_datetime }}</td>
                         <td class="text-center p-2">{{ appointment.appointment_type }}</td>
                         <td class="text-center p-2">{{ appointment.status }}</td>
-                        <td class="text-center p-2"><button><Check /></button></td>
-                        <td class="text-center p-2"><button><X /></button></td>
+                        <td class="text-center p-2"><button @click="attemptApprove(appointment.appointment_id)"><Check /></button></td>
+                        <td class="text-center p-2"><button @click="attemptCancel(appointment.appointment_id)"><X /></button></td>
                         <td class="text-center p-2"><button><CalendarSync /></button></td>
                   </tr>
             </table>
