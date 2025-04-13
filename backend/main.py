@@ -10,6 +10,11 @@ from datetime import date, datetime
 from sqlalchemy import extract, cast, Date
 from pytz import timezone
 from fastapi.responses import FileResponse
+import smtplib
+from email.message import EmailMessage
+
+email_address = "ocnhsdental.notification@gmail.com"
+email_password = "xcwh bups wskc uasg"
 
 app = FastAPI()
 
@@ -278,6 +283,10 @@ class ArchiveUpdateRequest(BaseModel):
 class ActiveUpdateRequest(BaseModel):
     student_id: int
     is_active: int
+
+
+class RequestResetPassword(BaseModel):
+    email: str
 
 
 @app.post("/register")
@@ -978,3 +987,55 @@ async def download_parent_consent():
         filename="PARENT CONSENT.pdf",
         media_type='application/pdf'
     )
+
+
+@app.post('/reset_password')
+async def reset_password(request: RequestResetPassword, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.email_address == request.email).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    msg = EmailMessage()
+    msg['Subject'] = "Account Password Reset"
+    msg['From'] = email_address
+    msg['To'] = request.email
+    msg.set_content(
+    f"""\
+    Hi {student.firstname},
+
+    We received a request to reset your password. If you made this request, just click the URL below to create a new password:
+
+    URL: test
+
+    If you didn’t request a password reset, you can safely ignore this email — your account is still secure.
+
+    This is an automated message—please do not reply.
+
+    Thanks,
+    OCNHS Dental Team
+    """,
+
+    )
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(email_address, email_password)
+        smtp.send_message(msg)
+
+    return { 'response': 'Reset password successful.', 'status_code': 200 }
+
+
+@app.get('/change_password')
+async def change_password(user_id: int, db: Session = Depends(get_database)):
+     # try:
+        user = db.query(User).filter(User.id == user_id).first()
+        
+        user.is_active = True
+        db.commit()
+
+        payload = {}
+        payload.update({ 'user_data': user })
+
+        return RedirectResponse("https://resumerank-fe.onrender.com")
+        
+    # except:
+    #     return { 'response': 'Error retrieving data.', 'status_code': 400 }
