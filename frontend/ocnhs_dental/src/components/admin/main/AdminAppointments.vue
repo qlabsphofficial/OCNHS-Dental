@@ -47,16 +47,18 @@ function formatDate(datetime) {
       <div class="flex flex-col justify-between h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md">
             <div class="h-11/12 w-full overflow-y-scroll">
                   <table class="w-full h-full">
-                        <tr class="border-2 sticky bg-white">
-                              <th class="text-lg">NAME</th>
-                              <th class="text-lg">SECTION</th>
-                              <th class="text-lg">DATE & TIME</th>
-                              <th class="text-lg">APPOINTMENT TYPE</th>
-                              <th class="text-lg">STATUS</th>
-                              <th class="text-lg">APPROVE</th>
-                              <th class="text-lg">CANCEL</th>
-                              <th class="text-lg">RESCHEDULE</th>
-                        </tr>
+                        <thead>
+                              <tr class="border-2 sticky bg-white">
+                                    <th class="text-lg">NAME</th>
+                                    <th class="text-lg">SECTION</th>
+                                    <th class="text-lg">DATE & TIME</th>
+                                    <th class="text-lg">APPOINTMENT TYPE</th>
+                                    <th class="text-lg">STATUS</th>
+                                    <th class="text-lg">APPROVE</th>
+                                    <th class="text-lg">CANCEL</th>
+                                    <th class="text-lg">RESCHEDULE</th>
+                              </tr>
+                        </thead>
       
                         <!-- ITERATE THROUGH RECORDS HERE -->
                         <tr v-for="appointment, index in appointments" :key="appointment">

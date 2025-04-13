@@ -68,7 +68,7 @@ onMounted(async() => {
                   <div class="w-1/2 h-11/12">
                         <div class="flex flex-row items-center justify-between">
                               <h3 class="text-lg">Appointment Requests</h3>
-                              <a @click="viewAllAppointments()">View All Appointments</a>
+                              <a @click="viewAllAppointments()" class="cursor-pointer">View All Appointments</a>
                         </div>
                         <div class="w-full flex flex-col gap-5 mt-5 overflow-y-scroll p-2 h-8/12">
                               <div v-for="appointment of appointments" :key="appointment" class="flex flex-row items-center justify-between bg-gray-300 rounded-md p-4">

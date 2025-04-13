@@ -30,21 +30,20 @@ function accessService(service){
 
   <!-- Navbar -->
   <div class="flex flex-row justify-end items-center p-8 secondary-color">
-    <div class="flex flex-row gap-5">
+    <div class="flex flex-row gap-5 footer-links-2">
       <a>HOME</a>
       <a @click="() => { skip = 'about' } ">ABOUT US</a>
       <a @click="() => { skip = 'blogs' } ">BLOGS</a>
       <div class="flex flex-col">
         <a @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
 
-        <div v-if="servicesVisible" class="absolute top-50 border-2 p-6 bg-white">
-          <button @click="accessService(1)">FLOURIDE APPLICATION</button>
-          <button @click="accessService(2)">ORAL PROPHYLAXIS/CLEANING</button>
-          <button @click="accessService(3)">RESTORATION/PASTA</button>
-          <button @click="accessService(4)">EXTRACTION/BUNOT</button>
+        <div v-if="servicesVisible" class="flex flex-col items-end justify-start absolute top-50 border-2 p-6 w-2/12 bg-white">
+          <button @click="accessService(1)" class="text-lg">FLOURIDE APPLICATION</button>
+          <button @click="accessService(2)" class="text-lg">ORAL PROPHYLAXIS/CLEANING</button>
+          <button @click="accessService(3)" class="text-lg">RESTORATION/PASTA</button>
+          <button @click="accessService(4)" class="text-lg">EXTRACTION/BUNOT</button>
         </div>
       </div>
-      <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/adminLogin') }">ADMIN</button>
       <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
