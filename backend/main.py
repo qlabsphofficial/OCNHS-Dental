@@ -913,3 +913,23 @@ async def update_active_status(active_data: ActiveUpdateRequest, db: Session = D
     db.commit()
     
     return {"message": "Student's active status updated successfully"}
+
+
+@app.delete("/delete_student")
+async def delete_student(student_id: int, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    # Delete medical history records
+    db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).delete()
+    
+    # Delete appointment records
+    db.query(Appointment).filter(Appointment.student_id == student_id).delete()
+    
+    # Delete the student record
+    db.delete(student)
+    db.commit()
+
+    return {"message": "Student, medical history, and appointments deleted successfully"}
