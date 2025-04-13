@@ -258,8 +258,15 @@ class CancelAppointmentRequest(BaseModel):
     
 class RescheduleAppointmentRequest(BaseModel):
     appointment_id: int
-    date: datetime 
-    
+    date: datetime
+
+
+class StudentFilterRequest(BaseModel):
+    is_archive: int
+    curriculum: str
+    grade_level: str
+    section: str
+
     
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
@@ -770,3 +777,19 @@ async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Sess
     db.refresh(appointment)
 
     return { "message": "Appointment rescheduled successfully" }
+
+
+@router.post("/students")
+async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_database)):
+    query = db.query(Student).filter(Student.is_archive == filters.is_archive)
+
+    if filters.curriculum:
+        query = query.filter(Student.curriculum == filters.curriculum)
+    if filters.grade_level:
+        query = query.filter(Student.grade_level == filters.grade_level)
+    if filters.section:
+        query = query.filter(Student.section == filters.section)
+
+    students = query.all()
+
+    return {"students": students}
