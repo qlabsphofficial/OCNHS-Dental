@@ -53,18 +53,13 @@ class StudentModel(BaseModel):
     password: str
     confirm_password: str
 
-    class Config:
-        orm_mode = True
+    parent_guardian_name: Optional[str] = None
+    adviser_name: Optional[str] = None
+    curriculum: Optional[str] = None
+    grade_level: Optional[str] = None
+    section: Optional[str] = None
 
-
-class LoginModel(BaseModel):
-    email_address: str
-    password: str
-
-
-class MedicalHistoryModel(BaseModel):
     student_id: int
-
     good_health: Optional[int] = None
     under_medical_treatment: Optional[int] = None
     condition_being_treated: Optional[str] = None
@@ -121,14 +116,13 @@ class MedicalHistoryModel(BaseModel):
     kidney_disease: Optional[int] = None
     other_diseases: Optional[str] = None
 
-    parent_guardian_name: Optional[str] = None
-    adviser_name: Optional[str] = None
-    curriculum: Optional[str] = None
-    grade_level: Optional[str] = None
-    section: Optional[str] = None
-
     class Config:
         orm_mode = True
+
+
+class LoginModel(BaseModel):
+    email_address: str
+    password: str
 
 
 class AppointmentModel(BaseModel):
@@ -310,12 +304,78 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
         contact_no=student.contact_no,
         address=student.address,
         email_address=student.email_address,
-        password=student.password
+        password=student.password,
+
+        parent_guardian_name=student.parent_guardian_name,
+        adviser_name=student.adviser_name,
+        curriculum=student.curriculum,
+        grade_level=student.grade_level,
+        section=student.section,
     )
 
     db.add(new_student)
     db.commit()
     db.refresh(new_student)
+
+    new_medical_history = MedicalHistory(
+        student_id=new_student.id,
+        good_health=student.good_health,
+        under_medical_treatment=student.under_medical_treatment,
+        condition_being_treated=student.condition_being_treated,
+        serious_illness=student.serious_illness,
+        illness_or_operation=student.illness_or_operation,
+        hospitalized=student.hospitalized,
+        hospitalization_details=student.hospitalization_details,
+        taking_medication=student.taking_medication,
+        medication_details=student.medication_details,
+        use_tobacco=student.use_tobacco,
+        use_alcohol_or_drugs=student.use_alcohol_or_drugs,
+        pregnant_nursing_birth_control=student.pregnant_nursing_birth_control,
+        pregnant_nursing_birth_control_details=student.pregnant_nursing_birth_control_details,
+        toothbrush=student.toothbrush,
+        brush_times_per_day=student.brush_times_per_day,
+        change_toothbrush_per_year=student.change_toothbrush_per_year,
+        use_toothpaste=student.use_toothpaste,
+        dentist_visits_per_year=student.dentist_visits_per_year,
+        allergy=student.allergy,
+        allergy_details=student.allergy_details,
+        emphysema=student.emphysema,
+        bleeding_problems=student.bleeding_problems,
+        blood_diseases=student.blood_diseases,
+        head_injuries=student.head_injuries,
+        arthritis_rheumatism=student.arthritis_rheumatism,
+        high_fever=student.high_fever,
+        diabetes=student.diabetes,
+        chest_pain=student.chest_pain,
+        stroke=student.stroke,
+        cancer_tumors=student.cancer_tumors,
+        anemia=student.anemia,
+        angina=student.angina,
+        asthma=student.asthma,
+        high_blood_pressure=student.high_blood_pressure,
+        low_blood_pressure=student.low_blood_pressure,
+        aids_hiv_infection=student.aids_hiv_infection,
+        sexually_transmitted_disease=student.sexually_transmitted_disease,
+        stomach_troubles_ulcers=student.stomach_troubles_ulcers,
+        fainting_seizure=student.fainting_seizure,
+        rapid_weight_loss_radiation_therapy=student.rapid_weight_loss_radiation_therapy,
+        joint_replacement_implant=student.joint_replacement_implant,
+        heart_surgery_heart_attack=student.heart_surgery_heart_attack,
+        thyroid_problem=student.thyroid_problem,
+        heart_disease=student.heart_disease,
+        heart_murmur=student.heart_murmur,
+        hepatitis_liver_disease=student.hepatitis_liver_disease,
+        rheumatic_seizure=student.rheumatic_seizure,
+        respiratory_problems=student.respiratory_problems,
+        hepatitis_jaundice=student.hepatitis_jaundice,
+        tuberculosis=student.tuberculosis,
+        swollen_ankles=student.swollen_ankles,
+        kidney_disease=student.kidney_disease,
+        other_diseases=student.other_diseases
+    )
+    db.add(new_medical_history)
+    db.commit()
+    db.refresh(new_medical_history)
 
     return {"message": "Registration successful", "status_code": 200, "new_student_id": new_student.id}
 
@@ -341,89 +401,6 @@ async def login(login_data: LoginModel, db: Session = Depends(get_database)):
             "student_data": student,
             "medical_history_status": "not_exists"
         }
-    
-
-@app.post("/create_medical_history")
-async def create_medical_history(medical_history_data: MedicalHistoryModel, db: Session = Depends(get_database)):
-
-    student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
-
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
-
-    student.parent_guardian_name = medical_history_data.parent_guardian_name
-    student.adviser_name = medical_history_data.adviser_name
-    student.curriculum = medical_history_data.curriculum
-    student.grade_level = medical_history_data.grade_level
-    student.section = medical_history_data.section
-
-    db.commit()
-    db.refresh(student)
-
-    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == medical_history_data.student_id).first()
-
-    if not medical_history:
-        new_medical_history = MedicalHistory(
-            student_id=medical_history_data.student_id,
-            good_health=medical_history_data.good_health,
-            under_medical_treatment=medical_history_data.under_medical_treatment,
-            condition_being_treated=medical_history_data.condition_being_treated,
-            serious_illness=medical_history_data.serious_illness,
-            illness_or_operation=medical_history_data.illness_or_operation,
-            hospitalized=medical_history_data.hospitalized,
-            hospitalization_details=medical_history_data.hospitalization_details,
-            taking_medication=medical_history_data.taking_medication,
-            medication_details=medical_history_data.medication_details,
-            use_tobacco=medical_history_data.use_tobacco,
-            use_alcohol_or_drugs=medical_history_data.use_alcohol_or_drugs,
-            pregnant_nursing_birth_control=medical_history_data.pregnant_nursing_birth_control,
-            pregnant_nursing_birth_control_details=medical_history_data.pregnant_nursing_birth_control_details,
-            toothbrush=medical_history_data.toothbrush,
-            brush_times_per_day=medical_history_data.brush_times_per_day,
-            change_toothbrush_per_year=medical_history_data.change_toothbrush_per_year,
-            use_toothpaste=medical_history_data.use_toothpaste,
-            dentist_visits_per_year=medical_history_data.dentist_visits_per_year,
-            allergy=medical_history_data.allergy,
-            allergy_details=medical_history_data.allergy_details,
-            emphysema=medical_history_data.emphysema,
-            bleeding_problems=medical_history_data.bleeding_problems,
-            blood_diseases=medical_history_data.blood_diseases,
-            head_injuries=medical_history_data.head_injuries,
-            arthritis_rheumatism=medical_history_data.arthritis_rheumatism,
-            high_fever=medical_history_data.high_fever,
-            diabetes=medical_history_data.diabetes,
-            chest_pain=medical_history_data.chest_pain,
-            stroke=medical_history_data.stroke,
-            cancer_tumors=medical_history_data.cancer_tumors,
-            anemia=medical_history_data.anemia,
-            angina=medical_history_data.angina,
-            asthma=medical_history_data.asthma,
-            high_blood_pressure=medical_history_data.high_blood_pressure,
-            low_blood_pressure=medical_history_data.low_blood_pressure,
-            aids_hiv_infection=medical_history_data.aids_hiv_infection,
-            sexually_transmitted_disease=medical_history_data.sexually_transmitted_disease,
-            stomach_troubles_ulcers=medical_history_data.stomach_troubles_ulcers,
-            fainting_seizure=medical_history_data.fainting_seizure,
-            rapid_weight_loss_radiation_therapy=medical_history_data.rapid_weight_loss_radiation_therapy,
-            joint_replacement_implant=medical_history_data.joint_replacement_implant,
-            heart_surgery_heart_attack=medical_history_data.heart_surgery_heart_attack,
-            thyroid_problem=medical_history_data.thyroid_problem,
-            heart_disease=medical_history_data.heart_disease,
-            heart_murmur=medical_history_data.heart_murmur,
-            hepatitis_liver_disease=medical_history_data.hepatitis_liver_disease,
-            rheumatic_seizure=medical_history_data.rheumatic_seizure,
-            respiratory_problems=medical_history_data.respiratory_problems,
-            hepatitis_jaundice=medical_history_data.hepatitis_jaundice,
-            tuberculosis=medical_history_data.tuberculosis,
-            swollen_ankles=medical_history_data.swollen_ankles,
-            kidney_disease=medical_history_data.kidney_disease,
-            other_diseases=medical_history_data.other_diseases
-        )
-        db.add(new_medical_history)
-        db.commit()
-        db.refresh(new_medical_history)
-
-    return {"message": "Student and medical history updated successfully"}
 
 
 @app.post("/create_appointment")
@@ -666,6 +643,8 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
 async def get_today_appointments(db: Session = Depends(get_database)):
     manila_tz = timezone("Asia/Manila")
     today = datetime.now(manila_tz).date()
+    
+    print(today)
 
     appointments = (
         db.query(Appointment, Student)
