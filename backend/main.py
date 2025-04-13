@@ -268,6 +268,16 @@ class StudentFilterRequest(BaseModel):
     section: str
 
 
+class ArchiveUpdateRequest(BaseModel):
+    student_id: int
+    is_archive: int
+    
+
+class ActiveUpdateRequest(BaseModel):
+    student_id: int
+    is_active: int
+
+
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -779,7 +789,7 @@ async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Sess
     return { "message": "Appointment rescheduled successfully" }
 
 
-@router.post("/get_students")
+@app.post("/get_students")
 async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_database)):
     query = db.query(Student).filter(Student.is_archive == filters.is_archive)
 
@@ -795,25 +805,40 @@ async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_
     return {"students": students}
 
 
-@router.post("/get_student_medical_history")
+@app.post("/get_student_medical_history")
 async def get_student_medical_history(student_id: int, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == student_id).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    # Then perform the INNER JOIN to get medical history
-    student_with_medical = (
-        db.query(Student, MedicalHistory)
-        .join(MedicalHistory, Student.id == MedicalHistory.student_id)
-        .filter(Student.id == student_id)
-        .first()
-    )
-    
-    if not student_with_medical:
-        raise HTTPException(status_code=404, detail="Medical history not found for this student")
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).first()
 
-    student, medical_history = student_with_medical
+    if not medical_history:
+        return {
+            "student": {
+                "id": student.id,
+                "firstname": student.firstname,
+                "middlename": student.middlename,
+                "lastname": student.lastname,
+                "suffix": student.suffix,
+                "dateofbirth": student.dateofbirth,
+                "gender": student.gender,
+                "age": student.age,
+                "birthplace": student.birthplace,
+                "contact_no": student.contact_no,
+                "address": student.address,
+                "email_address": student.email_address,
+                "parent_guardian_name": student.parent_guardian_name,
+                "adviser_name": student.adviser_name,
+                "curriculum": student.curriculum,
+                "grade_level": student.grade_level,
+                "section": student.section,
+                "is_archive": student.is_archive,
+                "is_active": student.is_active,
+            },
+            "medical_history": None
+        }
 
     return {
         "student": {
@@ -860,3 +885,31 @@ async def get_student_medical_history(student_id: int, db: Session = Depends(get
             "dentist_visits_per_year": medical_history.dentist_visits_per_year,
         }
     }
+
+
+@app.put("/update_archive_status")
+async def update_archive_status(archive_data: ArchiveUpdateRequest, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == archive_data.student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    student.is_archive = archive_data.is_archive
+    
+    db.commit()
+    
+    return {"message": "Student's archive status updated successfully"}
+
+
+@app.put("/update_active_status")
+async def update_active_status(active_data: ActiveUpdateRequest, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == active_data.student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    student.is_active = active_data.is_active
+    
+    db.commit()
+    
+    return {"message": "Student's active status updated successfully"}
