@@ -61,7 +61,7 @@ function attemptLogout() {
                                     Test
                               </div>
                         </div> -->
-                        <component :is="currentComponent"></component>
+                        <component :is="currentComponent" @view-all-appointments="handleUpdateModule({'moduleName': 'appointments'})"></component>
                   </div>
             </div>
       </div>

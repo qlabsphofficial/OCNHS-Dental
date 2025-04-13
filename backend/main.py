@@ -7,7 +7,8 @@ from pydantic import BaseModel
 from typing import Optional
 from models import Student, MedicalHistory, Appointment, Admin
 from datetime import date, datetime
-from sqlalchemy import extract
+from sqlalchemy import extract, cast, Date
+from pytz import timezone
 
 app = FastAPI()
 
@@ -632,6 +633,38 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
         })
 
     return {"appointments": formatted_results}
+
+
+@app.get("/get_today_appointments")
+async def get_today_appointments(db: Session = Depends(get_database)):
+    manila_tz = timezone("Asia/Manila")
+    today = datetime.now(manila_tz).date()
+    
+    print(today)
+
+    appointments = (
+        db.query(Appointment, Student)
+        .join(Student, Student.id == Appointment.student_id)
+        .filter(cast(Appointment.appointment_datetime, Date) == today)  # Extract only the date part
+        .all()
+    )
+    
+    if not appointments:
+        raise HTTPException(status_code=404, detail="No appointments found for today")
+    
+    formatted_appointments = [
+        {
+            "appointment_id": appointment.id,
+            "student_id": appointment.student_id,
+            "appointment_type": appointment.appointment_type,
+            "appointment_datetime": appointment.appointment_datetime,
+            "status": appointment.status,
+            "student_info": student,
+        }
+        for appointment, student in appointments
+    ]
+    
+    return {"appointments": formatted_appointments}
 
 
 @app.get("/get_all_appointments")

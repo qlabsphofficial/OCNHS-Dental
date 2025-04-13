@@ -28,19 +28,19 @@ async function attemptReschedule(id){
 }
 
 function formatDate(datetime) {
-    if (!datetime) return '';
-    const date = new Date(datetime);
-    
-    return date.toLocaleString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric', 
-      hour: '2-digit', 
-      minute: '2-digit', 
-      hour12: true 
-    });
-  }
+      if (!datetime) return '';
+            const date = new Date(datetime);
+
+      return date.toLocaleString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            hour12: true 
+      });
+}
 </script>
 
 <template>
@@ -62,7 +62,7 @@ function formatDate(datetime) {
                         <tr v-for="appointment, index in appointments" :key="appointment">
                               <td class="p-2">{{ index + 1 }}. {{ appointment.student_info.lastname }}, {{ appointment.student_info.firstname }} {{ appointment.student_info.middlename[0] }}</td>
                               <td class="text-center p-2">{{ appointment.student_info.section }}</td>
-                              <td class="text-center p-2">{{ formatDate(appointment.appointment_datetime) }}</td>
+                              <td class="p-2">{{ formatDate(appointment.appointment_datetime) }}</td>
                               <td class="text-center p-2">{{ appointment.appointment_type }}</td>
                               <td class="text-center p-2">{{ appointment.status }}</td>
                               <td class="text-center p-2"><button @click="attemptApprove(appointment.appointment_id)"><Check /></button></td>
