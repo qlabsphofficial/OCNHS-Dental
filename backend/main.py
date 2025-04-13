@@ -9,6 +9,7 @@ from models import Student, MedicalHistory, Appointment, Admin
 from datetime import date, datetime
 from sqlalchemy import extract, cast, Date
 from pytz import timezone
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -966,3 +967,14 @@ async def delete_student(student_id: int, db: Session = Depends(get_database)):
     db.commit()
 
     return {"message": "Student, medical history, and appointments deleted successfully"}
+
+
+@app.get("/download_parent_consent")
+async def download_parent_consent():
+    file_path = "static/PARENT CONSENT.pdf"
+
+    return FileResponse(
+        path=file_path,
+        filename="PARENT CONSENT.pdf",
+        media_type='application/pdf'
+    )
