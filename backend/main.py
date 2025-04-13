@@ -9,7 +9,7 @@ from models import Student, MedicalHistory, Appointment, Admin
 from datetime import date, datetime, timedelta
 from sqlalchemy import extract, cast, Date
 from pytz import timezone
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 import smtplib
 from email.message import EmailMessage
 
@@ -1006,18 +1006,18 @@ async def reset_password(request: RequestResetPassword, db: Session = Depends(ge
     return { 'response': 'Reset password successful.', 'status_code': 200 }
 
 
-@app.get('/change_password')
-async def change_password(user_id: int, db: Session = Depends(get_database)):
-     # try:
-        user = db.query(User).filter(User.id == user_id).first()
+# @app.get('/change_password')
+# async def change_password(user_id: int, db: Session = Depends(get_database)):
+#      try:
+#         user = db.query(User).filter(User.id == user_id).first()
         
-        user.is_active = True
-        db.commit()
+#         user.is_active = True
+#         db.commit()
 
-        payload = {}
-        payload.update({ 'user_data': user })
+#         payload = {}
+#         payload.update({ 'user_data': user })
 
-        return RedirectResponse("https://resumerank-fe.onrender.com")
+#         return RedirectResponse("https://resumerank-fe.onrender.com")
         
-    # except:
-    #     return { 'response': 'Error retrieving data.', 'status_code': 400 }
+#     except:
+#         return { 'response': 'Error retrieving data.', 'status_code': 400 }
