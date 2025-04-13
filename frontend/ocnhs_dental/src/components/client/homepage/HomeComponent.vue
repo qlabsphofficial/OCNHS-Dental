@@ -2,7 +2,7 @@
 import { useBlogStore } from '@/stores/blogs';
 import { useRouter } from 'vue-router';
 import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import { ScheduleXCalendar } from '@schedule-x/vue'
 import {
   createCalendar,
@@ -12,9 +12,11 @@ import {
   createViewWeek,
 } from '@schedule-x/calendar'
 import '@schedule-x/theme-default/dist/index.css'
+import { createEventsServicePlugin } from '@schedule-x/events-service'
 
 import { Facebook } from 'lucide-vue-next';
 import { Mail } from 'lucide-vue-next';
+import { retrieveAllAppointments } from '@/services/AppointmentService';
 
 const blogStore = useBlogStore()
 const router = useRouter()
@@ -23,11 +25,31 @@ const viewWeek = createViewWeek()
  
 // Do not use a ref here, as the calendar instance is not reactive, and doing so might cause issues
 // For updating events, use the events service plugin
+const eventsServicePlugin = createEventsServicePlugin();
+
 const calendarApp = createCalendar({
   selectedDate: currentDate,
   views: [viewWeek],
   defaultView: viewWeek.name,
   events: [],
+}, [eventsServicePlugin])
+
+onMounted(async() => {
+      let allAppointments = await retrieveAllAppointments()
+
+      let index = 1
+
+      for (let appointment of allAppointments){
+            calendarApp.eventsService.add({
+                  title: `${appointment.appointment_type}`,
+                  description: `${appointment.student_info.firstname} ${appointment.student_info.lastname}`,
+                  start: `${appointment.appointment_datetime.substring(0, 10)} ${appointment.appointment_datetime.substring(11, 16)}`,
+                  end: `${appointment.appointment_datetime.substring(0, 10)} ${appointment.appointment_datetime.substring(11, 16)}`,
+                  id: index
+            })
+
+            index += 1
+      }
 })
 </script>
 
@@ -117,7 +139,7 @@ const calendarApp = createCalendar({
     </div>
 
     <div class="flex flex-col items-center justify-center w-6/12 p-20 border-2 rounded-md bg-white">
-    <h2 class="text-3xl">CLINIC HOURS</h2>
+    <h2 class="text-3xl font-bold">CLINIC HOURS</h2>
     <hr>
     <h3>WEEKDAYS</h3>
     <h3>8:00 AM - 5:00 PM</h3>

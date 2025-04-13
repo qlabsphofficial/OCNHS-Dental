@@ -6,7 +6,7 @@ from database import SessionLocal, engine, Base
 from pydantic import BaseModel
 from typing import Optional
 from models import Student, MedicalHistory, Appointment, Admin
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from sqlalchemy import extract, cast, Date
 from pytz import timezone
 from fastapi.responses import FileResponse
@@ -610,7 +610,7 @@ async def get_pending_appointments(db: Session = Depends(get_database)):
     return {"pending_appointments": formatted_results}
 
 
-@app.post("/appointments_by_month") 
+@app.get("/appointments_by_month") 
 async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Session = Depends(get_database)):
     year = filter.year
     month = filter.month
@@ -665,17 +665,24 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
 @app.get("/get_today_appointments")
 async def get_today_appointments(db: Session = Depends(get_database)):
     manila_tz = timezone("Asia/Manila")
-    today = datetime.now(manila_tz).date()
+    now = datetime.now(manila_tz)
+
+    start_of_day = datetime(now.year, now.month, now.day, 0, 0, 0, tzinfo=manila_tz)
+    end_of_day = start_of_day + timedelta(days=1)
 
     appointments = (
         db.query(Appointment, Student)
         .join(Student, Student.id == Appointment.student_id)
-        .filter(cast(Appointment.appointment_datetime, Date) == today, Appointment.status == 'Approved')  # Extract only the date part
+        .filter(
+            Appointment.appointment_datetime >= start_of_day,
+            Appointment.appointment_datetime < end_of_day,
+            Appointment.status == 'APPROVED'
+        )
         .all()
     )
     
     if not appointments:
-        raise HTTPException(status_code=404, detail="No appointments found for today")
+        return {"appointments": []}
     
     formatted_appointments = [
         {
@@ -710,7 +717,7 @@ async def get_all_appointments(db: Session = Depends(get_database)):
             'student_info': student
         })
     
-    return {"appointments": formatted_appointments}
+    return {"appointments": formatted_appointments, "count": len(formatted_appointments)}
 
 
 @app.post("/update_medical_record")

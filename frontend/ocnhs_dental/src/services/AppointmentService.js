@@ -18,6 +18,23 @@ export async function retrieveAppointments() {
       return appointments
 }
 
+export async function retrieveTodayAppointments() {
+      let appointments = [];
+
+      try {
+            const response = await fetch(`${current_address}/get_today_appointments`)
+            const data = await response.json()
+
+            appointments = data.appointments
+      }
+      catch (error){
+
+      }
+
+      return appointments
+}
+
+
 export async function retrieveAllAppointments() {
       let appointments = [];
 
@@ -34,6 +51,21 @@ export async function retrieveAllAppointments() {
       return appointments
 }
 
+export async function retrieveMonthAppointments(month, year) {
+      let appointments = [];
+
+      try {
+            const response = await fetch(`${current_address}/get_appointments_by_month?month=${month}&year=${year}`)
+            const data = await response.json()
+
+            appointments = data.appointments
+      }
+      catch (error){
+
+      }
+
+      return appointments
+}
 
 
 export async function retrieveAppointmentHistory() {

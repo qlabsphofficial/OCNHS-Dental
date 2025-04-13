@@ -1,6 +1,7 @@
 <script setup>
-import { retrieveAllAppointments } from '@/services/AppointmentService';
+import { retrieveAllAppointments, retrieveTodayAppointments } from '@/services/AppointmentService';
 import { onMounted, ref, defineEmits } from 'vue';
+import { User } from 'lucide-vue-next';
 
 const emit = defineEmits()
 
@@ -34,9 +35,11 @@ function viewAllAppointments() {
 
 onMounted(async() => {
       let allAppointments = await retrieveAllAppointments() 
+      let retrievedAppointmentsToday = await retrieveTodayAppointments()
 
       appointments.value = allAppointments
       requests.value = allAppointments.length
+      appointmentsToday.value = retrievedAppointmentsToday
 })
 </script>
 
@@ -46,12 +49,12 @@ onMounted(async() => {
                   <div class="flex flex-row w-1/2 justify-evenly gap-4">
                         <div class="flex flex-col items-center justify-center w-1/3 border-2 rounded-md p-6">
                               <p>Patients Today</p>
-                              <h2 class="text-5xl mt-2">{{ patientsToday }}</h2>
+                              <h2 class="text-5xl mt-2">{{ appointmentsToday.length }}</h2>
                         </div>
 
                         <div class="flex flex-col items-center justify-center w-1/3 border-2 rounded-md p-6">
                               <p>Total Patients</p>
-                              <h2 class="text-5xl mt-2">{{ totalPatients }}</h2>
+                              <h2 class="text-5xl mt-2">{{ appointments.length }}</h2>
                         </div>
 
                         <div class="flex flex-col items-center justify-center w-1/3 border-2 rounded-md p-6">
@@ -67,13 +70,13 @@ onMounted(async() => {
             </div>
 
             <div class="flex flex-row items-between justify-between mt-10 gap-5">
-                  <div class="w-1/2 h-11/12">
+                  <div class="w-7/12 h-11/12">
                         <div class="flex flex-row items-center justify-between">
-                              <h3 class="text-lg">Appointment Requests</h3>
+                              <h3 class="text-lg font-bold">Appointment Requests</h3>
                               <a @click="viewAllAppointments()" class="cursor-pointer">View All Appointments</a>
                         </div>
                         <div class="w-full flex flex-col gap-5 mt-5 overflow-y-scroll p-2 h-8/12">
-                              <div v-for="appointment of appointments" :key="appointment" class="flex flex-row items-center justify-between bg-gray-300 rounded-md p-4">
+                              <div v-for="appointment of appointments" :key="appointment" class="flex flex-row items-center justify-between bg-gray-100 rounded-md p-4">
                                     <div class="w-3/12 text-left">
                                           <h4>{{ appointment.student_info.firstname }} {{ appointment.student_info.last_name }}</h4>
                                     </div>
@@ -107,10 +110,25 @@ onMounted(async() => {
                         </div>
                   </div>
 
-                  <div class="w-1/2">
-                        <h3 class="text-lg">Appointments Today</h3>
-                        <div>
-                              
+                  <div class="w-5/12 h-8/12 overflow-y-scroll">
+                        <h3 class="text-lg font-bold">Appointments Today</h3>
+                        <div class="flex flex-col gap-3 w-full overflow-y-scroll mt-8">
+                              <div v-for="appointment of appointmentsToday" :key="appointment" class="flex flex-row items-center justify-between rounded-md bg-gray-100">
+                                    <div class="flex flex-row items-center gap-5 p-5">
+                                          <div class="flex items-center justify-center border-2 rounded-full">
+                                                <User />
+                                          </div>
+                                          <div>
+                                                <h4 class="text-xl font-bold">{{ appointment.student_info.firstname }} {{ appointment.student_info.last_name }}</h4>
+                                                <p class="text-md">{{ appointment.appointment_type }}</p>
+                                          </div>
+                                    </div>
+
+                                    <div>
+                                          <h4>{{ formatDate(appointment.appointment_datetime) }}</h4>
+                                    </div>
+                                    <div></div>
+                              </div>
                         </div>
                   </div>
             </div>

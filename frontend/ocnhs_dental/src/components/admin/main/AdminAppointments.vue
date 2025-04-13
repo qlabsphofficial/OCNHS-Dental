@@ -9,8 +9,18 @@ const chosenDates = ref({}); // Store chosen dates separately for each appointme
 
 const now = new Date();
 const pad = (n) => String(n).padStart(2, '0');
-const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
-const selectedDate = ref(today)
+
+// Today's date
+const yyyy = now.getFullYear();
+const mm = pad(now.getMonth() + 1);
+const dd = pad(now.getDate());
+
+// Set min and max time on the same day
+const minTime = `${yyyy}-${mm}-${dd}T08:00`;
+const maxTime = `${yyyy}-${mm}-${dd}T17:00`;
+
+const selectedDate = ref(minTime); // default value starts at 8:00AM
+
 
 onMounted(async() => {
       appointments.value = await retrieveAllAppointments()
@@ -76,7 +86,7 @@ function formatDate(datetime) {
                               <td class="text-center p-2"><button @click="attemptCancel(appointment.appointment_id)"><X /></button></td>
                               <td class="text-center p-2">
                                     <div class="flex flex-row items-center justify-evenly">
-                                          <input type="datetime-local" v-model="chosenDates[appointment.appointment_id]" :min="selectedDate">
+                                          <input type="datetime-local" v-model="chosenDates[appointment.appointment_id]" :min="selectedDate" :max="maxTime">
                                           <button class="flex flex-row text-center gap-4 border-2 rounded-md p-2" @click="attemptReschedule(appointment.appointment_id)"><CalendarSync /> Submit</button>
                                     </div>
                               </td>
