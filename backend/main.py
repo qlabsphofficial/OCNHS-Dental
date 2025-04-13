@@ -666,13 +666,11 @@ async def get_appointments_by_month(filter: AppointmentFilterRequest, db: Sessio
 async def get_today_appointments(db: Session = Depends(get_database)):
     manila_tz = timezone("Asia/Manila")
     today = datetime.now(manila_tz).date()
-    
-    print(today)
 
     appointments = (
         db.query(Appointment, Student)
         .join(Student, Student.id == Appointment.student_id)
-        .filter(cast(Appointment.appointment_datetime, Date) == today)  # Extract only the date part
+        .filter(cast(Appointment.appointment_datetime, Date) == today, Appointment.status == 'Approved')  # Extract only the date part
         .all()
     )
     

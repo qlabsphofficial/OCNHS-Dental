@@ -37,7 +37,7 @@ function accessService(service){
       <div class="flex flex-col">
         <a @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
 
-        <div v-if="servicesVisible" class="flex flex-col items-end justify-start absolute top-50 border-2 p-6 w-2/12 bg-white">
+        <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-50 border-2 p-6 w-2/12 bg-white negative-marg-left">
           <button @click="accessService(1)" class="text-lg">FLOURIDE APPLICATION</button>
           <button @click="accessService(2)" class="text-lg">ORAL PROPHYLAXIS/CLEANING</button>
           <button @click="accessService(3)" class="text-lg">RESTORATION/PASTA</button>
@@ -160,6 +160,10 @@ a {
 
 .negative-marg {
   margin-top: -40%;
+}
+
+.negative-marg-left {
+  margin-left: -15%;
 }
 
 #about-1 {

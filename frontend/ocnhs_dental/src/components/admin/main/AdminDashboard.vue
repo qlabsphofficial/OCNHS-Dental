@@ -9,6 +9,8 @@ const totalPatients = ref(0)
 const requests = ref(0)
 
 const appointments = ref([])
+const allAppointments = ref(0)
+const monthlyAppointments = ref(0)
 const appointmentsToday = ref([])
 
 function formatDate(datetime) {
