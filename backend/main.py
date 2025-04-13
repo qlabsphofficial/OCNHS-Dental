@@ -259,9 +259,26 @@ class CancelAppointmentRequest(BaseModel):
     
 class RescheduleAppointmentRequest(BaseModel):
     appointment_id: int
-    date: datetime 
+    date: datetime
+
+
+class StudentFilterRequest(BaseModel):
+    is_archive: int
+    curriculum: str
+    grade_level: str
+    section: str
+
+
+class ArchiveUpdateRequest(BaseModel):
+    student_id: int
+    is_archive: int
     
-    
+
+class ActiveUpdateRequest(BaseModel):
+    student_id: int
+    is_active: int
+
+
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -803,3 +820,149 @@ async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Sess
     db.refresh(appointment)
 
     return { "message": "Appointment rescheduled successfully" }
+
+
+@app.post("/get_students")
+async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_database)):
+    query = db.query(Student).filter(Student.is_archive == filters.is_archive)
+
+    if filters.curriculum:
+        query = query.filter(Student.curriculum == filters.curriculum)
+    if filters.grade_level:
+        query = query.filter(Student.grade_level == filters.grade_level)
+    if filters.section:
+        query = query.filter(Student.section == filters.section)
+
+    students = query.all()
+
+    return {"students": students}
+
+
+@app.post("/get_student_medical_history")
+async def get_student_medical_history(student_id: int, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).first()
+
+    if not medical_history:
+        return {
+            "student": {
+                "id": student.id,
+                "firstname": student.firstname,
+                "middlename": student.middlename,
+                "lastname": student.lastname,
+                "suffix": student.suffix,
+                "dateofbirth": student.dateofbirth,
+                "gender": student.gender,
+                "age": student.age,
+                "birthplace": student.birthplace,
+                "contact_no": student.contact_no,
+                "address": student.address,
+                "email_address": student.email_address,
+                "parent_guardian_name": student.parent_guardian_name,
+                "adviser_name": student.adviser_name,
+                "curriculum": student.curriculum,
+                "grade_level": student.grade_level,
+                "section": student.section,
+                "is_archive": student.is_archive,
+                "is_active": student.is_active,
+            },
+            "medical_history": None
+        }
+
+    return {
+        "student": {
+            "id": student.id,
+            "firstname": student.firstname,
+            "middlename": student.middlename,
+            "lastname": student.lastname,
+            "suffix": student.suffix,
+            "dateofbirth": student.dateofbirth,
+            "gender": student.gender,
+            "age": student.age,
+            "birthplace": student.birthplace,
+            "contact_no": student.contact_no,
+            "address": student.address,
+            "email_address": student.email_address,
+            "parent_guardian_name": student.parent_guardian_name,
+            "adviser_name": student.adviser_name,
+            "curriculum": student.curriculum,
+            "grade_level": student.grade_level,
+            "section": student.section,
+            "is_archive": student.is_archive,
+            "is_active": student.is_active,
+        },
+        "medical_history": {
+            "id": medical_history.id,
+            "student_id": medical_history.student_id,
+            "good_health": medical_history.good_health,
+            "under_medical_treatment": medical_history.under_medical_treatment,
+            "condition_being_treated": medical_history.condition_being_treated,
+            "serious_illness": medical_history.serious_illness,
+            "illness_or_operation": medical_history.illness_or_operation,
+            "hospitalized": medical_history.hospitalized,
+            "hospitalization_details": medical_history.hospitalization_details,
+            "taking_medication": medical_history.taking_medication,
+            "medication_details": medical_history.medication_details,
+            "use_tobacco": medical_history.use_tobacco,
+            "use_alcohol_or_drugs": medical_history.use_alcohol_or_drugs,
+            "pregnant_nursing_birth_control": medical_history.pregnant_nursing_birth_control,
+            "pregnant_nursing_birth_control_details": medical_history.pregnant_nursing_birth_control_details,
+            "toothbrush": medical_history.toothbrush,
+            "brush_times_per_day": medical_history.brush_times_per_day,
+            "change_toothbrush_per_year": medical_history.change_toothbrush_per_year,
+            "use_toothpaste": medical_history.use_toothpaste,
+            "dentist_visits_per_year": medical_history.dentist_visits_per_year,
+        }
+    }
+
+
+@app.put("/update_archive_status")
+async def update_archive_status(archive_data: ArchiveUpdateRequest, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == archive_data.student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    student.is_archive = archive_data.is_archive
+    
+    db.commit()
+    
+    return {"message": "Student's archive status updated successfully"}
+
+
+@app.put("/update_active_status")
+async def update_active_status(active_data: ActiveUpdateRequest, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == active_data.student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    student.is_active = active_data.is_active
+    
+    db.commit()
+    
+    return {"message": "Student's active status updated successfully"}
+
+
+@app.delete("/delete_student")
+async def delete_student(student_id: int, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    # Delete medical history records
+    db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).delete()
+    
+    # Delete appointment records
+    db.query(Appointment).filter(Appointment.student_id == student_id).delete()
+    
+    # Delete the student record
+    db.delete(student)
+    db.commit()
+
+    return {"message": "Student, medical history, and appointments deleted successfully"}

@@ -27,6 +27,9 @@ class Student(Base):
     grade_level = Column(String, nullable=True, default=None)
     section = Column(String, nullable=True, default=None)
 
+    is_archive = Column(Integer, nullable=False, default=0)
+    is_active = Column(Integer, nullable=False, default=1)
+
     medical_history = relationship('MedicalHistory', back_populates='student')
     appointments = relationship('Appointment', back_populates='student')
 
