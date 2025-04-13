@@ -13,6 +13,9 @@ import {
 } from '@schedule-x/calendar'
 import '@schedule-x/theme-default/dist/index.css'
 
+import { Facebook } from 'lucide-vue-next';
+import { Mail } from 'lucide-vue-next';
+
 const blogStore = useBlogStore()
 const router = useRouter()
 const currentDate = '2025-04-01'
@@ -45,27 +48,27 @@ const calendarApp = createCalendar({
 
   <div class="flex flex-row justify-evenly w-full">
     <div class="flex flex-col w-5/12 h-8/12 items-center">
-      <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white">
+      <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white h-180">
         <div id="about-1" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
           <h4 class="text-xl font-bold mt-14 mb-5">EMILY CASTILLO-FANCUBERTA, DMD</h4>
           <p>DENTIST II</p>
           <p class="mt-5">Dr. Emily Castillo-Fancuberta is dedicated to promoting oral health education and preventative care for the students of Olongapo City National High School. We believe that early intervention is key to preventing dental problems and ensuring a lifetime of healthy smiles. Our services include regular checkups, cleanings, and educational programs designed to empower students to take charge of their oral hygiene.</p>
-          <div class="flex flex-col gap-2 items-center justify-center mt-5">
-            <a href="https://www.facebook.com/share/1Bf7QRoqEo/">https://www.facebook.com/share/1Bf7QRoqEo/</a>
-            <a>castillodmd@yahoo.com</a>
+          <div class="flex flex-row gap-2 items-center justify-center mt-5">
+            <a href="https://www.facebook.com/share/1Bf7QRoqEo/"><Facebook /></a>
+            <a href="castillodmd@yahoo.com"><Mail /></a>
           </div>
         </div>
       </div>
 
     <div class="flex flex-col w-5/12 h-8/12 items-center">
-    <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white">
+    <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white h-180">
     <div id="about-2" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
     <h4 class="text-xl font-bold mt-14 mb-5">SHIELA MAE C. DALANGBAYAN</h4>
     <p>DENTAL ASSISTANT</p>
     <p class="mt-5">Shiela Mae Dalangbayan is dedicated to providing compassionate and efficient support to Dr. Emily Castillo-Fancuberta and our young patients at Olongapo City National High School. She is committed to creating a welcoming and reassuring environment for all students during their dental visits.</p>
-    <div class="flex flex-col gap-2 items-center justify-center mt-5">
-      <a href="https://www.facebook.com/ShielaMaeDalangbayan">https://www.facebook.com/ShielaMaeDalangbayan</a>
-      <a>shielamaedalangbayan.smd@gmail.com</a>
+    <div class="flex flex-row gap-2 items-center justify-center mt-5">
+      <a href="https://www.facebook.com/ShielaMaeDalangbayan"><Facebook /></a>
+      <a href="shielamaedalangbayan.smd@gmail.com"><Mail /></a>
     </div>
     </div>
     </div>
@@ -83,11 +86,14 @@ const calendarApp = createCalendar({
           <div id="info-2" class="h-60 w-60 rounded-full border-4"></div>
         </div>
 
-        <div class="flex justify-center items-center w-5/12 p-10 border-black border-1 rounded-md z-10">
+        <div class="flex flex-col justify-center items-center w-5/12 p-10 border-black border-1 rounded-md z-10">
           <p>
           Our school dental clinic provides comprehensive, high-quality dental care in a comfortable and friendly environment. 
           We are dedicated to promoting good oral hygiene habits and preventing dental problems among learners, ensuring healthy smiles for a lifetime of learning. 
-          Our dentist utilize the latest techniques and technology to deliver gentle and effective treatments, making dental visits a positive experience. 
+          </p>
+
+          <p>
+            Our dentist utilize the latest techniques and technology to deliver gentle and effective treatments, making dental visits a positive experience. 
           We offer a range of services, from routine check-ups and cleanings to restorative treatments and extractions, tailored to meet the unique needs of young patients. 
           We believe that access to quality dental care is essential for a child's overall well-being and academic success, and we are committed to making that a reality for every learner.
           </p>
