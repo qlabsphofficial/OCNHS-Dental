@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { retrieveAppointments } from '@/services/AppointmentService';
+import { retrieveAppointments, downloadParentsConsent } from '@/services/AppointmentService';
 
 const appointments = ref([]);
 const appointmentHistory = ref([]);
@@ -29,6 +29,7 @@ onMounted(async() => {
                               </div>
                         </div>
                   </div>
+                  <button class="mt-5 border-2 p-2" @click="downloadParentsConsent()">Download Parent's Consent Form</button>
             </div>
             <div class="flex flex-col gap-3 w-1/2">
                   <h2 class="text-lg">Appointment History</h2>

@@ -7,6 +7,11 @@ const page = ref('')
 const appointments = ref([])
 const chosenDates = ref({}); // Store chosen dates separately for each appointment
 
+const now = new Date();
+const pad = (n) => String(n).padStart(2, '0');
+const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+const selectedDate = ref(today)
+
 onMounted(async() => {
       appointments.value = await retrieveAllAppointments()
 })
@@ -71,7 +76,7 @@ function formatDate(datetime) {
                               <td class="text-center p-2"><button @click="attemptCancel(appointment.appointment_id)"><X /></button></td>
                               <td class="text-center p-2">
                                     <div class="flex flex-row items-center justify-evenly">
-                                          <input type="datetime-local" v-model="chosenDates[appointment.appointment_id]">
+                                          <input type="datetime-local" v-model="chosenDates[appointment.appointment_id]" :min="selectedDate">
                                           <button class="flex flex-row text-center gap-4 border-2 rounded-md p-2" @click="attemptReschedule(appointment.appointment_id)"><CalendarSync /> Submit</button>
                                     </div>
                               </td>

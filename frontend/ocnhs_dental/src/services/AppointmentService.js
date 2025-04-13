@@ -166,3 +166,33 @@ export async function rescheduleAppointment(id, date) {
       return false;
       }
 }
+
+export async function downloadParentsConsent() {
+      try {
+        const response = await fetch(`${current_address}/download_parent_consent`)
+    
+        if (!response.ok) {
+          throw new Error('Failed to download parent consent');
+        }
+    
+        const blob = await response.blob();
+    
+        // Create a link and trigger the download
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Parent Consent.pdf`; // or any file extension
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    
+        console.log('File downloaded successfully');
+        return true;
+    
+      } catch (error) {
+        console.error('Download error:', error);
+        return false;
+      }
+    }
+    
