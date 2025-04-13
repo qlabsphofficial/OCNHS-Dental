@@ -267,7 +267,7 @@ class StudentFilterRequest(BaseModel):
     grade_level: str
     section: str
 
-    
+
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -779,7 +779,7 @@ async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Sess
     return { "message": "Appointment rescheduled successfully" }
 
 
-@router.post("/students")
+@router.post("/get_students")
 async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_database)):
     query = db.query(Student).filter(Student.is_archive == filters.is_archive)
 
@@ -793,3 +793,70 @@ async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_
     students = query.all()
 
     return {"students": students}
+
+
+@router.post("/get_student_medical_history")
+async def get_student_medical_history(student_id: int, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    # Then perform the INNER JOIN to get medical history
+    student_with_medical = (
+        db.query(Student, MedicalHistory)
+        .join(MedicalHistory, Student.id == MedicalHistory.student_id)
+        .filter(Student.id == student_id)
+        .first()
+    )
+    
+    if not student_with_medical:
+        raise HTTPException(status_code=404, detail="Medical history not found for this student")
+
+    student, medical_history = student_with_medical
+
+    return {
+        "student": {
+            "id": student.id,
+            "firstname": student.firstname,
+            "middlename": student.middlename,
+            "lastname": student.lastname,
+            "suffix": student.suffix,
+            "dateofbirth": student.dateofbirth,
+            "gender": student.gender,
+            "age": student.age,
+            "birthplace": student.birthplace,
+            "contact_no": student.contact_no,
+            "address": student.address,
+            "email_address": student.email_address,
+            "parent_guardian_name": student.parent_guardian_name,
+            "adviser_name": student.adviser_name,
+            "curriculum": student.curriculum,
+            "grade_level": student.grade_level,
+            "section": student.section,
+            "is_archive": student.is_archive,
+            "is_active": student.is_active,
+        },
+        "medical_history": {
+            "id": medical_history.id,
+            "student_id": medical_history.student_id,
+            "good_health": medical_history.good_health,
+            "under_medical_treatment": medical_history.under_medical_treatment,
+            "condition_being_treated": medical_history.condition_being_treated,
+            "serious_illness": medical_history.serious_illness,
+            "illness_or_operation": medical_history.illness_or_operation,
+            "hospitalized": medical_history.hospitalized,
+            "hospitalization_details": medical_history.hospitalization_details,
+            "taking_medication": medical_history.taking_medication,
+            "medication_details": medical_history.medication_details,
+            "use_tobacco": medical_history.use_tobacco,
+            "use_alcohol_or_drugs": medical_history.use_alcohol_or_drugs,
+            "pregnant_nursing_birth_control": medical_history.pregnant_nursing_birth_control,
+            "pregnant_nursing_birth_control_details": medical_history.pregnant_nursing_birth_control_details,
+            "toothbrush": medical_history.toothbrush,
+            "brush_times_per_day": medical_history.brush_times_per_day,
+            "change_toothbrush_per_year": medical_history.change_toothbrush_per_year,
+            "use_toothpaste": medical_history.use_toothpaste,
+            "dentist_visits_per_year": medical_history.dentist_visits_per_year,
+        }
+    }
