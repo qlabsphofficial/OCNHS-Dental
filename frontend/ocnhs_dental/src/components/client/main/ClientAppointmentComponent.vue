@@ -26,7 +26,7 @@ onMounted(async() => {
                               <p>{{ formatDate(appointment.appointment_datetime) }}</p>
       
                               <div class="w-full flex justify-center items-center mt-5">
-                                    <div class="rounded-md border-2 w-1/3 text-center bg-transparent">{{ appointment.status }}</div>
+                                    <div class="rounded-md border-2 w-2/3 text-center bg-transparent">{{ appointment.status }}</div>
                               </div>
                         </div>
                   </div>
@@ -41,7 +41,7 @@ onMounted(async() => {
 
                         <div class="flex flex-row items-center justify-between w-full">
                               <p>{{ formatDate(appointmentRecord.appointment_datetime) }}</p>
-                              <div class="rounded-md border-2 w-1/3 text-center bg-transparent">{{ appointmentRecord.status }}</div>
+                              <div class="rounded-md border-2 w-2/3 text-center bg-transparent">{{ appointmentRecord.status }}</div>
                         </div>
                   </div>
             </div>

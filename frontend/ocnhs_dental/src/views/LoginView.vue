@@ -33,15 +33,16 @@ async function attemptLogin() {
       <div id="banner" class="h-full w-1/2 hidden lg:block"></div>
 
       <!-- Login -->
-      <div class="flex flex-col items-center justify-center h-full w-full lg:w-1/2 bg-white p-20">
-        <div class="flex flex-row justify-between w-full">
-          <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="240px" width="160px">
-          <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="160px">
+      <div class="flex flex-col items-center justify-center h-full w-full lg:w-1/2 bg-white lg:p-20">
+        <div class="flex flex-row justify-evenly items-center w-full">
+          <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="240px" width="160px" class="hidden lg:block">
+          <h1 class="text-4xl mt-5">LOGIN</h1>
+          <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="160px" class="hidden lg:block">
         </div>
 
-        <h1 class="text-4xl mt-5">LOGIN</h1>
+        
 
-        <div class="flex flex-col items-center w-7/12">       
+        <div class="flex flex-col items-center w-10/12 lg:w-7/12 mt-10 lg:mt-0">       
           <!-- For checking login status -->
           <div v-if="errorMessage" id="error" class="flex items-center justify-center mt-10 mb-5 w-full p-2 rounded-md">
             <p>{{ errorMessage }}</p>
