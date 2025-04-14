@@ -24,7 +24,7 @@ age.value = user.age
 contactNumber.value = user.contact_no
 address.value = user.address
 curriculum.value = user.curriculum
-gradeLevel.value = user.gradeLevel
+gradeLevel.value = user.grade_level
 section.value = user.section
 
 
