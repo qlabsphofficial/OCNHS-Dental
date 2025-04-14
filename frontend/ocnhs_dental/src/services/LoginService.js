@@ -28,9 +28,10 @@ export async function login(email, password) {
             if(data.message === "Login successful") {
                   // Set data in sessionStorage
                   sessionStorage.setItem('user', JSON.stringify(data.student_data));
+                  sessionStorage.setItem('medical_history', JSON.stringify(data.medical_history));
 
                   userStore.user = JSON.parse(sessionStorage.getItem('user'))
-                  userStore.medicalHistoryExists = data.medical_history_status
+                  userStore.medicalHistory = data.medical_history_status
                   
                   loginSuccessful = true;
             }

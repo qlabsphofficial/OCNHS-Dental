@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref({})
-  const medicalHistoryExists = ref(false)
+  const medicalHistory = ref({})
 
-  return { user, medicalHistoryExists }
+  return { user, medicalHistory }
 })
