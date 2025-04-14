@@ -37,11 +37,11 @@ function accessService(service){
       <div class="flex flex-col">
         <a class="text-sm lg:text-lg" @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
 
-        <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-30 lg:top-50 border-2 p-4 lg:p-6 w-6/12 lg:w-2/12 bg-white negative-marg-left">
-          <button @click="accessService(1)" class="text-lg">FLOURIDE APPLICATION</button>
-          <button @click="accessService(2)" class="text-lg">ORAL PROPHYLAXIS/CLEANING</button>
-          <button @click="accessService(3)" class="text-lg">RESTORATION/PASTA</button>
-          <button @click="accessService(4)" class="text-lg">EXTRACTION/BUNOT</button>
+        <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-30 lg:top-50 border-2 p-4 lg:p-6 w-8/12 lg:w-2/12 bg-white negative-marg-left">
+          <button @click="accessService(1)" class="text-sm lg:text-lg">FLOURIDE APPLICATION</button>
+          <button @click="accessService(2)" class="text-sm lg:text-lg">ORAL PROPHYLAXIS/CLEANING</button>
+          <button @click="accessService(3)" class="text-sm lg:text-lg">RESTORATION/PASTA</button>
+          <button @click="accessService(4)" class="text-sm lg:text-lg">EXTRACTION/BUNOT</button>
         </div>
       </div>
       <button class="w-20 text-white text-sm lg:text-lg rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>

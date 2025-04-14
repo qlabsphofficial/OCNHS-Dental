@@ -59,23 +59,23 @@ onMounted(async() => {
 <div class="flex lg:flex-row sm:flex-col justify-evenly items-evenly h-full w-full">
   <img src="@/assets/Clinic Assets/Dental Clinic images/image/homebg.png" height="100%" width="100%" class="hidden lg:block">
 
-  <div class="flex flex-col justify-center items-center w-full pt-20 pb-20 lg:p-0 lg:w-8/12">
-    <h1 class="text-green-800 text-6xl lg:text-8xl font-bold chewy">SMILE, LEARN, AND GROW</h1>
-    <p class="mt-5 lg:text-2xl text-lg lg:font-extrabold">Discover the importance of medical care at our school clinic.</p>
+  <div class="flex flex-col justify-center items-center w-full p-6 pt-20 pb-20 lg:p-0 w-full lg:w-8/12">
+    <h1 class="text-green-800 text-4xl lg:text-8xl font-bold chewy">SMILE, LEARN, AND GROW</h1>
+    <p class="mt-5 text-sm lg:text-2xl lg:font-extrabold text-center lg:text-left">Discover the importance of medical care at our school clinic.</p>
   </div>
 </div>
 
 <!-- Dental Staff -->
-<div class="flex flex-col items-center lg:items-start w-full h-full p-10 lg:p-20 overlay-color">
-  <h2 class="text-5xl lg:mb-60 font-bold">DENTAL STAFF</h2>
+<div class="flex flex-col items-center lg:items-start w-full h-full lg:mb-0 pb-20 lg:p-20 overlay-color">
+  <h2 class="text-3xl lg:text-5xl lg:mb-60 font-bold mt-10 lg:mt-0">DENTAL STAFF</h2>
 
   <div class="flex flex-col lg:flex-row items-center justify-evenly w-full">
-    <div class="flex flex-col w-11/12 lg:w-5/12 h-8/12 items-center mt-10 lg:mt-0">
-      <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white h-180">
+    <div class="flex flex-col w-full lg:w-5/12 lg:h-8/12 items-center mt-10 lg:mt-0">
+      <div class="flex flex-col items-center justify-center p-10 lg:p-30 rounded-md bg-white w-full lg:w-auto lg:h-180">
         <div id="about-1" class="bg-black rounded-full border-4 border-green-900 lg:h-74 lg:w-74 negative-marg hidden lg:block"></div>
         
         <div class="flex flex-col items-center justify-center">
-          <h4 class="text-2xl font-bold lg:mt-14 lg:mb-5">EMILY CASTILLO-FANCUBERTA, DMD</h4>
+          <h4 class="text-md lg:text-2xl font-bold lg:mt-14 lg:mb-5">EMILY CASTILLO-FANCUBERTA, DMD</h4>
           <p>DENTIST II</p>
           <p class="mt-5">Dr. Emily Castillo-Fancuberta is dedicated to promoting oral health education and preventative care for the students of Olongapo City National High School. We believe that early intervention is key to preventing dental problems and ensuring a lifetime of healthy smiles. Our services include regular checkups, cleanings, and educational programs designed to empower students to take charge of their oral hygiene.</p>
           <div class="flex flex-row gap-2 items-center justify-center mt-5">
@@ -86,8 +86,8 @@ onMounted(async() => {
       </div>
     </div>
 
-    <div class="flex flex-col w-11/12 lg:w-5/12 h-8/12 items-center mt-20 lg:mt-0">
-    <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white h-180">
+    <div class="flex flex-col w-full lg:w-5/12 lg:h-8/12 items-center mt-20 lg:mt-0">
+    <div class="flex flex-col items-center justify-center p-10 lg:p-30 rounded-md bg-white w-full lg:w-auto lg:h-180">
     <div id="about-2" class="bg-black rounded-full border-4 border-green-900 lg:h-74 lg:w-74 negative-marg hidden lg:block"></div>
     <h4 class="text-xl font-bold mt-14 mb-5">SHIELA MAE C. DALANGBAYAN</h4>
     <p>DENTAL ASSISTANT</p>
