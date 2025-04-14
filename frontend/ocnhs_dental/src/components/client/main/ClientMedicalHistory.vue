@@ -59,7 +59,7 @@ const others = ref('');
 </script>
 
 <template>
-      <div class="flex flex-col h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md">
+      <div class="flex flex-col h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md overflow-y-scroll">
       <h1 class="text-4xl mb-5">MEDICAL HISTORY</h1>
 
       <div class="flex flex-row justify-between w-full">
