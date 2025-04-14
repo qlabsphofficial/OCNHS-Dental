@@ -186,13 +186,13 @@ async function attemptRegister() {
 
 <template>
 <div id="container" class="flex items-center justify-center absolute top-0 left-0 w-full h-full">
-      <div class="flex flex-col h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md overflow-y-scroll">
+      <div class="flex flex-col w-full h-full lg:h-11/12 lg:w-11/12 gap-5 p-10 lg:border-2 rounded-md overflow-y-scroll">
             <h1 class="text-4xl font-bold mb-5">OCNHS DENTAL CLINIC SIGN IN FORM</h1>
 
             <!-- Student Info -->
-            <div class="flex flex-row justify-between w-full">
-                  <div class="w-1/2 flex flex-col gap-6">
-                        <div class="flex flex-row items-center w-full gap-4">
+            <div class="flex flex-col lg:flex-row justify-between w-full">
+                  <div class="w-full lg:w-1/2 flex flex-col gap-6">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-4">
                               <h4>NAME:</h4>
                               <input type="text" class="border-2 rounded-md p-1" placeholder="First Name" v-model="firstName">
                               <input type="text" class="border-2 rounded-md p-1" placeholder="Middle Name" v-model="middleName">
@@ -200,25 +200,25 @@ async function attemptRegister() {
                               <input type="text" class="border-2 rounded-md p-1" placeholder="Suffix" v-model="suffix">
                         </div>
 
-                        <div class="flex flex-row items-center w-full gap-2">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
                               <h4>DATE OF BIRTH:</h4>
                               <input type="date" class="border-2 rounded-md p-1" v-model="birthDate">
 
                               <h4>BIRTHPLACE:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-6/12" v-model="placeOfBirth">
+                              <input type="text" class="border-2 rounded-md p-1 w-full lg:w-6/12" v-model="placeOfBirth">
                         </div>
 
-                        <div class="flex flex-row items-center w-full gap-2">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
                               <h4>PARENT / GUARDIAN:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-4/12" v-model="parentName">
+                              <input type="text" class="border-2 rounded-md p-1 w-full lg:w-4/12" v-model="parentName">
 
                               <h4>ADVISER:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-4/12" v-model="adviserName">
+                              <input type="text" class="border-2 rounded-md p-1 w-full lg:w-4/12" v-model="adviserName">
                         </div>
 
-                        <div class="flex flex-row items-center w-full gap-2">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
                               <h4>GENDER:</h4>
-                              <select class="border-2" v-model="gender">
+                              <select class="border-2 w-full lg:w-auto" v-model="gender">
                                     <option value="MALE">MALE</option>
                                     <option value="FEMALE">FEMALE</option>
                               </select>
@@ -228,21 +228,21 @@ async function attemptRegister() {
                         </div>
                   </div>
                   
-                  <div class="w-1/2 flex flex-col gap-6">
-                        <div class="flex flex-row items-center w-full gap-4">
+                  <div class="w-full lg:w-1/2 flex flex-col gap-6 mt-10 lg:mt-0">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-4">
                               <h4>ADDRESS:</h4>
                               <input type="email" class="border-2 rounded-md p-1 w-full" v-model="address">
                         </div>
 
-                        <div class="flex flex-row items-center w-full gap-4">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-4">
                               <h4>CONTACT NUMBER:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-4/12" v-model="contact">
+                              <input type="text" class="border-2 rounded-md p-1 w-full lg:w-4/12" v-model="contact">
                               
                               <h4>EMAIL:</h4>
-                              <input type="email" class="border-2 rounded-md p-1 w-5/12" v-model="email">
+                              <input type="email" class="border-2 rounded-md p-1 w-full lg:w-5/12" v-model="email">
                         </div>
 
-                        <div class="flex flex-row items-center w-full gap-2">
+                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
                               <h4>PASSWORD:</h4>
                               <input type="password" class="border-2 rounded-md p-1" v-model="password">
 
@@ -250,7 +250,7 @@ async function attemptRegister() {
                               <input type="password" class="border-2 rounded-md p-1" v-model="confirmPassword">
                         </div>
 
-                        <div class="flex flex-row gap-4">
+                        <div class="flex flex-col lg:flex-row gap-4">
                               <h4>CURRICULUM</h4>
                               <select class="border-2" v-model="curriculum">
                                     <option value="BEP">BEP</option>
@@ -294,23 +294,23 @@ async function attemptRegister() {
             </div>
             
             <!-- Medical Info -->
-            <div class="flex flex-row justify-between w-full">
-                  <div class="flex flex-col gap-1 h-1/2 w-1/2">
+            <div class="flex flex-col lg:flex-row justify-between w-full">
+                  <div class="flex flex-col gap-1 lg:h-1/2 lg:w-1/2">
                   <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="goodHealth">
-                  <p>ARE YOU IN GOOD HEALTH?</p>
+                        <input type="checkbox" v-model="goodHealth">
+                        <p>ARE YOU IN GOOD HEALTH?</p>
                   </div>
             
                   <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="underMedicalTreatment">
-                        <p>ARE YOU UNDER MEDICAL TREATMENT NOW?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="treatmentCondition" :disabled="!underMedicalTreatment">
-                  </div>
+                        <div class="flex flex-row gap-5">
+                              <input type="checkbox" v-model="underMedicalTreatment">
+                              <p>ARE YOU UNDER MEDICAL TREATMENT NOW?</p>
+                        </div>
+                  
+                        <div class="flex flex-col lg:flex-row gap-3 items-center w-full lg:w-3/4 justify-end mt-4 lg:mt-0">
+                              <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
+                              <input type="text" class="w-full lg:w-auto border-b-2 p-1" v-model="treatmentCondition" :disabled="!underMedicalTreatment">
+                        </div>
                   </div>
             
                   <div class="flex flex-col">
@@ -319,9 +319,9 @@ async function attemptRegister() {
                         <p>HAVE YOU EVER HAD SERIOUS ILLNESS OR SURGICAL OPERATION?</p>
                   </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                  <div class="flex flex-col lg:flex-row gap-3 items-center w-full lg:w-3/4 justify-end mt-4 lg:mt-0">
                         <p>IF SO, WHAT ILLNESS OR OPERATION?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation" :disabled="!seriousIllness">
+                        <input type="text" class="w-full lg:w-auto border-b-2 p-1" v-model="illnessOrOperation" :disabled="!seriousIllness">
                   </div>
                   </div>
             
@@ -331,9 +331,9 @@ async function attemptRegister() {
                         <p>HAVE YOU EVER BEEN HOSPITALIZED?</p>
                   </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                  <div class="flex flex-col lg:flex-row gap-3 items-center w-full lg:w-3/4 justify-end mt-4 lg:mt-0">
                         <p>IF SO, WHEN AND WHY?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails" :disabled="!hospitalized">
+                        <input type="text" class="w-full lg:w-auto border-b-2 p-1" v-model="hospitalizationDetails" :disabled="!hospitalized">
                   </div>
                   </div>
             
@@ -343,9 +343,9 @@ async function attemptRegister() {
                         <p>ARE YOU TAKING ANY PRESCRIPTION/ NON-PRESCRIPTION MEDICATION?</p>
                   </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                  <div class="flex flex-col lg:flex-row gap-3 items-center w-full lg:w-3/4 justify-end mt-4 lg:mt-0">
                         <p>IF YES, PLEASE SPECIFY:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="medicationsDetails" :disabled="!takingMedications">
+                        <input type="text" class="w-full lg:w-auto border-b-2 p-1" v-model="medicationsDetails" :disabled="!takingMedications">
                   </div>
                   </div>
             
@@ -365,15 +365,15 @@ async function attemptRegister() {
                         <p>FOR WOMEN ONLY: ARE YOU PREGNANT/ARE YOU NURSING/ARE YOU TAKING BIRTH CONTROL?</p>
                   </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                  <div class="flex flex-col lg:flex-row gap-3 items-center w-full lg:w-3/4 justify-end mt-4 lg:mt-0">
                         <p>IF YES, PLEASE INDICATE:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="womenCondition" :disabled="!womenOnly">
+                        <input type="text" class="w-full lg:w-auto border-b-2 p-1" v-model="womenCondition" :disabled="!womenOnly">
                   </div>
                   </div>
                   </div>
             
                   <!-- Guided Questions -->
-                  <div class="flex flex-col gap-2 h-1/2 w-1/2">
+                  <div class="flex flex-col gap-2 lg:h-1/2 lg:w-1/2 mt-10 mb-10 lg:mt-0 lg:mb-0">
                   <h2 class="text-2xl mb-2">Guided Questions</h2>
             
                   <div class="flex flex-row gap-4">
