@@ -393,13 +393,13 @@ async def login(login_data: LoginModel, db: Session = Depends(get_database)):
         return {
             "message": "Login successful",
             "student_data": student,
-            "medical_history_status": "exists"
+            "medical_history": medical_history
         }
     else:
         return {
             "message": "Login successful",
             "student_data": student,
-            "medical_history_status": "not_exists"
+            "medical_history": "Does not exist!"
         }
 
 

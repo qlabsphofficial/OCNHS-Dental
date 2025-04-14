@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 
+const medical_history = JSON.parse(sessionStorage.getItem('medical_history'))
+
 const goodHealth = ref(false);
 const underMedicalTreatment = ref(false);
 const treatmentCondition = ref('');
@@ -40,7 +42,7 @@ const std = ref(false);
 const stomachTroubles = ref(false);
 const faintingSeizure = ref(false);
 const rapidWeightLoss = ref(false);
-const radiationTherapy = ref(false);
+// const radiationTherapy = ref(false);
 const jointReplacement = ref(false);
 const heartSurgery = ref(false);
 const thyroidProblem = ref(false);
@@ -55,6 +57,58 @@ const swollenAnkles = ref(false);
 const kidneyDisease = ref(false);
 const others = ref('');
 
+goodHealth.value = medical_history.good_health
+underMedicalTreatment.value = medical_history.under_medical_treatment
+treatmentCondition.value = medical_history.condition_being_treated
+seriousIllness.value = medical_history.serious_illness
+illnessOrOperation.value = medical_history.illness_or_operation
+hospitalized.value = medical_history.hospitalized
+hospitalizationDetails.value = medical_history.hospitalization_details
+takingMedications.value = medical_history.taking_medication
+medicationsDetails.value = medical_history.medication_details
+tobaccoUsage.value = medical_history.use_tobacco
+drugUse.value = medical_history.use_alcohol_or_drugs
+womenOnly.value = medical_history.pregnant_nursing_birth_control
+womenCondition.value = medical_history.pregnant_nursing_birth_control_details
+hasToothbrush.value = medical_history.toothbrush
+brushingTimes.value = medical_history.brush_times_per_day
+toothbrushChange.value = medical_history.change_toothbrush_per_year
+useToothpaste.value = medical_history.use_toothpaste
+dentistVisits.value = medical_history.dentist_visits_per_year
+allergy.value = medical_history.allergy
+emphysema.value = medical_history.emphysema
+bleedingProblems.value = medical_history.bleeding_problems
+bloodDiseases.value = medical_history.blood_diseases
+headInjuries.value = medical_history.head_injuries
+arthritis.value = medical_history.arthritis_rheumatism
+highFever.value = medical_history.high_fever
+diabetes.value = medical_history.diabetes
+chestPain.value = medical_history.chest_pain
+stroke.value = medical_history.stroke
+cancer.value = medical_history.cancer_tumors
+anemia.value = medical_history.anemia
+angina.value = medical_history.angina
+asthma.value = medical_history.asthma
+highBloodPressure.value = medical_history.high_blood_pressure
+lowBloodPressure.value = medical_history.low_blood_pressure
+aidsHiv.value = medical_history.aids_hiv_infection
+std.value = medical_history.sexually_transmitted_disease
+stomachTroubles.value = medical_history.stomach_troubles_ulcers
+faintingSeizure.value = medical_history.fainting_seizure
+rapidWeightLoss.value = medical_history.rapid_weight_loss_radiation_therapy
+jointReplacement.value = medical_history.joint_replacement_implant
+heartSurgery.value = medical_history.heart_surgery_heart_attack
+thyroidProblem.value = medical_history.thyroid_problem
+heartDisease.value = medical_history.heart_disease
+heartMurmur.value = medical_history.heart_murmur
+hepatitisLiverDisease.value = medical_history.hepatitis_liver_disease
+rheumaticSeizure.value = medical_history.rheumatic_seizure
+respiratoryProblems.value = medical_history.respiratory_problems
+hepatitisJaundice.value = medical_history.hepatitis_jaundice
+tuberculosis.value = medical_history.tuberculosis
+swollenAnkles.value = medical_history.swollen_ankles
+kidneyDisease.value = medical_history.kidney_disease
+others.value = medical_history.other_diseases
 
 </script>
 
@@ -284,10 +338,10 @@ const others = ref('');
               <p>RAPID WEIGHT LOSS</p>
             </div>
         
-            <div class="flex flex-row gap-4">
+            <!-- <div class="flex flex-row gap-4">
               <input type="checkbox" v-model="radiationTherapy" />
               <p>RADIATION THERAPY</p>
-            </div>
+            </div> -->
         
             <div class="flex flex-row gap-4">
               <input type="checkbox" v-model="jointReplacement" />
