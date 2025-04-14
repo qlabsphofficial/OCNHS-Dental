@@ -17,46 +17,46 @@ function accessService(service){
 <template>
 <div class="absolute top-0 left-0 w-full">
   <!-- Header -->
-  <div id="home" class="flex flex-row justify-between w-full h-20 p-16 main-color">
+  <div id="home" class="flex flex-row justify-between w-full h-20 p-2 lg:p-16 main-color">
     <div class="flex flex-row gap-5 h-full items-center">
-      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="120px" width="100px">
-      <h3 class="text-white font-bold text-lg">OLONGAPO CITY NATIONAL HIGH SCHOOL DENTAL CLINIC</h3>
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="120px" width="100px" class="hidden lg:block">
+      <h3 class="text-white sm:font-bold text-xs lg:text-lg">OLONGAPO CITY NATIONAL HIGH SCHOOL DENTAL CLINIC</h3>
     </div>
 
     <div class="flex h-full items-center">
-      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="120px" width="100px">
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="120px" width="100px" class="hidden lg:block">
     </div>
   </div>
 
   <!-- Navbar -->
-  <div class="flex flex-row justify-end items-center p-8 secondary-color">
-    <div class="flex flex-row gap-5 footer-links-2">
-      <a>HOME</a>
-      <a @click="() => { skip = 'about' } ">ABOUT US</a>
-      <a @click="() => { skip = 'blogs' } ">BLOGS</a>
+  <div class="flex flex-row lg:justify-end items-center p-2 lg:p-8 secondary-color">
+    <div class="flex flex-row gap-2 lg:gap-5 footer-links-2">
+      <a class="text-sm lg:text-lg">HOME</a>
+      <a class="text-sm lg:text-lg" @click="() => { skip = 'about' } ">ABOUT US</a>
+      <a class="text-sm lg:text-lg" @click="() => { skip = 'blogs' } ">BLOGS</a>
       <div class="flex flex-col">
-        <a @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
+        <a class="text-sm lg:text-lg" @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
 
-        <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-50 border-2 p-6 w-2/12 bg-white negative-marg-left">
+        <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-30 lg:top-50 border-2 p-4 lg:p-6 w-6/12 lg:w-2/12 bg-white negative-marg-left">
           <button @click="accessService(1)" class="text-lg">FLOURIDE APPLICATION</button>
           <button @click="accessService(2)" class="text-lg">ORAL PROPHYLAXIS/CLEANING</button>
           <button @click="accessService(3)" class="text-lg">RESTORATION/PASTA</button>
           <button @click="accessService(4)" class="text-lg">EXTRACTION/BUNOT</button>
         </div>
       </div>
-      <button class="w-20 text-white rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
+      <button class="w-20 text-white text-sm lg:text-lg rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 
   <HomeComponent/>
 
   <!-- Footer -->
-  <div class="flex flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
+  <div class="flex flex-col lg:flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
     <div>
       <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="240px" width="240px">
     </div>
 
-    <div>
+    <div class="w-full text-md lg:w-4/12 lg:text-lg mt-10 lg:mt-0">
       <h4>OLONGAPO CITY NATIONAL HIGH SCHOOL</h4>
       <p>Address:</p>
       <p>Rizal Av. Cor 14th St. East  Tapinac, Olongapo City</p>
@@ -67,7 +67,7 @@ function accessService(service){
       <p>ocnhsdentalpage@gmail.com</p>
     </div>
 
-    <div class="flex flex-col footer-links-2">
+    <div class="flex flex-col w-full lg:w-4/12 mt-10 lg:mt-0 footer-links-2">
       <p>DEPED QUICK LINKS</p>
       <a>DepEd Central Office</a>
       <a>DepEd Regional Office III</a>
@@ -77,7 +77,7 @@ function accessService(service){
       <a>PAGASA</a>
     </div>
 
-    <div class="flex flex-col footer-links-2">
+    <div class="flex flex-col w-full lg:w-4/12 mt-10 lg:mt-0 footer-links-2">
       <p>DEPED PORTALS</p>
       <a>Enhanced Basic Education</a>
       <a>Information System (EBEIS)</a>
@@ -92,22 +92,22 @@ function accessService(service){
     </div>
 
     <div>
-      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="240px">
+      <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="240px" class="mt-10 lg:mt-0">
     </div>
   </div>
 
   <!-- Footer 2 -->
-  <div class="flex flex-row justify-evenly items-evenly h-full w-full overlay-color p-10">
-    <div class="flex flex-col justify-center 3/12">
+  <div class="flex flex-col lg:flex-row justify-evenly items-evenly h-full w-full overlay-color p-10">
+    <div class="flex flex-col justify-center items-center lg:items-start w-full lg:w-auto">
       <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo3.png" height="240px" width="240px">
     </div>
 
-    <div class="flex flex-col justify-center 3/12 text-white">
+    <div class="flex flex-col justify-center w-full mt-10 lg:mt-0 lg:w-3/12 text-white">
       <h4>REPUBLIC OF THE PHILIPPINES</h4>
       <p>All content is in the public domain unless otherwise stated.</p>
     </div>
 
-    <div class="flex flex-col justify-center 3/12 text-white">
+    <div class="flex flex-col justify-center w-full mt-10 lg:mt-0 lg:w-3/12 text-white">
       <p>ABOUT GOVPH</p>
       <p>
         Learn more about the Philippine
@@ -120,7 +120,7 @@ function accessService(service){
       <p>Official Gazette</p>
     </div>
 
-    <div class="flex flex-col w-3/12 footer-links-1">
+    <div class="flex flex-col w-full mt-10 lg:mt-0 lg:w-3/12 footer-links-1">
       <a>Office of the President</a>
       <a>Office of the Vice President</a>
       <a>Senate of the Philippines</a>
@@ -138,6 +138,11 @@ function accessService(service){
 </template>
 
 <style scoped>
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+} 
+
 .main-color {
   background-color: #3B6364;
 }
