@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { register } from '@/services/RegisterService';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -11,14 +12,21 @@ const suffix = ref('');
 
 const birthDate = ref('');
 const gender = ref('');
-const placeOfBirth = ref('');
+const age = ref('');
 
+const placeOfBirth = ref('');
 const contact = ref('');
 const address = ref('');
 const email = ref('');
-
 const password = ref('');
 const confirmPassword = ref('');
+
+const parentName = ref('');
+const adviserName = ref('');
+
+const curriculum = ref('');
+const gradeLvl = ref('');
+const section = ref('');
 
 const goodHealth = ref(false);
 const underMedicalTreatment = ref(false);
@@ -58,8 +66,8 @@ const aidsHiv = ref(false);
 const std = ref(false);
 const stomachTroubles = ref(false);
 const faintingSeizure = ref(false);
-const rapidWeightLoss = ref(false);
-const radiationTherapy = ref(false);
+const rapidWeightLossRadtionTherapy = ref(false);
+// const radiationTherapy = ref(false);
 const jointReplacement = ref(false);
 const heartSurgery = ref(false);
 const thyroidProblem = ref(false);
@@ -74,6 +82,105 @@ const swollenAnkles = ref(false);
 const kidneyDisease = ref(false);
 const others = ref('');
 
+watch(birthDate, (newBirthDate) => {
+  if (newBirthDate) {
+    const today = new Date();
+    const birth = new Date(newBirthDate);
+    let calculatedAge = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      calculatedAge--;
+    }
+    age.value = calculatedAge;
+  } else {
+    age.value = '';
+  }
+});
+
+async function attemptRegister() {
+  const registerInfo = {
+      firstName: firstName.value,
+      middleName: middleName.value,
+      lastName: lastName.value,
+      suffix: suffix.value,
+      birthDate: birthDate.value,
+      gender: gender.value,
+      age: age.value,
+      placeOfBirth: placeOfBirth.value,
+      contact: contact.value,
+      address: address.value,
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+      address: address.value,
+      parentName: parentName.value,
+      adviserName: adviserName.value,
+      curriculum: curriculum.value,
+      gradeLvl: gradeLvl.value,
+      section: section.value,
+      goodHealth: goodHealth.value,
+      underMedicalTreatment: underMedicalTreatment.value,
+      treatmentCondition: treatmentCondition.value,
+      seriousIllness: seriousIllness.value,
+      illnessOrOperation: illnessOrOperation.value,
+      hospitalized: hospitalized.value,
+      hospitalizationDetails: hospitalizationDetails.value,
+      takingMedications: takingMedications.value,
+      medicationsDetails: medicationsDetails.value,
+      tobaccoUsage: tobaccoUsage.value,
+      drugUse: drugUse.value,
+      womenOnly: womenOnly.value,
+      womenCondition: womenCondition.value,
+      hasToothbrush: hasToothbrush.value,
+      brushingTimes: brushingTimes.value,
+      toothbrushChange: toothbrushChange.value,
+      useToothpaste: useToothpaste.value,
+      dentistVisits: dentistVisits.value,
+      allergy: allergy.value,
+      //need to add allergy details
+      emphysema: emphysema.value,
+      bleedingProblems: bleedingProblems.value,
+      bloodDiseases: bloodDiseases.value,
+      headInjuries: headInjuries.value,
+      arthritis: arthritis.value,
+      highFever: highFever.value,
+      diabetes: diabetes.value,
+      chestPain: chestPain.value,
+      stroke: stroke.value,
+      cancer: cancer.value,
+      anemia: anemia.value,
+      angina: angina.value,
+      asthma: asthma.value,
+      highBloodPressure: highBloodPressure.value,
+      lowBloodPressure: lowBloodPressure.value,
+      aidsHiv: aidsHiv.value,
+      std: std.value,
+      stomachTroubles: stomachTroubles.value,
+      faintingSeizure: faintingSeizure.value,
+      rapidWeightLossRadtionTherapy: rapidWeightLossRadtionTherapy.value,
+      // radiationTherapy: radiationTherapy.value,
+      jointReplacement: jointReplacement.value,
+      heartSurgery: heartSurgery.value,
+      thyroidProblem: thyroidProblem.value,
+      heartDisease: heartDisease.value,
+      heartMurmur: heartMurmur.value,
+      hepatitisLiverDisease: hepatitisLiverDisease.value,
+      rheumaticSeizure: rheumaticSeizure.value,
+      respiratoryProblems: respiratoryProblems.value,
+      hepatitisJaundice: hepatitisJaundice.value,
+      tuberculosis: tuberculosis.value,
+      swollenAnkles: swollenAnkles.value,
+      kidneyDisease: kidneyDisease.value,
+      others: others.value
+  };
+
+  let registerResult = await register(registerInfo);
+
+  if (registerResult) {
+    router.push('/login');
+  }
+}
+
 
 </script>
 
@@ -87,60 +194,60 @@ const others = ref('');
                   <div class="w-1/2 flex flex-col gap-6">
                         <div class="flex flex-row items-center w-full gap-4">
                               <h4>NAME:</h4>
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="First Name">
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="Middle Name">
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="Last Name">
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="Suffix">
+                              <input type="text" class="border-2 rounded-md p-1" placeholder="First Name" v-model="firstName">
+                              <input type="text" class="border-2 rounded-md p-1" placeholder="Middle Name" v-model="middleName">
+                              <input type="text" class="border-2 rounded-md p-1" placeholder="Last Name" v-model="lastName">
+                              <input type="text" class="border-2 rounded-md p-1" placeholder="Suffix" v-model="suffix">
                         </div>
 
                         <div class="flex flex-row items-center w-full gap-2">
                               <h4>DATE OF BIRTH:</h4>
-                              <input type="date" class="border-2 rounded-md p-1">
+                              <input type="date" class="border-2 rounded-md p-1" v-model="birthDate">
 
                               <h4>BIRTHPLACE:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-6/12">
+                              <input type="text" class="border-2 rounded-md p-1 w-6/12" v-model="placeOfBirth">
                         </div>
 
                         <div class="flex flex-row items-center w-full gap-2">
                               <h4>PARENT / GUARDIAN:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-4/12">
+                              <input type="text" class="border-2 rounded-md p-1 w-4/12" v-model="parentName">
 
                               <h4>ADVISER:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-4/12">
+                              <input type="text" class="border-2 rounded-md p-1 w-4/12" v-model="adviserName">
                         </div>
 
                         <div class="flex flex-row items-center w-full gap-2">
                               <h4>GENDER:</h4>
-                              <select class="border-2">
+                              <select class="border-2" v-model="gender">
                                     <option value="MALE">MALE</option>
                                     <option value="FEMALE">FEMALE</option>
                               </select>
-
+                              
                               <h4>AGE:</h4>
-                              <input type="text" class="border-2 rounded-md p-1">
+                              <input type="text" class="border-2 rounded-md p-1" v-model="age">
                         </div>
                   </div>
-
+                  
                   <div class="w-1/2 flex flex-col gap-6">
                         <div class="flex flex-row items-center w-full gap-4">
                               <h4>ADDRESS:</h4>
-                              <input type="email" class="border-2 rounded-md p-1 w-full">
+                              <input type="email" class="border-2 rounded-md p-1 w-full" v-model="address">
                         </div>
 
                         <div class="flex flex-row items-center w-full gap-4">
                               <h4>CONTACT NUMBER:</h4>
-                              <input type="text" class="border-2 rounded-md p-1 w-4/12">
-
+                              <input type="text" class="border-2 rounded-md p-1 w-4/12" v-model="contact">
+                              
                               <h4>EMAIL:</h4>
-                              <input type="email" class="border-2 rounded-md p-1 w-5/12">
+                              <input type="email" class="border-2 rounded-md p-1 w-5/12" v-model="email">
                         </div>
 
                         <div class="flex flex-row items-center w-full gap-2">
                               <h4>PASSWORD:</h4>
-                              <input type="email" class="border-2 rounded-md p-1">
+                              <input type="password" class="border-2 rounded-md p-1" v-model="password">
 
                               <h4>CONFIRM PASSWORD:</h4>
-                              <input type="email" class="border-2 rounded-md p-1">
+                              <input type="password" class="border-2 rounded-md p-1" v-model="confirmPassword">
                         </div>
 
                         <div class="flex flex-row gap-4">
@@ -202,7 +309,7 @@ const others = ref('');
             
                   <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
                         <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="treatmentCondition">
+                        <input type="text" class="border-b-2 p-1" v-model="treatmentCondition" :disabled="!underMedicalTreatment">
                   </div>
                   </div>
             
@@ -214,7 +321,7 @@ const others = ref('');
             
                   <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
                         <p>IF SO, WHAT ILLNESS OR OPERATION?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation">
+                        <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation" :disabled="!seriousIllness">
                   </div>
                   </div>
             
@@ -226,7 +333,7 @@ const others = ref('');
             
                   <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
                         <p>IF SO, WHEN AND WHY?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails">
+                        <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails" :disabled="!hospitalized">
                   </div>
                   </div>
             
@@ -238,7 +345,7 @@ const others = ref('');
             
                   <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
                         <p>IF YES, PLEASE SPECIFY:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="medicationsDetails">
+                        <input type="text" class="border-b-2 p-1" v-model="medicationsDetails" :disabled="!takingMedications">
                   </div>
                   </div>
             
@@ -260,7 +367,7 @@ const others = ref('');
             
                   <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
                         <p>IF YES, PLEASE INDICATE:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="womenCondition">
+                        <input type="text" class="border-b-2 p-1" v-model="womenCondition" :disabled="!womenOnly">
                   </div>
                   </div>
                   </div>
@@ -405,14 +512,14 @@ const others = ref('');
                         </div>
                         
                         <div class="flex flex-row gap-4">
-                              <input type="checkbox" v-model="rapidWeightLoss" />
-                              <p>RAPID WEIGHT LOSS</p>
+                              <input type="checkbox" v-model="rapidWeightLossRadtionTherapy" />
+                              <p>RAPID WEIGHT LOSS RADIATION THERAPY</p>
                         </div>
                         
-                        <div class="flex flex-row gap-4">
+                        <!-- <div class="flex flex-row gap-4">
                               <input type="checkbox" v-model="radiationTherapy" />
                               <p>RADIATION THERAPY</p>
-                        </div>
+                        </div> -->
                         
                         <div class="flex flex-row gap-4">
                               <input type="checkbox" v-model="jointReplacement" />
@@ -484,7 +591,7 @@ const others = ref('');
             </div>
 
             <div class="w-full flex justify-end mt-5 gap-2">
-                  <button class="bg-green-500 rounded-md p-2 w-1/12 text-white cursor-pointer">Register</button>
+                  <button class="bg-green-500 rounded-md p-2 w-1/12 text-white cursor-pointer" @click="attemptRegister()">Register</button>
                   <button class="bg-red-500 rounded-md p-2 w-1/12 text-white cursor-pointer" @click="() => { router.push('/') }">Cancel</button>
             </div>
       </div>
@@ -493,6 +600,6 @@ const others = ref('');
     
 <style scoped>
 #container {
-      font-size: 11pt;
+      font-size: 14pt;
 }
 </style>

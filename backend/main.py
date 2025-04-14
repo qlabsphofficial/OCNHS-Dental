@@ -43,9 +43,9 @@ class StudentModel(BaseModel):
     middlename: Optional[str] = None
     lastname: str
     suffix: Optional[str] = None
-    dateofbirth: date
+    dateofbirth: Optional[date] = None
     gender: str
-    age: int
+    age: Optional[int] = None
     birthplace: str
     contact_no: str
     address: str
@@ -59,61 +59,60 @@ class StudentModel(BaseModel):
     grade_level: Optional[str] = None
     section: Optional[str] = None
 
-    student_id: int
-    good_health: Optional[int] = None
-    under_medical_treatment: Optional[int] = None
+    good_health: Optional[bool] = None
+    under_medical_treatment: Optional[bool] = None
     condition_being_treated: Optional[str] = None
-    serious_illness: Optional[int] = None
+    serious_illness: Optional[bool] = None
     illness_or_operation: Optional[str] = None
-    hospitalized: Optional[int] = None
+    hospitalized: Optional[bool] = None
     hospitalization_details: Optional[str] = None
-    taking_medication: Optional[int] = None
+    taking_medication: Optional[bool] = None
     medication_details: Optional[str] = None
-    use_tobacco: Optional[int] = None
-    use_alcohol_or_drugs: Optional[int] = None
-    pregnant_nursing_birth_control: Optional[int] = None
+    use_tobacco: Optional[bool] = None
+    use_alcohol_or_drugs: Optional[bool] = None
+    pregnant_nursing_birth_control: Optional[bool] = None
     pregnant_nursing_birth_control_details: Optional[str] = None
 
-    toothbrush: Optional[int] = None
+    toothbrush: Optional[bool] = None
     brush_times_per_day: Optional[int] = None
     change_toothbrush_per_year: Optional[int] = None
-    use_toothpaste: Optional[int] = None
+    use_toothpaste: Optional[bool] = None
     dentist_visits_per_year: Optional[int] = None
 
-    allergy: Optional[int] = None
-    allergy_details: Optional[str] = None
-    emphysema: Optional[int] = None
-    bleeding_problems: Optional[int] = None
-    blood_diseases: Optional[int] = None
-    head_injuries: Optional[int] = None
-    arthritis_rheumatism: Optional[int] = None
-    high_fever: Optional[int] = None
-    diabetes: Optional[int] = None
-    chest_pain: Optional[int] = None
-    stroke: Optional[int] = None
-    cancer_tumors: Optional[int] = None
-    anemia: Optional[int] = None
-    angina: Optional[int] = None
-    asthma: Optional[int] = None
-    high_blood_pressure: Optional[int] = None
-    low_blood_pressure: Optional[int] = None
-    aids_hiv_infection: Optional[int] = None
-    sexually_transmitted_disease: Optional[int] = None
-    stomach_troubles_ulcers: Optional[int] = None
-    fainting_seizure: Optional[int] = None
-    rapid_weight_loss_radiation_therapy: Optional[int] = None
-    joint_replacement_implant: Optional[int] = None
-    heart_surgery_heart_attack: Optional[int] = None
-    thyroid_problem: Optional[int] = None
-    heart_disease: Optional[int] = None
-    heart_murmur: Optional[int] = None
-    hepatitis_liver_disease: Optional[int] = None
-    rheumatic_seizure: Optional[int] = None
-    respiratory_problems: Optional[int] = None
-    hepatitis_jaundice: Optional[int] = None
-    tuberculosis: Optional[int] = None
-    swollen_ankles: Optional[int] = None
-    kidney_disease: Optional[int] = None
+    allergy: Optional[bool] = None
+    # allergy_details: Optional[str] = None
+    emphysema: Optional[bool] = None
+    bleeding_problems: Optional[bool] = None
+    blood_diseases: Optional[bool] = None
+    head_injuries: Optional[bool] = None
+    arthritis_rheumatism: Optional[bool] = None
+    high_fever: Optional[bool] = None
+    diabetes: Optional[bool] = None
+    chest_pain: Optional[bool] = None
+    stroke: Optional[bool] = None
+    cancer_tumors: Optional[bool] = None
+    anemia: Optional[bool] = None
+    angina: Optional[bool] = None
+    asthma: Optional[bool] = None
+    high_blood_pressure: Optional[bool] = None
+    low_blood_pressure: Optional[bool] = None
+    aids_hiv_infection: Optional[bool] = None
+    sexually_transmitted_disease: Optional[bool] = None
+    stomach_troubles_ulcers: Optional[bool] = None
+    fainting_seizure: Optional[bool] = None
+    rapid_weight_loss_radiation_therapy: Optional[bool] = None
+    joint_replacement_implant: Optional[bool] = None
+    heart_surgery_heart_attack: Optional[bool] = None
+    thyroid_problem: Optional[bool] = None
+    heart_disease: Optional[bool] = None
+    heart_murmur: Optional[bool] = None
+    hepatitis_liver_disease: Optional[bool] = None
+    rheumatic_seizure: Optional[bool] = None
+    respiratory_problems: Optional[bool] = None
+    hepatitis_jaundice: Optional[bool] = None
+    tuberculosis: Optional[bool] = None
+    swollen_ankles: Optional[bool] = None
+    kidney_disease: Optional[bool] = None
     other_diseases: Optional[str] = None
 
     class Config:
@@ -189,60 +188,60 @@ class AppointmentFilterRequest(BaseModel):
 class UpdateMedicalRecordRequest(BaseModel):
     student_id: int
 
-    good_health: Optional[int] = None
-    under_medical_treatment: Optional[int] = None
+    good_health: Optional[bool] = None
+    under_medical_treatment: Optional[bool] = None
     condition_being_treated: Optional[str] = None
-    serious_illness: Optional[int] = None
+    serious_illness: Optional[bool] = None
     illness_or_operation: Optional[str] = None
-    hospitalized: Optional[int] = None
+    hospitalized: Optional[bool] = None
     hospitalization_details: Optional[str] = None
-    taking_medication: Optional[int] = None
+    taking_medication: Optional[bool] = None
     medication_details: Optional[str] = None
-    use_tobacco: Optional[int] = None
-    use_alcohol_or_drugs: Optional[int] = None
-    pregnant_nursing_birth_control: Optional[int] = None
+    use_tobacco: Optional[bool] = None
+    use_alcohol_or_drugs: Optional[bool] = None
+    pregnant_nursing_birth_control: Optional[bool] = None
     pregnant_nursing_birth_control_details: Optional[str] = None
 
-    toothbrush: Optional[int] = None
+    toothbrush: Optional[bool] = None
     brush_times_per_day: Optional[int] = None
     change_toothbrush_per_year: Optional[int] = None
-    use_toothpaste: Optional[int] = None
+    use_toothpaste: Optional[bool] = None
     dentist_visits_per_year: Optional[int] = None
 
-    allergy: Optional[int] = None
-    allergy_details: Optional[str] = None
-    emphysema: Optional[int] = None
-    bleeding_problems: Optional[int] = None
-    blood_diseases: Optional[int] = None
-    head_injuries: Optional[int] = None
-    arthritis_rheumatism: Optional[int] = None
-    high_fever: Optional[int] = None
-    diabetes: Optional[int] = None
-    chest_pain: Optional[int] = None
-    stroke: Optional[int] = None
-    cancer_tumors: Optional[int] = None
-    anemia: Optional[int] = None
-    angina: Optional[int] = None
-    asthma: Optional[int] = None
-    high_blood_pressure: Optional[int] = None
-    low_blood_pressure: Optional[int] = None
-    aids_hiv_infection: Optional[int] = None
-    sexually_transmitted_disease: Optional[int] = None
-    stomach_troubles_ulcers: Optional[int] = None
-    fainting_seizure: Optional[int] = None
-    rapid_weight_loss_radiation_therapy: Optional[int] = None
-    joint_replacement_implant: Optional[int] = None
-    heart_surgery_heart_attack: Optional[int] = None
-    thyroid_problem: Optional[int] = None
-    heart_disease: Optional[int] = None
-    heart_murmur: Optional[int] = None
-    hepatitis_liver_disease: Optional[int] = None
-    rheumatic_seizure: Optional[int] = None
-    respiratory_problems: Optional[int] = None
-    hepatitis_jaundice: Optional[int] = None
-    tuberculosis: Optional[int] = None
-    swollen_ankles: Optional[int] = None
-    kidney_disease: Optional[int] = None
+    allergy: Optional[bool] = None
+    # allergy_details: Optional[str] = None
+    emphysema: Optional[bool] = None
+    bleeding_problems: Optional[bool] = None
+    blood_diseases: Optional[bool] = None
+    head_injuries: Optional[bool] = None
+    arthritis_rheumatism: Optional[bool] = None
+    high_fever: Optional[bool] = None
+    diabetes: Optional[bool] = None
+    chest_pain: Optional[bool] = None
+    stroke: Optional[bool] = None
+    cancer_tumors: Optional[bool] = None
+    anemia: Optional[bool] = None
+    angina: Optional[bool] = None
+    asthma: Optional[bool] = None
+    high_blood_pressure: Optional[bool] = None
+    low_blood_pressure: Optional[bool] = None
+    aids_hiv_infection: Optional[bool] = None
+    sexually_transmitted_disease: Optional[bool] = None
+    stomach_troubles_ulcers: Optional[bool] = None
+    fainting_seizure: Optional[bool] = None
+    rapid_weight_loss_radiation_therapy: Optional[bool] = None
+    joint_replacement_implant: Optional[bool] = None
+    heart_surgery_heart_attack: Optional[bool] = None
+    thyroid_problem: Optional[bool] = None
+    heart_disease: Optional[bool] = None
+    heart_murmur: Optional[bool] = None
+    hepatitis_liver_disease: Optional[bool] = None
+    rheumatic_seizure: Optional[bool] = None
+    respiratory_problems: Optional[bool] = None
+    hepatitis_jaundice: Optional[bool] = None
+    tuberculosis: Optional[bool] = None
+    swollen_ankles: Optional[bool] = None
+    kidney_disease: Optional[bool] = None
     other_diseases: Optional[str] = None
 
     class Config:
@@ -338,7 +337,7 @@ async def register(student: StudentModel, db: Session = Depends(get_database)):
         use_toothpaste=student.use_toothpaste,
         dentist_visits_per_year=student.dentist_visits_per_year,
         allergy=student.allergy,
-        allergy_details=student.allergy_details,
+        # allergy_details=student.allergy_details,
         emphysema=student.emphysema,
         bleeding_problems=student.bleeding_problems,
         blood_diseases=student.blood_diseases,
@@ -730,7 +729,7 @@ async def update_medical_record(medical_history_data: UpdateMedicalRecordRequest
         medical_history.use_toothpaste = medical_history_data.use_toothpaste
         medical_history.dentist_visits_per_year = medical_history_data.dentist_visits_per_year
         medical_history.allergy = medical_history_data.allergy
-        medical_history.allergy_details = medical_history_data.allergy_details
+        # medical_history.allergy_details = medical_history_data.allergy_details
         medical_history.emphysema = medical_history_data.emphysema
         medical_history.bleeding_problems = medical_history_data.bleeding_problems
         medical_history.blood_diseases = medical_history_data.blood_diseases
