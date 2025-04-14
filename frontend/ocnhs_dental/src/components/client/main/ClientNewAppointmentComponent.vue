@@ -36,7 +36,7 @@ async function attemptBooking(){
 
 <template>
       <div class="flex flex-col justify-evenly h-full w-full lg:h-6/12 lg:w-6/12 gap-2 lg:gap-5 p-10 lg:border-2 rounded-md lg:mt-0">
-            <div class="flex flex-row w-full justify-between">
+            <div class="flex flex-col lg:flex-row w-full justify-between">
                   <div class="flex flex-col">
                         <h1 class="text-3xl font-bold">Book an Appointment</h1>
                   </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 
 const fileType = ref('')
@@ -17,13 +17,18 @@ const studentOptionsShowing = ref(false)
 const actionButton = ref(false)
 
 function listenToFilterChanges() {
+      // Make request to backend, return data afterwards
       if (fileType.value == 'CURRENT' && curriculum.value != '' && gradeLvl.value != '' && section.value != '') {
-            
+            console.log('working')
       }
       else if (fileType.value == 'OLD' && yearGraduated.value != '' && curriculum.value != ''){
-
+            console.log('working 2')
       }
 }
+
+watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
+      listenToFilterChanges();
+});
 </script>
 
 <template>
@@ -37,7 +42,7 @@ function listenToFilterChanges() {
                         <div class="flex flex-row justify-between">
                               <div class="flex flex-col gap-4">
                                     <h4>FILE TYPE</h4>
-                                    <select class="border-2" v-model="fileType" @change="listenToFilterChanges()">
+                                    <select class="border-2" v-model="fileType">
                                           <option value="CURRENT">CURRENT</option>
                                           <option value="OLD">OLD</option>
                                     </select>
@@ -45,7 +50,7 @@ function listenToFilterChanges() {
 
                               <div v-if="fileType == 'OLD'" class="flex flex-col gap-4">
                                     <h4>YEAR GRADUATED</h4>
-                                    <select class="border-2" v-model="yearGraduated" @change="listenToFilterChanges()">
+                                    <select class="border-2" v-model="yearGraduated">
                                           <option value="2020">2020</option>
                                           <option value="2021">2021</option>
                                           <option value="2022">2022</option>
@@ -56,7 +61,7 @@ function listenToFilterChanges() {
             
                               <div class="flex flex-col gap-4">
                                     <h4>CURRICULUM</h4>
-                                    <select class="border-2" v-model="curriculum" @change="listenToFilterChanges()">
+                                    <select class="border-2" v-model="curriculum">
                                           <option value="BEP">BEP</option>
                                           <option value="STE">STE</option>
                                           <option value="SPA">SPA</option>
@@ -73,7 +78,7 @@ function listenToFilterChanges() {
                               
                               <div v-if="fileType == 'CURRENT'" class="flex flex-col gap-4">
                                     <h4>GRADE LEVEL</h4>
-                                    <select class="border-2" v-model="gradeLvl" @change="listenToFilterChanges()">
+                                    <select class="border-2" v-model="gradeLvl">
                                           <option value="GRADE 7">GRADE 7</option>
                                           <option value="GRADE 8">GRADE 8</option>
                                           <option value="GRADE 9">GRADE 9</option>
@@ -85,7 +90,7 @@ function listenToFilterChanges() {
                               
                               <div v-if="fileType == 'CURRENT'" class="flex flex-col gap-4">
                                     <h4>SECTION</h4>
-                                    <select class="border-2" v-model="section" @change="listenToFilterChanges()">
+                                    <select class="border-2" v-model="section">
                                           <option value="1">1</option>
                                           <option value="2">2</option>
                                           <option value="3">3</option>
