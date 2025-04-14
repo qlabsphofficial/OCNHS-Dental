@@ -60,8 +60,8 @@ onMounted(async() => {
   <img src="@/assets/Clinic Assets/Dental Clinic images/image/homebg.png" height="100%" width="100%" class="hidden lg:block">
 
   <div class="flex flex-col justify-center items-center w-full pt-20 pb-20 lg:p-0 lg:w-8/12">
-    <h1 class="text-green-800 text-4xl lg:text-8xl font-bold chewy">SMILE, LEARN, AND GROW</h1>
-    <p class="mt-5 lg:text-2xl text-xs lg:font-extrabold">Discover the importance of medical care at our school clinic.</p>
+    <h1 class="text-green-800 text-6xl lg:text-8xl font-bold chewy">SMILE, LEARN, AND GROW</h1>
+    <p class="mt-5 lg:text-2xl text-lg lg:font-extrabold">Discover the importance of medical care at our school clinic.</p>
   </div>
 </div>
 
