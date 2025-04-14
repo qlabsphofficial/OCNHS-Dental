@@ -14,9 +14,19 @@ const selectedDate = ref(today)
 // receive data from the user here
 // Use a store
 async function attemptBooking(){
+      if (category.value == '' || date.value == ''){
+            message.value = 'Please fill out the required fields.'
+
+            setTimeout(() => {
+                  message.value = ''
+            }, 2000)
+
+            return
+      }
+
       message.value = await bookAppointment(category.value, date.value)
 
-      setInterval(() => {
+      setTimeout(() => {
             message.value = ''
             category.value = ''
             date.value = ''
