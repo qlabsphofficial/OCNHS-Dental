@@ -263,9 +263,10 @@ class RescheduleAppointmentRequest(BaseModel):
 
 class StudentFilterRequest(BaseModel):
     is_archive: int
-    curriculum: str
-    grade_level: str
-    section: str
+    year: int | None
+    curriculum: str | None
+    grade_level: str | None
+    section: str | None
 
 
 class ArchiveUpdateRequest(BaseModel):
