@@ -12,7 +12,7 @@ import ClientMedicalHistory from '@/components/client/main/ClientMedicalHistory.
 import { ref, shallowRef  } from 'vue';
 
 
-const currentComponent = shallowRef(null) 
+const currentComponent = shallowRef(ClientNewAppointmentComponent) 
 
 function handleUpdateModule(data){
       switch(data.moduleName) {
@@ -44,9 +44,9 @@ function handleUpdateModule(data){
       <div class="w-full h-full top-0 left-0 absolute">
             <HeaderComponent />
 
-            <div class="flex flex-row h-11/12 w-full">
+            <div class="flex flex-col lg:flex-row h-full lg:h-11/12 w-full">
                   <ClientNavbar @update-module="handleUpdateModule" />
-                  <div class="flex items-center justify-center w-10/12 h-full">
+                  <div class="flex items-center justify-center w-full lg:w-10/12 h-full">
                         <component :is="currentComponent"></component>
                   </div>
             </div>

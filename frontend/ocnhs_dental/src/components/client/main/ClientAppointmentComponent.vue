@@ -14,9 +14,9 @@ onMounted(async() => {
 </script>
 
 <template>
-      <div class="flex flex-row h-10/12 w-11/12 gap-5 p-10 border-2 rounded-md">
-            <div class="flex flex-col gap-3 w-4/12">
-                  <h2 class="text-lg">Appointments</h2>
+      <div class="flex flex-col lg:flex-row w-full h-full lg:h-10/12 lg:w-11/12 gap-5 p-10 border-2 rounded-md">
+            <div class="flex flex-col justify-items items-center lg:items-start gap-3 w-full lg:w-4/12">
+                  <h2 class="text-2xl lg:text-lg font-bold">Appointments</h2>
                   <!-- <div v-if="appointments.length == 0">
                         <p>No appointments yet.</p>
                   </div> -->
@@ -32,9 +32,9 @@ onMounted(async() => {
                   </div>
                   <button class="mt-5 border-2 p-2 cursor-pointer" @click="downloadParentsConsent()">Download Parent's Consent Form</button>
             </div>
-            <div class="flex flex-col gap-3 w-1/2">
-                  <h2 class="text-lg">Appointment History</h2>
-                  <div v-for="appointmentRecord of appointmentHistory" :key="appointmentRecord">
+            <div class="flex flex-col gap-3 items-center justify-center w-full lg:w-1/2">
+                  <h2 class="text-2xl lg:text-lg font-bold mt-10 lg:mt-0">Appointment History</h2>
+                  <div v-for="appointmentRecord of appointments" :key="appointmentRecord">
 
                   </div>
             </div>

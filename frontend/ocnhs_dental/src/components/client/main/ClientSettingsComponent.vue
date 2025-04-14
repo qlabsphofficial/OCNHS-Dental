@@ -22,8 +22,8 @@ function changeModule (component) {
 </script>
 
 <template>
-    <div class="flex flex-row gap-4 w-11/12 h-10/12 p-10 border-2 rounded-md shadow-md">
-        <div class="w-3/12 h-full p-6">
+    <div class="flex flex-col lg:flex-row gap-4 h-full w-full lg:w-11/12 lg:h-10/12 p-4 lg:border-2 lg:rounded-md lg:shadow-md">
+        <div class="w-full lg:w-3/12 h-full p-6">
             <h3 class="font-bold text-xl">SETTINGS</h3>
 
             <div class="flex flex-col gap-4 mt-20">
@@ -32,7 +32,7 @@ function changeModule (component) {
             </div>
         </div>
 
-        <div class="w-9/12 h-full">
+        <div class="w-full h-full lg:w-9/12 mt-10 lg:mt-0">
             <component :is="currentComponent"></component>
         </div>
     </div>

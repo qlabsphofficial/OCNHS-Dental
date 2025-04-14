@@ -18,15 +18,15 @@ function changeModule(moduleName) {
 </script>
 
 <template>
-      <div class="h-full w-2/12 main-color text-white">
-            <div class="flex flex-row justify-between items-center w-full h-1/12 p-5 bg-gray-500">
-                  <div class="flex flex-row gap-4">
+      <div class="h-5/12 lg:h-full lg:w-2/12 main-color text-white">
+            <div class="flex flex-row justify-between items-center w-full h-2/12 lg:h-1/12 p-5 bg-gray-500">
+                  <div class="flex flex-row gap-4 w-1/2">
                         <img src="" alt="">
                         <h5>{{ loggedInUser.firstname }} {{ loggedInUser.lastname }}</h5>
                   </div>
 
-                  <div>
-                        <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 top-50 p-5 rounded-md">
+                  <div class="w-1/2 flex justify-end">
+                        <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 top-34 lg:top-50 p-5 rounded-md">
                               <button class="flex flex-row justify-center gap-4" @click="() => { changeModule('settings'); showOptions = false; }"><Settings />Settings</button>
                               <button class="flex flex-row justify-center gap-4" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
                         </div>
@@ -36,7 +36,7 @@ function changeModule(moduleName) {
                   </div>
             </div>
 
-            <div class="flex flex-col items-start gap-10 p-5 mt-10">
+            <div class="flex flex-col items-start gap-10 p-5 lg:mt-10">
                   <button type="button" class="flex flex-row gap-4" @click="changeModule('appointment')"><ClipboardPlus /> APPOINTMENT</button>
                   <button type="button" class="flex flex-row gap-4" @click="changeModule('newAppointment')"><Book /> BOOK APPOINTMENT</button>
                   <button type="button" class="flex flex-row gap-4" @click="changeModule('personalDetails')"><UserRound /> PERSONAL DETAILS</button>

@@ -30,10 +30,10 @@ async function attemptLogin() {
 <template>
   <div class="flex flex-row w-full h-full top-0 left-0 absolute bg-black">
       <!-- Login Banner -->
-      <div id="banner" class="h-full w-1/2"></div>
+      <div id="banner" class="h-full w-1/2 hidden lg:block"></div>
 
       <!-- Login -->
-      <div class="flex flex-col items-center justify-center h-full w-1/2 bg-white p-20">
+      <div class="flex flex-col items-center justify-center h-full w-full lg:w-1/2 bg-white p-20">
         <div class="flex flex-row justify-between w-full">
           <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="240px" width="160px">
           <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="240px" width="160px">

@@ -67,7 +67,7 @@ onMounted(async() => {
 
 <!-- Dental Staff -->
 <div class="flex flex-col items-center lg:items-start w-full h-full p-10 lg:p-20 overlay-color">
-  <h2 class="text-3xl lg:text-5xl lg:mb-60 font-bold">DENTAL STAFF</h2>
+  <h2 class="text-5xl lg:mb-60 font-bold">DENTAL STAFF</h2>
 
   <div class="flex flex-col lg:flex-row items-center justify-evenly w-full">
     <div class="flex flex-col w-11/12 lg:w-5/12 h-8/12 items-center mt-10 lg:mt-0">
