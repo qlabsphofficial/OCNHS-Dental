@@ -374,38 +374,38 @@ async function attemptRegister() {
             
                   <!-- Guided Questions -->
                   <div class="flex flex-col gap-2 lg:h-1/2 lg:w-1/2 mt-10 mb-10 lg:mt-0 lg:mb-0">
-                  <h2 class="text-2xl mb-2">Guided Questions</h2>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="hasToothbrush">
-                  <p>DO YOU HAVE A TOOTHBRUSH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="brushingTimes">
-                  <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="toothbrushChange">
-                  <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="useToothpaste">
-                  <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="dentistVisits">
-                  <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
-                  </div>
-                  </div>
-            </div>            
+                        <h2 class="text-2xl mb-2">Guided Questions</h2>
+                  
+                        <div class="flex flex-row gap-4">
+                        <input type="checkbox" v-model="hasToothbrush">
+                        <p>DO YOU HAVE A TOOTHBRUSH?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                        <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="brushingTimes">
+                        <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                        <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="toothbrushChange">
+                        <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                        <input type="checkbox" v-model="useToothpaste">
+                        <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                        <input type="number" class="w-14 bg-gray-300 rounded-sm text-center" v-model="dentistVisits">
+                        <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
+                        </div>
+                        </div>
+                  </div>            
             
                   <p class="mt-8">DO YOU HAVE OR HAVE YOU HAD ANY OF THE FOLLOWING? CHECK WHICH APPLY:</p>
             
-                  <div class="flex flex-row justify-between w-full">
+                  <div class="flex flex-col lg:flex-row justify-between w-full">
                   <div class="flex flex-col gap-1">
                         <div class="flex flex-row gap-4">
                               <input type="checkbox" v-model="allergy">
@@ -590,9 +590,9 @@ async function attemptRegister() {
                   </div>
             </div>
 
-            <div class="w-full flex justify-end mt-5 gap-2">
-                  <button class="bg-green-500 rounded-md p-2 w-1/12 text-white cursor-pointer" @click="attemptRegister()">Register</button>
-                  <button class="bg-red-500 rounded-md p-2 w-1/12 text-white cursor-pointer" @click="() => { router.push('/') }">Cancel</button>
+            <div class="w-full flex flex-row items-center justify-center lg:justify-end mt-5 gap-2">
+                  <button class="bg-green-500 rounded-md p-2 w-4/12 lg:w-1/12 text-white cursor-pointer" @click="attemptRegister()">Register</button>
+                  <button class="bg-red-500 rounded-md p-2 w-4/12 lg:w-1/12 text-white cursor-pointer" @click="() => { router.push('/') }">Cancel</button>
             </div>
       </div>
 </div>
