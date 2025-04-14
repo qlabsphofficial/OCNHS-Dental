@@ -1,6 +1,7 @@
 <script setup>
 import HeaderComponent from '@/components/shared/HeaderComponent.vue';
 import ClientNavbar from '@/components/client/main/ClientNavbar.vue';
+import ClientSettingsComponent from '@/components/client/main/ClientSettingsComponent.vue';
 import ClientAppointmentComponent from '@/components/client/main/ClientAppointmentComponent.vue';
 import ClientNewAppointmentComponent from '@/components/client/main/ClientNewAppointmentComponent.vue';
 import ClientPersonalDetailsComponent from '@/components/client/main/ClientPersonalDetailsComponent.vue';
@@ -15,6 +16,10 @@ const currentComponent = shallowRef(null)
 
 function handleUpdateModule(data){
       switch(data.moduleName) {
+            case 'settings':
+                  currentComponent.value = ClientSettingsComponent
+                  break;
+
             case 'appointment':
                   currentComponent.value = ClientAppointmentComponent
                   break;

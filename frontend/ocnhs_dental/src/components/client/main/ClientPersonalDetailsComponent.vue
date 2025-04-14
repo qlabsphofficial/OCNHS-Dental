@@ -33,7 +33,7 @@ section.value = user.section
 </script>
 
 <template>
-      <div class="flex flex-col justify-center h-8/12 w-8/12 gap-10 p-20 border-2 rounded-md">
+      <div class="flex flex-col justify-center h-10/12 w-10/12 gap-10 p-20 border-2 rounded-md">
             <div class="flex flex-row justify-between w-full gap-5">
                   <h4>Name</h4>
                   <input type="text" class="w-10/12 p-2 bg-gray-300 rounded-sm" v-model="name" disabled>
@@ -67,19 +67,19 @@ section.value = user.section
                   <input type="text" class="w-10/12 p-2 bg-gray-300 rounded-sm" v-model="address" disabled>
             </div>
             <div class="flex flex-row justify-between">
-                  <div class="flex flex-row gap-5">
+                  <div class="flex flex-row gap-5 items-center">
                         <h4>Curriculum</h4>
-                        <input type="text" v-model="curriculum" disabled>
+                        <input type="text" v-model="curriculum" disabled class="w-10/12 p-2 bg-gray-300 rounded-sm">
                   </div>
 
-                  <div class="flex flex-row gap-5">
+                  <div class="flex flex-row gap-5 items-center">
                         <h4>Grade Level</h4>
-                        <input type="text" v-model="gradeLevel" disabled>
+                        <input type="text" v-model="gradeLevel" disabled class="w-10/12 p-2 bg-gray-300 rounded-sm">
                   </div>
 
-                  <div class="flex flex-row gap-5">
+                  <div class="flex flex-row gap-5 items-center">
                         <h4>Section</h4>
-                        <input type="text" v-model="section" disabled>
+                        <input type="text" v-model="section" disabled class="w-10/12 p-2 bg-gray-300 rounded-sm">
                   </div>
             </div>
       </div>

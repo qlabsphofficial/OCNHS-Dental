@@ -71,7 +71,9 @@ onMounted(async() => {
   <div class="flex flex-row justify-evenly w-full">
     <div class="flex flex-col w-5/12 h-8/12 items-center">
       <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white h-180">
-        <div id="about-1" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
+        <div id="about-1" class="bg-black rounded-full border-4 border-green-900 h-74 w-74 negative-marg"></div>
+        
+        <div class="flex flex-col items-center">
           <h4 class="text-xl font-bold mt-14 mb-5">EMILY CASTILLO-FANCUBERTA, DMD</h4>
           <p>DENTIST II</p>
           <p class="mt-5">Dr. Emily Castillo-Fancuberta is dedicated to promoting oral health education and preventative care for the students of Olongapo City National High School. We believe that early intervention is key to preventing dental problems and ensuring a lifetime of healthy smiles. Our services include regular checkups, cleanings, and educational programs designed to empower students to take charge of their oral hygiene.</p>
@@ -81,10 +83,11 @@ onMounted(async() => {
           </div>
         </div>
       </div>
+    </div>
 
     <div class="flex flex-col w-5/12 h-8/12 items-center">
     <div class="flex flex-col items-center justify-center p-30 rounded-md bg-white h-180">
-    <div id="about-2" class="bg-black h-100 w-100 rounded-full border-4 border-green-900 negative-marg"></div>
+    <div id="about-2" class="bg-black rounded-full border-4 border-green-900 h-74 w-74 negative-marg"></div>
     <h4 class="text-xl font-bold mt-14 mb-5">SHIELA MAE C. DALANGBAYAN</h4>
     <p>DENTAL ASSISTANT</p>
     <p class="mt-5">Shiela Mae Dalangbayan is dedicated to providing compassionate and efficient support to Dr. Emily Castillo-Fancuberta and our young patients at Olongapo City National High School. She is committed to creating a welcoming and reassuring environment for all students during their dental visits.</p>
@@ -102,7 +105,7 @@ onMounted(async() => {
     <div class="w-full p-20">
       <h2 class="text-5xl font-bold">ABOUT US</h2>
 
-      <div class="flex flex-row w-full gap-3 mt-20">
+      <div class="flex flex-row justify-center w-full gap-3 mt-20">
         <div class="flex flex-col gap-4 justify-center items-center w-3/12 p-3 border-1 rounded-md">
           <div id="info-1" class="h-60 w-60 rounded-full border-4"></div>
           <div id="info-2" class="h-60 w-60 rounded-full border-4"></div>
@@ -114,7 +117,7 @@ onMounted(async() => {
           We are dedicated to promoting good oral hygiene habits and preventing dental problems among learners, ensuring healthy smiles for a lifetime of learning. 
           </p>
 
-          <p>
+          <p class="mt-10">
             Our dentist utilize the latest techniques and technology to deliver gentle and effective treatments, making dental visits a positive experience. 
           We offer a range of services, from routine check-ups and cleanings to restorative treatments and extractions, tailored to meet the unique needs of young patients. 
           We believe that access to quality dental care is essential for a child's overall well-being and academic success, and we are committed to making that a reality for every learner.
@@ -154,7 +157,7 @@ onMounted(async() => {
     <h2 class="text-5xl font-bold">BLOGS</h2>
 
     <div class="flex flex-row gap-5 w-full mt-20">
-    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-20">
+    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-22">
       <div id="blog-1" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 1; router.push('/blog') }"></div>
       <p class="mt-5 text-lg">The Proper Way to Brush Your Teeth</p>
 
@@ -162,7 +165,7 @@ onMounted(async() => {
       <p class="mt-5 text-lg">Surprising Causes of Bad Breath</p>
     </div>
 
-    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-20">
+    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-23">
       <div id="blog-3" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 3; router.push('/blog') }"></div>
       <p class="mt-5 text-lg">How bad oral hygiene can lead to oral cancer and heart problems?</p>
 
@@ -170,7 +173,7 @@ onMounted(async() => {
       <p class="mt-5 text-lg">The relationship between diet and oral health explained</p>
     </div>
 
-    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-20">
+    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-23">
       <div id="blog-5" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 5; router.push('/blog') }"></div>
       <p class="mt-5 text-lg">8 ways poor oral hygiene can impact your life</p>
 
@@ -178,7 +181,7 @@ onMounted(async() => {
       <p class="mt-5 text-lg">Teaching children how to take care of their teeth</p>
     </div>
 
-    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-20">
+    <div class="flex flex-col items-center justify-center h-full w-3/12 border-1 border-grey-500 rounded-md p-27">
       <div id="blog-7" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 7; router.push('/blog') }"></div>
       <p class="mt-5 text-lg">Dental Cosmetics</p>
 

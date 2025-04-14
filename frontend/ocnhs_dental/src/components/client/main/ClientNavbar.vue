@@ -27,7 +27,7 @@ function changeModule(moduleName) {
 
                   <div>
                         <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 top-50 p-5 rounded-md">
-                              <button class="flex flex-row justify-center gap-4"><Settings />Settings</button>
+                              <button class="flex flex-row justify-center gap-4" @click="() => { changeModule('settings'); showOptions = false; }"><Settings />Settings</button>
                               <button class="flex flex-row justify-center gap-4" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
                         </div>
                         <button class="flex items-center gap-2">
