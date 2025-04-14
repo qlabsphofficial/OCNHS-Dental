@@ -52,8 +52,20 @@
                     <input type="password" class="p-2 border-2 rounded-md">
                 </div>
 
-                <div class="flex flex-row gap-5 bg-gray-300 p-10">
-                    <h4 class="font-bold text-lg">Password Rules</h4>
+                <div class="flex flex-col gap-5 bg-gray-300 p-10">
+                    <div>
+                        <h4 class="font-bold text-lg">Password Rules</h4>
+                        <p>To create a new password, you must meet all of the ff. requirements:</p>
+
+                        <ul>
+                            <li>Minimum 8 characters</li>
+                            <li>Consists of letters and at least one number</li>
+                            <li>Can't be the same as previous</li>
+                        </ul>
+                    </div>
+                    <div class="mt-5">
+                        <button class="rounded-md border-2 p-2">Change Password</button>
+                    </div>
                 </div>
             </div>
         </div>
