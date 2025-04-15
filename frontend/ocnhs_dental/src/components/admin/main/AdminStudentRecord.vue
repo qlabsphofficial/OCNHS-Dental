@@ -168,7 +168,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               </div>
                         </div>
                         <!-- TODO -->
-                        <p class="text-2xl">DELA CRUZ, JUAN</p>      
+                        <p class="text-2xl">{{ studentInfo.student.lastname }}, {{ studentInfo.student.firstname }}</p>      
                   </div>
 
                   <button @click="() => { showStudentInfo = false; }">Return to Student Records</button>
@@ -179,12 +179,12 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <div class="flex flex-col gap-6 w-1/2">
                         <div class="flex flex-row gap-4">
                               <h4>NAME:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.firstname }} {{ studentInfo.student.middlename }} {{ studentInfo.student.lastname }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>DATE OF BIRTH:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.firstname }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">

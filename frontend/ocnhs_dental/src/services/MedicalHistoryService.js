@@ -5,7 +5,12 @@ export async function retrieveMedicalHistory(id) {
             const response = await fetch(`${current_address}/get_student_medical_history?student_id=${id}`)
             const data = await response.json()
 
-            medicalHistory = data
+            medicalHistory.student = data.student
+            medicalHistory.medicalHistory = data.medical_history
+
+            console.log(data)
+            console.log('--- below is object data ---')
+            console.log(medicalHistory)
       }
       catch (error){
 
