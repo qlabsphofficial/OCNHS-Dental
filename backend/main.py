@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
@@ -10,7 +11,9 @@ from datetime import date, datetime, timedelta
 from sqlalchemy import extract, cast, Date
 from pytz import timezone
 from fastapi.responses import FileResponse, RedirectResponse
+from openpyxl import load_workbook
 import smtplib
+import os
 from email.message import EmailMessage
 
 email_address = "ocnhsdental.notification@gmail.com"
@@ -1008,6 +1011,108 @@ async def reset_password(request: RequestResetPassword, db: Session = Depends(ge
         smtp.send_message(msg)
 
     return { 'response': 'Reset password successful.', 'status_code': 200 }
+
+
+@app.get('/generate_report')
+async def generate_report(db: Session = Depends(get_database)):
+    manila_tz = timezone("Asia/Manila")
+    now = datetime.now(manila_tz)
+
+    # Define types
+    types = ['CLEANING', 'FLOURIDE', 'RESTORATION', 'EXTRACTION']
+
+    # === TIME RANGES ===
+    # Monthly
+    start_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    start_of_next_month = (start_of_month.replace(month=now.month + 1, day=1)
+                           if now.month < 12 else start_of_month.replace(year=now.year + 1, month=1, day=1))
+
+    # Quarterly
+    quarter = (now.month - 1) // 3 + 1
+    start_month = 3 * (quarter - 1) + 1
+    start_of_quarter = now.replace(month=start_month, day=1, hour=0, minute=0, second=0, microsecond=0)
+    start_of_next_quarter = (start_of_quarter.replace(month=start_month + 3, day=1)
+                             if start_month + 3 <= 12 else start_of_quarter.replace(year=now.year + 1, month=(start_month + 3) % 12, day=1))
+
+    # Yearly
+    start_of_year = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+    start_of_next_year = now.replace(year=now.year + 1, month=1, day=1)
+
+    # === RESULTS CONTAINER ===
+    report = {
+        "monthly": {},
+        "quarterly": {},
+        "yearly": {}
+    }
+
+    # === QUERIES FOR EACH TYPE ===
+    for appt_type in types:
+        # Monthly
+        monthly_count = db.query(Appointment).filter(
+            Appointment.appointment_type == appt_type,
+            Appointment.appointment_datetime >= start_of_month,
+            Appointment.appointment_datetime < start_of_next_month
+        ).count()
+
+        # Quarterly
+        quarterly_count = db.query(Appointment).filter(
+            Appointment.appointment_type == appt_type,
+            Appointment.appointment_datetime >= start_of_quarter,
+            Appointment.appointment_datetime < start_of_next_quarter
+        ).count()
+
+        # Yearly
+        yearly_count = db.query(Appointment).filter(
+            Appointment.appointment_type == appt_type,
+            Appointment.appointment_datetime >= start_of_year,
+            Appointment.appointment_datetime < start_of_next_year
+        ).count()
+
+        # Store in report
+        report["monthly"][appt_type] = monthly_count
+        report["quarterly"][appt_type] = quarterly_count
+        report["yearly"][appt_type] = yearly_count
+
+
+    # Path to Excel file
+    file_path = os.path.join(os.path.dirname(__file__), "static", "DENTAL ACCOMPLISHMENT REPORT.xlsx")
+
+    # Load workbook and select active sheet
+    wb = load_workbook(file_path)
+    ws = wb.active  # Or specify sheet name with wb["SheetName"]
+
+    # Define category order
+    category_order = ['FLOURIDE', 'CLEANING', 'EXTRACTION', 'RESTORATION']
+
+    # Row mapping
+    row_mapping = {
+        "monthly": 15,
+        "quarterly": 16,
+        "yearly": 17
+    }
+
+    # Column base
+    base_column = 7  # G = 7
+
+    # Insert data
+    for period, row in row_mapping.items():
+        total = 0
+        # Put current year in column B
+        ws.cell(row=row, column=2, value=now.year)
+
+        for idx, category in enumerate(category_order):
+            value = report[period][category]
+            ws.cell(row=row, column=base_column + idx, value=value)
+            total += value
+
+        # Total in column K
+        ws.cell(row=row, column=base_column + 4, value=total)
+
+    # Save the Excel file
+    wb.save(file_path)
+    
+    file_path = os.path.join(os.path.dirname(__file__), "static", "DENTAL ACCOMPLISHMENT REPORT.xlsx")
+    return FileResponse(path=file_path, filename="DENTAL ACCOMPLISHMENT REPORT.xlsx", media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 
 # @app.get('/change_password')

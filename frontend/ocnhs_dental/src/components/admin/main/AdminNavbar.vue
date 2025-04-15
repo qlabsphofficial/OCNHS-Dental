@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import current_address from '@/address';
 import { 
     Home, Calendar, Users, FileText, ClipboardList, FileSearch, BarChart, Settings, LogOut 
 } from 'lucide-vue-next';
@@ -20,6 +21,29 @@ function changeModule(moduleName) {
 function attemptLogout() {
       emit('log-out')
 }
+
+async function downloadReport() {
+  try {
+    const response = await fetch(`${current_address}/generate_report`, {
+      method: 'GET'
+    });
+
+    if (!response.ok) throw new Error('Download failed');
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'DENTAL ACCOMPLISHMENT REPORT.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error downloading the report:', error);
+  }
+}
+
 </script>
 
 <template>
@@ -43,7 +67,7 @@ function attemptLogout() {
                   <button type="button" @click="changeModule('dentalExam')" class="flex items-center gap-5">
                         <FileSearch class="w-5 h-5" /> DENTAL EXAM FORM
                   </button>
-                  <button type="button" @click="changeModule('reports')" class="flex items-center gap-5">
+                  <button type="button" @click="downloadReport()" class="flex items-center gap-5">
                         <BarChart class="w-5 h-5" /> REPORTS
                   </button>
             </div>
