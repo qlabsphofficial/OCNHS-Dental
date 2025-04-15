@@ -290,6 +290,69 @@ class StudentRequest(BaseModel):
     student_id: int
     
     
+class UpdateStudentMedicalHistory(BaseModel):
+    student_id: int
+
+    good_health: Optional[bool] = None
+    under_medical_treatment: Optional[bool] = None
+    condition_being_treated: Optional[str] = None
+    serious_illness: Optional[bool] = None
+    illness_or_operation: Optional[str] = None
+    hospitalized: Optional[bool] = None
+    hospitalization_details: Optional[str] = None
+    taking_medication: Optional[bool] = None
+    medication_details: Optional[str] = None
+    use_tobacco: Optional[bool] = None
+    use_alcohol_or_drugs: Optional[bool] = None
+    pregnant_nursing_birth_control: Optional[bool] = None
+    pregnant_nursing_birth_control_details: Optional[str] = None
+
+    toothbrush: Optional[bool] = None
+    brush_times_per_day: Optional[int] = None
+    change_toothbrush_per_year: Optional[int] = None
+    use_toothpaste: Optional[bool] = None
+    dentist_visits_per_year: Optional[int] = None
+
+    allergy: Optional[bool] = None
+    # allergy_details: Optional[str] = None
+    emphysema: Optional[bool] = None
+    bleeding_problems: Optional[bool] = None
+    blood_diseases: Optional[bool] = None
+    head_injuries: Optional[bool] = None
+    arthritis_rheumatism: Optional[bool] = None
+    high_fever: Optional[bool] = None
+    diabetes: Optional[bool] = None
+    chest_pain: Optional[bool] = None
+    stroke: Optional[bool] = None
+    cancer_tumors: Optional[bool] = None
+    anemia: Optional[bool] = None
+    angina: Optional[bool] = None
+    asthma: Optional[bool] = None
+    high_blood_pressure: Optional[bool] = None
+    low_blood_pressure: Optional[bool] = None
+    aids_hiv_infection: Optional[bool] = None
+    sexually_transmitted_disease: Optional[bool] = None
+    stomach_troubles_ulcers: Optional[bool] = None
+    fainting_seizure: Optional[bool] = None
+    rapid_weight_loss_radiation_therapy: Optional[bool] = None
+    joint_replacement_implant: Optional[bool] = None
+    heart_surgery_heart_attack: Optional[bool] = None
+    thyroid_problem: Optional[bool] = None
+    heart_disease: Optional[bool] = None
+    heart_murmur: Optional[bool] = None
+    hepatitis_liver_disease: Optional[bool] = None
+    rheumatic_seizure: Optional[bool] = None
+    respiratory_problems: Optional[bool] = None
+    hepatitis_jaundice: Optional[bool] = None
+    tuberculosis: Optional[bool] = None
+    swollen_ankles: Optional[bool] = None
+    kidney_disease: Optional[bool] = None
+    other_diseases: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+        
+        
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -917,8 +980,143 @@ async def get_student_medical_history(data: StudentRequest, db: Session = Depend
             "dentist_visits_per_year": medical_history.dentist_visits_per_year,
         }
     }
+    
+    
+@app.post("/update_student_medical_history")
+async def update_student_medical_history(medical_history_data: UpdateStudentMedicalHistory, db: Session = Depends(get_database)):
+    # Check if the student exists
+    student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
 
+    # Check for existing medical history
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == medical_history_data.student_id).first()
 
+    if not medical_history:
+        medical_history = MedicalHistory(
+            student_id=medical_history_data.student_id,
+            good_health=medical_history_data.good_health,
+            under_medical_treatment=medical_history_data.under_medical_treatment,
+            condition_being_treated=medical_history_data.condition_being_treated,
+            serious_illness=medical_history_data.serious_illness,
+            illness_or_operation=medical_history_data.illness_or_operation,
+            hospitalized=medical_history_data.hospitalized,
+            hospitalization_details=medical_history_data.hospitalization_details,
+            taking_medication=medical_history_data.taking_medication,
+            medication_details=medical_history_data.medication_details,
+            use_tobacco=medical_history_data.use_tobacco,
+            use_alcohol_or_drugs=medical_history_data.use_alcohol_or_drugs,
+            pregnant_nursing_birth_control=medical_history_data.pregnant_nursing_birth_control,
+            pregnant_nursing_birth_control_details=medical_history_data.pregnant_nursing_birth_control_details,
+            toothbrush=medical_history_data.toothbrush,
+            brush_times_per_day=medical_history_data.brush_times_per_day,
+            change_toothbrush_per_year=medical_history_data.change_toothbrush_per_year,
+            use_toothpaste=medical_history_data.use_toothpaste,
+            dentist_visits_per_year=medical_history_data.dentist_visits_per_year
+        )
+        db.add(medical_history)
+        message = "Medical history created successfully"
+    else:
+        medical_history.good_health = medical_history_data.good_health
+        medical_history.under_medical_treatment = medical_history_data.under_medical_treatment
+        medical_history.condition_being_treated = medical_history_data.condition_being_treated
+        medical_history.serious_illness = medical_history_data.serious_illness
+        medical_history.illness_or_operation = medical_history_data.illness_or_operation
+        medical_history.hospitalized = medical_history_data.hospitalized
+        medical_history.hospitalization_details = medical_history_data.hospitalization_details
+        medical_history.taking_medication = medical_history_data.taking_medication
+        medical_history.medication_details = medical_history_data.medication_details
+        medical_history.use_tobacco = medical_history_data.use_tobacco
+        medical_history.use_alcohol_or_drugs = medical_history_data.use_alcohol_or_drugs
+        medical_history.pregnant_nursing_birth_control = medical_history_data.pregnant_nursing_birth_control
+        medical_history.pregnant_nursing_birth_control_details = medical_history_data.pregnant_nursing_birth_control_details
+        medical_history.toothbrush = medical_history_data.toothbrush
+        medical_history.brush_times_per_day = medical_history_data.brush_times_per_day
+        medical_history.change_toothbrush_per_year = medical_history_data.change_toothbrush_per_year
+        medical_history.use_toothpaste = medical_history_data.use_toothpaste
+        medical_history.dentist_visits_per_year = medical_history_data.dentist_visits_per_year
+        message = "Medical history updated successfully"
+
+    db.commit()
+    db.refresh(medical_history)
+
+    return {"message": message, "medical_history": medical_history}
+    
+    
+@app.post("/update_medical_record")
+async def update_medical_record(medical_history_data: UpdateMedicalRecordRequest, db: Session = Depends(get_database)):
+    # Check if the student exists
+    student = db.query(Student).filter(Student.id == medical_history_data.student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == medical_history_data.student_id).first()
+    
+    if not medical_history:
+        raise HTTPException(status_code=404, detail="Medical record not found for the student")
+
+    else:
+        medical_history.good_health = medical_history_data.good_health
+        medical_history.under_medical_treatment = medical_history_data.under_medical_treatment
+        medical_history.condition_being_treated = medical_history_data.condition_being_treated
+        medical_history.serious_illness = medical_history_data.serious_illness
+        medical_history.illness_or_operation = medical_history_data.illness_or_operation
+        medical_history.hospitalized = medical_history_data.hospitalized
+        medical_history.hospitalization_details = medical_history_data.hospitalization_details
+        medical_history.taking_medication = medical_history_data.taking_medication
+        medical_history.medication_details = medical_history_data.medication_details
+        medical_history.use_tobacco = medical_history_data.use_tobacco
+        medical_history.use_alcohol_or_drugs = medical_history_data.use_alcohol_or_drugs
+        medical_history.pregnant_nursing_birth_control = medical_history_data.pregnant_nursing_birth_control
+        medical_history.pregnant_nursing_birth_control_details = medical_history_data.pregnant_nursing_birth_control_details
+        medical_history.toothbrush = medical_history_data.toothbrush
+        medical_history.brush_times_per_day = medical_history_data.brush_times_per_day
+        medical_history.change_toothbrush_per_year = medical_history_data.change_toothbrush_per_year
+        medical_history.use_toothpaste = medical_history_data.use_toothpaste
+        medical_history.dentist_visits_per_year = medical_history_data.dentist_visits_per_year
+        medical_history.allergy = medical_history_data.allergy
+        # medical_history.allergy_details = medical_history_data.allergy_details
+        medical_history.emphysema = medical_history_data.emphysema
+        medical_history.bleeding_problems = medical_history_data.bleeding_problems
+        medical_history.blood_diseases = medical_history_data.blood_diseases
+        medical_history.head_injuries = medical_history_data.head_injuries
+        medical_history.arthritis_rheumatism = medical_history_data.arthritis_rheumatism
+        medical_history.high_fever = medical_history_data.high_fever
+        medical_history.diabetes = medical_history_data.diabetes
+        medical_history.chest_pain = medical_history_data.chest_pain
+        medical_history.stroke = medical_history_data.stroke
+        medical_history.cancer_tumors = medical_history_data.cancer_tumors
+        medical_history.anemia = medical_history_data.anemia
+        medical_history.angina = medical_history_data.angina
+        medical_history.asthma = medical_history_data.asthma
+        medical_history.high_blood_pressure = medical_history_data.high_blood_pressure
+        medical_history.low_blood_pressure = medical_history_data.low_blood_pressure
+        medical_history.aids_hiv_infection = medical_history_data.aids_hiv_infection
+        medical_history.sexually_transmitted_disease = medical_history_data.sexually_transmitted_disease
+        medical_history.stomach_troubles_ulcers = medical_history_data.stomach_troubles_ulcers
+        medical_history.fainting_seizure = medical_history_data.fainting_seizure
+        medical_history.rapid_weight_loss_radiation_therapy = medical_history_data.rapid_weight_loss_radiation_therapy
+        medical_history.joint_replacement_implant = medical_history_data.joint_replacement_implant
+        medical_history.heart_surgery_heart_attack = medical_history_data.heart_surgery_heart_attack
+        medical_history.thyroid_problem = medical_history_data.thyroid_problem
+        medical_history.heart_disease = medical_history_data.heart_disease
+        medical_history.heart_murmur = medical_history_data.heart_murmur
+        medical_history.hepatitis_liver_disease = medical_history_data.hepatitis_liver_disease
+        medical_history.rheumatic_seizure = medical_history_data.rheumatic_seizure
+        medical_history.respiratory_problems = medical_history_data.respiratory_problems
+        medical_history.hepatitis_jaundice = medical_history_data.hepatitis_jaundice
+        medical_history.tuberculosis = medical_history_data.tuberculosis
+        medical_history.swollen_ankles = medical_history_data.swollen_ankles
+        medical_history.kidney_disease = medical_history_data.kidney_disease
+        medical_history.other_diseases = medical_history_data.other_diseases
+        
+        db.commit()
+        db.refresh(medical_history)
+
+        return {"message": "Medical history updated successfully", "medical_history": medical_history}
+    
+    
 @app.put("/update_archive_status")
 async def update_archive_status(archive_data: ArchiveUpdateRequest, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == archive_data.student_id).first()

@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
+// import { register } from '@/services/RegisterService';
 
 const fileType = ref('')
 const yearGraduated = ref('')
@@ -85,6 +86,91 @@ async function retrieveStudentInfo(id) {
       toothbrushChange.value = studentInfo.value.medicalHistory.change_toothbrush_per_year
       useToothpaste.value = studentInfo.value.medicalHistory.use_toothpaste
       dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
+}
+
+
+async function attemptRegister() {
+  const registerInfo = {
+      firstName: firstName.value,
+      middleName: middleName.value,
+      lastName: lastName.value,
+      suffix: suffix.value,
+      birthDate: birthDate.value,
+      gender: gender.value,
+      age: age.value,
+      placeOfBirth: placeOfBirth.value,
+      contact: contact.value,
+      address: address.value,
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+      address: address.value,
+      parentName: parentName.value,
+      adviserName: adviserName.value,
+      curriculum: curriculum.value,
+      gradeLvl: gradeLvl.value,
+      section: section.value,
+      goodHealth: goodHealth.value,
+      underMedicalTreatment: underMedicalTreatment.value,
+      treatmentCondition: treatmentCondition.value,
+      seriousIllness: seriousIllness.value,
+      illnessOrOperation: illnessOrOperation.value,
+      hospitalized: hospitalized.value,
+      hospitalizationDetails: hospitalizationDetails.value,
+      takingMedications: takingMedications.value,
+      medicationsDetails: medicationsDetails.value,
+      tobaccoUsage: tobaccoUsage.value,
+      drugUse: drugUse.value,
+      womenOnly: womenOnly.value,
+      womenCondition: womenCondition.value,
+      hasToothbrush: hasToothbrush.value,
+      brushingTimes: brushingTimes.value,
+      toothbrushChange: toothbrushChange.value,
+      useToothpaste: useToothpaste.value,
+      dentistVisits: dentistVisits.value,
+      allergy: allergy.value,
+      //need to add allergy details
+      emphysema: emphysema.value,
+      bleedingProblems: bleedingProblems.value,
+      bloodDiseases: bloodDiseases.value,
+      headInjuries: headInjuries.value,
+      arthritis: arthritis.value,
+      highFever: highFever.value,
+      diabetes: diabetes.value,
+      chestPain: chestPain.value,
+      stroke: stroke.value,
+      cancer: cancer.value,
+      anemia: anemia.value,
+      angina: angina.value,
+      asthma: asthma.value,
+      highBloodPressure: highBloodPressure.value,
+      lowBloodPressure: lowBloodPressure.value,
+      aidsHiv: aidsHiv.value,
+      std: std.value,
+      stomachTroubles: stomachTroubles.value,
+      faintingSeizure: faintingSeizure.value,
+      rapidWeightLossRadtionTherapy: rapidWeightLossRadtionTherapy.value,
+      // radiationTherapy: radiationTherapy.value,
+      jointReplacement: jointReplacement.value,
+      heartSurgery: heartSurgery.value,
+      thyroidProblem: thyroidProblem.value,
+      heartDisease: heartDisease.value,
+      heartMurmur: heartMurmur.value,
+      hepatitisLiverDisease: hepatitisLiverDisease.value,
+      rheumaticSeizure: rheumaticSeizure.value,
+      respiratoryProblems: respiratoryProblems.value,
+      hepatitisJaundice: hepatitisJaundice.value,
+      tuberculosis: tuberculosis.value,
+      swollenAnkles: swollenAnkles.value,
+      kidneyDisease: kidneyDisease.value,
+      others: others.value
+  };
+
+  let registerResult = await register(registerInfo);
+
+  if (registerResult) {
+    router.push('/login');
+  }
 }
 
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
@@ -384,7 +470,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             
             <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Edit'">
                   <!-- TODO, Add functionality here -->
-                  <button class="border-2 p-2 text-center w-1/12 rounded-sm">Save Changes</button>
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="attemptRegister()">Save Changes</button>
                   <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="() => { actionButton = '' }">Cancel</button>
             </div>
       </div>
