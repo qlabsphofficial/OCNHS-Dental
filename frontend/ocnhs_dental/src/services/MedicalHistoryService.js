@@ -1,3 +1,5 @@
+import current_address from "@/address";
+
 export async function retrieveMedicalHistory(id) {
       let medicalHistory = {}
 
@@ -8,7 +10,7 @@ export async function retrieveMedicalHistory(id) {
                   'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({
-                        'student_id': id,
+                        'student_id': id
                   })
             })
 
@@ -17,12 +19,13 @@ export async function retrieveMedicalHistory(id) {
             medicalHistory.student = data.student
             medicalHistory.medicalHistory = data.medical_history
 
+            console.log(id);
             console.log(data)
             console.log('--- below is object data ---')
             console.log(medicalHistory)
       }
       catch (error){
-
+            console.log(error);
       }
 
       return medicalHistory

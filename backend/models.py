@@ -34,6 +34,7 @@ class Student(Base):
     appointments = relationship('Appointment', back_populates='student')
     oral_health_condition = relationship("OralHealthCondition", back_populates="student")
     temporary_teeth = relationship("TemporaryTeeth", back_populates="student")
+    permanent_teeth = relationship("PermanentTeeth", back_populates="student")
 
 
 # --- Medical History Table ---
@@ -164,3 +165,18 @@ class TemporaryTeeth(Base):
 
     # Relationship to Student model
     student = relationship("Student", back_populates="temporary_teeth")
+    
+    
+class PermanentTeeth(Base):
+    __tablename__ = "permanent_teeth"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    grade_level = Column(String, nullable=True)
+    no_t_decayed = Column(Integer, nullable=True)
+    no_t_missing = Column(Integer, nullable=True)
+    no_t_filled = Column(Integer, nullable=True)
+    total_d_m_f_t = Column(Integer, nullable=True)
+    total_sound_teeth = Column(Integer, nullable=True)
+
+    student = relationship("Student", back_populates="permanent_teeth")

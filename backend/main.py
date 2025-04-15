@@ -283,6 +283,10 @@ class RequestResetPassword(BaseModel):
     email: str
 
 
+class StudentRequest(BaseModel):
+    student_id: int
+    
+    
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -831,13 +835,13 @@ async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_
 
 
 @app.post("/get_student_medical_history")
-async def get_student_medical_history(student_id: int, db: Session = Depends(get_database)):
-    student = db.query(Student).filter(Student.id == student_id).first()
+async def get_student_medical_history(data: StudentRequest, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == data.student_id).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).first()
+    medical_history = db.query(MedicalHistory).filter(MedicalHistory.student_id == data.student_id).first()
 
     if not medical_history:
         return {
