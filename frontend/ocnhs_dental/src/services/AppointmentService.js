@@ -80,7 +80,6 @@ export async function bookAppointment(category, date) {
       let userStore = useUserStore()
       let message = 'Booking Failed';
 
-      // INSERT LOGIN FUNCTIONALITY HERE
       try {
       const response = await fetch(`${current_address}/create_appointment`, {
             method: 'POST',

@@ -20,7 +20,7 @@ function accessService(service){
   <div id="home" class="flex flex-row justify-between w-full h-20 p-2 lg:p-16 main-color">
     <div class="flex flex-row gap-5 h-full items-center">
       <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo1.png" height="120px" width="100px" class="hidden lg:block">
-      <h3 class="text-white sm:font-bold text-xs lg:text-lg">OLONGAPO CITY NATIONAL HIGH SCHOOL DENTAL CLINIC</h3>
+      <h3 class="text-white sm:font-bold text-xs lg:text-xl">OLONGAPO CITY NATIONAL HIGH SCHOOL DENTAL CLINIC</h3>
     </div>
 
     <div class="flex h-full items-center">
@@ -31,11 +31,11 @@ function accessService(service){
   <!-- Navbar -->
   <div class="flex flex-row lg:justify-end items-center p-2 lg:p-8 secondary-color">
     <div class="flex flex-row gap-2 lg:gap-5 footer-links-2">
-      <a class="text-sm lg:text-lg">HOME</a>
-      <a class="text-sm lg:text-lg" @click="() => { skip = 'about' } ">ABOUT US</a>
-      <a class="text-sm lg:text-lg" @click="() => { skip = 'blogs' } ">BLOGS</a>
+      <a class="text-sm lg:text-xl">HOME</a>
+      <a class="text-sm lg:text-xl" @click="() => { skip = 'about' } ">ABOUT US</a>
+      <a class="text-sm lg:text-xl" @click="() => { skip = 'blogs' } ">BLOGS</a>
       <div class="flex flex-col">
-        <a class="text-sm lg:text-lg" @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
+        <a class="text-sm lg:text-xl" @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
 
         <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-30 lg:top-50 border-2 p-4 lg:p-6 w-8/12 lg:w-2/12 bg-white negative-marg-left">
           <button @click="accessService(1)" class="text-sm lg:text-lg">FLOURIDE APPLICATION</button>
@@ -44,7 +44,7 @@ function accessService(service){
           <button @click="accessService(4)" class="text-sm lg:text-lg">EXTRACTION/BUNOT</button>
         </div>
       </div>
-      <button class="w-20 text-white text-sm lg:text-lg rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
+      <button class="w-20 text-white text-sm lg:text-xl rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 

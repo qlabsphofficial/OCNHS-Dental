@@ -1,13 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
+import { retrieveStudentRecords } from '@/services/StudentRecordService';
 
 const fileType = ref('')
 const yearGraduated = ref('')
 const curriculum = ref('')
 const gradeLvl = ref('')
 const section = ref('')
-const students = ref([{'test': 'hello'}])
+const students = ref([])
 
 
 // Student Info
@@ -16,13 +17,25 @@ const studentOptionsShowing = ref(false)
 
 const actionButton = ref(false)
 
-function listenToFilterChanges() {
+async function listenToFilterChanges() {
       // Make request to backend, return data afterwards
       if (fileType.value == 'CURRENT' && curriculum.value != '' && gradeLvl.value != '' && section.value != '') {
-            console.log('working')
+            students.value = await retrieveStudentRecords(
+                  fileType.value,
+                  yearGraduated.value,
+                  curriculum.value,
+                  gradeLvl.value,
+                  section.value
+            )
       }
       else if (fileType.value == 'OLD' && yearGraduated.value != '' && curriculum.value != ''){
-            console.log('working 2')
+            students.value = await retrieveStudentRecords(
+                  fileType.value,
+                  yearGraduated.value,
+                  curriculum.value,
+                  gradeLvl.value,
+                  section.value
+            )
       }
 }
 
