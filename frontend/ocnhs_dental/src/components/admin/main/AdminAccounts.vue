@@ -1,13 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Trash2, Archive } from 'lucide-vue-next';
+import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 
 const fileType = ref('')
 const yearGraduated = ref('')
 const curriculum = ref('')
 const gradeLvl = ref('')
 const section = ref('')
-const students = ref([{'test': 'hello'}])
+const students = ref([{}])
 
 
 // Student Info
@@ -20,6 +21,37 @@ function changeButton(module) {
       actionButton.value = module
       studentOptionsShowing.value = false
 }
+
+async function listenToFilterChanges() {
+      // Make request to backend, return data afterwards
+      if (fileType.value == 'CURRENT' && curriculum.value != '' && gradeLvl.value != '' && section.value != '') {
+            students.value = await retrieveStudentRecords(
+                  fileType.value,
+                  yearGraduated.value,
+                  curriculum.value,
+                  gradeLvl.value,
+                  section.value
+            )
+      }
+      else if (fileType.value == 'OLD' && yearGraduated.value != '' && curriculum.value != ''){
+            students.value = await retrieveStudentRecords(
+                  fileType.value,
+                  yearGraduated.value,
+                  curriculum.value,
+                  gradeLvl.value,
+                  section.value
+            )
+      }
+}
+
+async function retrieveStudentInfo(id) {
+      studentInfo.value = await retrieveMedicalHistory(id)
+      console.log(studentInfo.value)
+}
+
+watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
+      listenToFilterChanges();
+});
 </script>
 
 <template>
