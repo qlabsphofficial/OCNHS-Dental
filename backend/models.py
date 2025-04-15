@@ -32,6 +32,8 @@ class Student(Base):
 
     medical_history = relationship('MedicalHistory', back_populates='student')
     appointments = relationship('Appointment', back_populates='student')
+    oral_health_condition = relationship("OralHealthCondition", back_populates="student")
+    temporary_teeth = relationship("TemporaryTeeth", back_populates="student")
 
 
 # --- Medical History Table ---
@@ -127,3 +129,38 @@ class Admin(Base):
     address = Column(String, nullable=True, default=None)
     email = Column(String, nullable=True, default=None)
     password = Column(String, nullable=False)
+    
+    
+class OralHealthCondition(Base):
+    __tablename__ = "oral_health_condition"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    grade_level = Column(String, nullable=True)
+    gingivitis = Column(Boolean, nullable=True, default=None)
+    periodontal_disease = Column(Boolean, nullable=True, default=None)
+    malocclusion = Column(Boolean, nullable=True, default=None)
+    supernumerary_teeth = Column(Boolean, nullable=True, default=None)
+    retained_deciduous_teeth = Column(Boolean, nullable=True, default=None)
+    decubital_ulcer = Column(Boolean, nullable=True, default=None)
+    calculus = Column(Boolean, nullable=True, default=None)
+    cleft_lip_palate = Column(Boolean, nullable=True, default=None)
+    root_fragment = Column(Boolean, nullable=True, default=None)
+    fluorosis = Column(Boolean, nullable=True, default=None)
+    others = Column(String, nullable=True)
+
+    student = relationship("Student", back_populates="oral_health_condition")
+    
+    
+class TemporaryTeeth(Base):
+    __tablename__ = 'temporary_teeth'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    student_id = Column(Integer, ForeignKey('students.id'), nullable=False)
+    grade_level = Column(String, nullable=True)
+    no_t_decayed = Column(Integer, nullable=True)
+    no_t_filled = Column(Integer, nullable=True)
+    total_dft = Column(Integer, nullable=True)
+
+    # Relationship to Student model
+    student = relationship("Student", back_populates="temporary_teeth")
