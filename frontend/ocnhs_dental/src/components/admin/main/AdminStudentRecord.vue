@@ -11,6 +11,28 @@ const gradeLvl = ref('')
 const section = ref('')
 const students = ref([])
 
+//models
+const goodHealth = ref(false);
+const underMedicalTreatment = ref(false);
+const treatmentCondition = ref('');
+const seriousIllness = ref(false);
+const illnessOrOperation = ref('');
+const hospitalized = ref(false);
+const hospitalizationDetails = ref('');
+const takingMedications = ref(false);
+const medicationsDetails = ref('');
+const tobaccoUsage = ref(false);
+const drugUse = ref(false);
+const womenOnly = ref(false);
+const womenCondition = ref('');
+const hasToothbrush = ref(false);
+const brushingTimes = ref(0);
+const toothbrushChange = ref(0);
+const useToothpaste = ref(false);
+const dentistVisits = ref(0);
+
+
+
 
 // Student Info
 const studentInfo = ref({})
@@ -43,7 +65,26 @@ async function listenToFilterChanges() {
 
 async function retrieveStudentInfo(id) {
       studentInfo.value = await retrieveMedicalHistory(id)
-      console.log(studentInfo.value)
+      
+      goodHealth.value = studentInfo.value.medicalHistory.good_health
+      underMedicalTreatment.value = studentInfo.value.medicalHistory.under_medical_treatment
+      treatmentCondition.value = studentInfo.value.medicalHistory.condition_being_treated
+      seriousIllness.value = studentInfo.value.medicalHistory.serious_illness
+
+      illnessOrOperation.value = studentInfo.value.medicalHistory.illness_or_operation
+      hospitalized.value = studentInfo.value.medicalHistory.hospitalized
+      hospitalizationDetails.value = studentInfo.value.medicalHistory.hospitalization_details
+      takingMedications.value = studentInfo.value.medicalHistory.taking_medication
+      medicationsDetails.value = studentInfo.value.medicalHistory.taking_medication
+      tobaccoUsage.value = studentInfo.value.medicalHistory.use_tobacco
+      drugUse.value = studentInfo.value.medicalHistory.use_alcohol_or_drugs
+      womenOnly.value = studentInfo.value.medicalHistory.pregnant_nursing_birth_control
+      womenCondition.value = studentInfo.value.medicalHistory.pregnant_nursing_birth_control_details
+      hasToothbrush.value = studentInfo.value.medicalHistory.toothbrush
+      brushingTimes.value = studentInfo.value.medicalHistory.brush_times_per_day
+      toothbrushChange.value = studentInfo.value.medicalHistory.change_toothbrush_per_year
+      useToothpaste.value = studentInfo.value.medicalHistory.use_toothpaste
+      dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
 }
 
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
@@ -184,49 +225,49 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 
                         <div class="flex flex-row gap-4">
                               <h4>DATE OF BIRTH:</h4>
-                              <p>{{ studentInfo.student.firstname }}</p>
+                              <p>{{ studentInfo.student.dateofbirth }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>BIRTHPLACE:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.birthplace }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>PARENT / GUARDIAN:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.parent_guardian_name }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>ADVISER:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.adviser_name }}</p>
                         </div>
                   </div>
 
                   <div class="flex flex-col gap-6 w-1/2">
                         <div class="flex flex-row gap-4">
                               <h4>GENDER:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.gender }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>AGE:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.age }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>CONTACT NUMBER:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.contact_no }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>ADDRESS:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.address }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>CURRICULUM, GRADE LEVEL, SECTION:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.curriculum }}, {{ studentInfo.student.grade_level }}, {{ studentInfo.student.section }}</p>
                         </div>
                   </div>
             </div>

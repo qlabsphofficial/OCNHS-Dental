@@ -2,11 +2,11 @@ import current_address from "@/address";
 import { useUserStore } from "@/stores/user";
 
 export async function login(email, password) {
-            let userStore = useUserStore()
-            let loginSuccessful = false;
+      let userStore = useUserStore()
+      let loginSuccessful = false;
 
-            // INSERT LOGIN FUNCTIONALITY HERE
-            try {
+      // INSERT LOGIN FUNCTIONALITY HERE
+      try {
             const response = await fetch(`${current_address}/login`, {
                   method: 'POST',
                   headers: {
@@ -35,10 +35,11 @@ export async function login(email, password) {
                   
                   loginSuccessful = true;
             }
-            } catch (error) {
-                  console.error('Registration error:', error);
+            
+      } catch (error) {
+            console.error('Registration error:', error);
             return false;
-            }
+      }
 
-            return loginSuccessful
+      return loginSuccessful
 }

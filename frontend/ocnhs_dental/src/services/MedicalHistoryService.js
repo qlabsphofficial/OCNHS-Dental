@@ -19,10 +19,7 @@ export async function retrieveMedicalHistory(id) {
             medicalHistory.student = data.student
             medicalHistory.medicalHistory = data.medical_history
 
-            console.log(id);
-            console.log(data)
-            console.log('--- below is object data ---')
-            console.log(medicalHistory)
+            console.log(medicalHistory);
       }
       catch (error){
             console.log(error);
@@ -34,11 +31,9 @@ export async function retrieveMedicalHistory(id) {
 export async function retrieveAllMedicalHistory() {
       let medicalHistory = []
 
-      // Insert medical history retrieval endpoint here
-
       return medicalHistory
 }
 
 export async function updateMedicalHistory(data) {
-      // Insert medical history update endpoint here
+
 }
