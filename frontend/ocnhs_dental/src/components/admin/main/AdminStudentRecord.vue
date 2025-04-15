@@ -99,7 +99,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <h4 v-else-if="fileType == 'OLD'">{{ fileType }} / {{ yearGraduated }} / {{ curriculum }}</h4>
                   <h4 v-else></h4>
 
-                  <div class="w-1/4">
+                  <div class="w-5/12">
                         <div class="flex flex-row justify-between">
                               <div class="flex flex-col gap-4">
                                     <h4>FILE TYPE</h4>
@@ -195,7 +195,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             </div>
       </div>
 
-      <div v-if="showStudentInfo" class="flex flex-col w-11/12 h-11/12 p-16 border-2 rounded-md">
+      <div v-if="showStudentInfo" class="flex flex-col w-11/12 h-11/12 p-16 border-2 rounded-md overflow-y-scroll">
             <!-- Personal Info -->
             <div class="flex flex-row justify-between items-between w-full">
                   <div class="flex flex-row w-3/12">
@@ -273,7 +273,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             </div>
 
             <!-- Medical Data -->
-            <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false; }">
+            <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false }">
                   <div class="flex flex-col gap-2 h-1/2 w-1/2">
                   <div class="flex flex-row gap-5">
                   <input type="checkbox" v-model="goodHealth">
@@ -380,7 +380,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
                   </div>
                   </div>
-            </div>      
+            </div>
             
             <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Edit'">
                   <!-- TODO, Add functionality here -->

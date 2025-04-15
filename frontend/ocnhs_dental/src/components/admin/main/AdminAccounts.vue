@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { Eye, MenuSquare, Edit, Trash2, Archive } from 'lucide-vue-next';
+import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
+import { retrieveStudentRecords } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 
 const fileType = ref('')
@@ -8,19 +9,37 @@ const yearGraduated = ref('')
 const curriculum = ref('')
 const gradeLvl = ref('')
 const section = ref('')
-const students = ref([{}])
+const students = ref([])
+
+//models
+const goodHealth = ref(false);
+const underMedicalTreatment = ref(false);
+const treatmentCondition = ref('');
+const seriousIllness = ref(false);
+const illnessOrOperation = ref('');
+const hospitalized = ref(false);
+const hospitalizationDetails = ref('');
+const takingMedications = ref(false);
+const medicationsDetails = ref('');
+const tobaccoUsage = ref(false);
+const drugUse = ref(false);
+const womenOnly = ref(false);
+const womenCondition = ref('');
+const hasToothbrush = ref(false);
+const brushingTimes = ref(0);
+const toothbrushChange = ref(0);
+const useToothpaste = ref(false);
+const dentistVisits = ref(0);
+
+
 
 
 // Student Info
+const studentInfo = ref({})
 const showStudentInfo = ref(false)
 const studentOptionsShowing = ref(false)
 
-const actionButton = ref('Edit')
-
-function changeButton(module) {
-      actionButton.value = module
-      studentOptionsShowing.value = false
-}
+const actionButton = ref(false)
 
 async function listenToFilterChanges() {
       // Make request to backend, return data afterwards
@@ -46,7 +65,26 @@ async function listenToFilterChanges() {
 
 async function retrieveStudentInfo(id) {
       studentInfo.value = await retrieveMedicalHistory(id)
-      console.log(studentInfo.value)
+      
+      goodHealth.value = studentInfo.value.medicalHistory.good_health
+      underMedicalTreatment.value = studentInfo.value.medicalHistory.under_medical_treatment
+      treatmentCondition.value = studentInfo.value.medicalHistory.condition_being_treated
+      seriousIllness.value = studentInfo.value.medicalHistory.serious_illness
+
+      illnessOrOperation.value = studentInfo.value.medicalHistory.illness_or_operation
+      hospitalized.value = studentInfo.value.medicalHistory.hospitalized
+      hospitalizationDetails.value = studentInfo.value.medicalHistory.hospitalization_details
+      takingMedications.value = studentInfo.value.medicalHistory.taking_medication
+      medicationsDetails.value = studentInfo.value.medicalHistory.taking_medication
+      tobaccoUsage.value = studentInfo.value.medicalHistory.use_tobacco
+      drugUse.value = studentInfo.value.medicalHistory.use_alcohol_or_drugs
+      womenOnly.value = studentInfo.value.medicalHistory.pregnant_nursing_birth_control
+      womenCondition.value = studentInfo.value.medicalHistory.pregnant_nursing_birth_control_details
+      hasToothbrush.value = studentInfo.value.medicalHistory.toothbrush
+      brushingTimes.value = studentInfo.value.medicalHistory.brush_times_per_day
+      toothbrushChange.value = studentInfo.value.medicalHistory.change_toothbrush_per_year
+      useToothpaste.value = studentInfo.value.medicalHistory.use_toothpaste
+      dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
 }
 
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
@@ -61,7 +99,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <h4 v-else-if="fileType == 'OLD'">{{ fileType }} / {{ yearGraduated }} / {{ curriculum }}</h4>
                   <h4 v-else></h4>
 
-                  <div class="w-1/4">
+                  <div class="w-5/12">
                         <div class="flex flex-row justify-between">
                               <div class="flex flex-col gap-4">
                                     <h4>FILE TYPE</h4>
@@ -147,17 +185,17 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 
                         <!-- TODO -->
                         <tr v-for="student, index of students" :key="student">
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"><button @click="() => { showStudentInfo = true; }"><Eye /></button></td>
+                              <td class="text-center p-1">{{ student.firstname }}</td>
+                              <td class="text-center p-1">{{ student.middlename }}</td>
+                              <td class="text-center p-1">{{ student.lastname }}</td>
+                              <td class="text-center p-1">{{ student.dateofbirth }}</td>
+                              <td class="text-center p-1"><button @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"><Eye /></button></td>
                         </tr>
                   </table>
             </div>
       </div>
 
-      <div v-if="showStudentInfo" class="flex flex-col w-11/12 h-11/12 p-16 border-2 rounded-md">
+      <div v-if="showStudentInfo" class="flex flex-col w-11/12 h-11/12 p-16 border-2 rounded-md overflow-y-scroll">
             <!-- Personal Info -->
             <div class="flex flex-row justify-between items-between w-full">
                   <div class="flex flex-row w-3/12">
@@ -172,7 +210,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               </div>
                         </div>
                         <!-- TODO -->
-                        <p class="text-2xl">DELA CRUZ, JUAN</p>      
+                        <p class="text-2xl">{{ studentInfo.student.lastname }} {{ studentInfo.student.firstname }}</p>
                   </div>
 
                   <button @click="() => { showStudentInfo = false; }">Return to Student Records</button>
@@ -183,54 +221,54 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <div class="flex flex-col gap-6 w-1/2">
                         <div class="flex flex-row gap-4">
                               <h4>NAME:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.firstname }} {{ studentInfo.student.middlename }} {{ studentInfo.student.lastname }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>DATE OF BIRTH:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.dateofbirth }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>BIRTHPLACE:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.birthplace }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>PARENT / GUARDIAN:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.parent_guardian_name }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>ADVISER:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.adviser_name }}</p>
                         </div>
                   </div>
 
                   <div class="flex flex-col gap-6 w-1/2">
                         <div class="flex flex-row gap-4">
                               <h4>GENDER:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.gender }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>AGE:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.age }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>CONTACT NUMBER:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.contact_no }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>ADDRESS:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.address }}</p>
                         </div>
 
                         <div class="flex flex-row gap-4">
                               <h4>CURRICULUM, GRADE LEVEL, SECTION:</h4>
-                              <p></p>
+                              <p>{{ studentInfo.student.curriculum }}, {{ studentInfo.student.grade_level }}, {{ studentInfo.student.section }}</p>
                         </div>
                   </div>
             </div>
