@@ -137,10 +137,10 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 
                         <!-- TODO -->
                         <tr v-for="student, index of students" :key="student">
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"></td>
-                              <td class="text-center p-1"></td>
+                              <td class="text-center p-1">{{ student.firstname }}</td>
+                              <td class="text-center p-1">{{ student.middlename }}</td>
+                              <td class="text-center p-1">{{ student.lastname }}</td>
+                              <td class="text-center p-1">{{ student.dateofbirth }}</td>
                               <td class="text-center p-1"><button @click="() => { showStudentInfo = true; }"><Eye /></button></td>
                         </tr>
                   </table>
