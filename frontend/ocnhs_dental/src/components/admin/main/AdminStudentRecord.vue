@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords } from '@/services/StudentRecordService';
+import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 
 const fileType = ref('')
 const yearGraduated = ref('')
@@ -12,6 +13,7 @@ const students = ref([])
 
 
 // Student Info
+const studentInfo = ref({})
 const showStudentInfo = ref(false)
 const studentOptionsShowing = ref(false)
 
@@ -37,6 +39,11 @@ async function listenToFilterChanges() {
                   section.value
             )
       }
+}
+
+async function retrieveStudentInfo(id) {
+      studentInfo.value = await retrieveMedicalHistory(id)
+      console.log(studentInfo.value)
 }
 
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
@@ -141,7 +148,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <td class="text-center p-1">{{ student.middlename }}</td>
                               <td class="text-center p-1">{{ student.lastname }}</td>
                               <td class="text-center p-1">{{ student.dateofbirth }}</td>
-                              <td class="text-center p-1"><button @click="() => { showStudentInfo = true; }"><Eye /></button></td>
+                              <td class="text-center p-1"><button @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"><Eye /></button></td>
                         </tr>
                   </table>
             </div>

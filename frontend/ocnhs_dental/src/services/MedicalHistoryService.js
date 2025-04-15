@@ -1,7 +1,15 @@
-export async function retrieveMedicalHistory() {
+export async function retrieveMedicalHistory(id) {
       let medicalHistory = {}
 
-      // Insert medical history retrieval endpoint here
+      try {
+            const response = await fetch(`${current_address}/get_student_medical_history?student_id=${id}`)
+            const data = await response.json()
+
+            medicalHistory = data
+      }
+      catch (error){
+
+      }
 
       return medicalHistory
 }
