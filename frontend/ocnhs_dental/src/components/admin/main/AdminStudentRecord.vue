@@ -2,8 +2,7 @@
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords } from '@/services/StudentRecordService';
-import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
-// import { register } from '@/services/RegisterService';
+import { retrieveMedicalHistory, updateMedicalHistory } from '@/services/MedicalHistoryService';
 
 const fileType = ref('')
 const yearGraduated = ref('')
@@ -31,7 +30,7 @@ const brushingTimes = ref(0);
 const toothbrushChange = ref(0);
 const useToothpaste = ref(false);
 const dentistVisits = ref(0);
-
+const studentID = ref(0);
 
 
 
@@ -66,7 +65,6 @@ async function listenToFilterChanges() {
 
 async function retrieveStudentInfo(id) {
       studentInfo.value = await retrieveMedicalHistory(id)
-      
       goodHealth.value = studentInfo.value.medicalHistory.good_health
       underMedicalTreatment.value = studentInfo.value.medicalHistory.under_medical_treatment
       treatmentCondition.value = studentInfo.value.medicalHistory.condition_being_treated
@@ -76,7 +74,7 @@ async function retrieveStudentInfo(id) {
       hospitalized.value = studentInfo.value.medicalHistory.hospitalized
       hospitalizationDetails.value = studentInfo.value.medicalHistory.hospitalization_details
       takingMedications.value = studentInfo.value.medicalHistory.taking_medication
-      medicationsDetails.value = studentInfo.value.medicalHistory.taking_medication
+      medicationsDetails.value = studentInfo.value.medicalHistory.medication_details
       tobaccoUsage.value = studentInfo.value.medicalHistory.use_tobacco
       drugUse.value = studentInfo.value.medicalHistory.use_alcohol_or_drugs
       womenOnly.value = studentInfo.value.medicalHistory.pregnant_nursing_birth_control
@@ -89,27 +87,9 @@ async function retrieveStudentInfo(id) {
 }
 
 
-async function attemptRegister() {
-  const registerInfo = {
-      firstName: firstName.value,
-      middleName: middleName.value,
-      lastName: lastName.value,
-      suffix: suffix.value,
-      birthDate: birthDate.value,
-      gender: gender.value,
-      age: age.value,
-      placeOfBirth: placeOfBirth.value,
-      contact: contact.value,
-      address: address.value,
-      email: email.value,
-      password: password.value,
-      confirmPassword: confirmPassword.value,
-      address: address.value,
-      parentName: parentName.value,
-      adviserName: adviserName.value,
-      curriculum: curriculum.value,
-      gradeLvl: gradeLvl.value,
-      section: section.value,
+async function updateMedicalHistoryFunc(id) {
+  const medicalHistoryInfo = {
+      studentID: id,
       goodHealth: goodHealth.value,
       underMedicalTreatment: underMedicalTreatment.value,
       treatmentCondition: treatmentCondition.value,
@@ -128,48 +108,13 @@ async function attemptRegister() {
       toothbrushChange: toothbrushChange.value,
       useToothpaste: useToothpaste.value,
       dentistVisits: dentistVisits.value,
-      allergy: allergy.value,
-      //need to add allergy details
-      emphysema: emphysema.value,
-      bleedingProblems: bleedingProblems.value,
-      bloodDiseases: bloodDiseases.value,
-      headInjuries: headInjuries.value,
-      arthritis: arthritis.value,
-      highFever: highFever.value,
-      diabetes: diabetes.value,
-      chestPain: chestPain.value,
-      stroke: stroke.value,
-      cancer: cancer.value,
-      anemia: anemia.value,
-      angina: angina.value,
-      asthma: asthma.value,
-      highBloodPressure: highBloodPressure.value,
-      lowBloodPressure: lowBloodPressure.value,
-      aidsHiv: aidsHiv.value,
-      std: std.value,
-      stomachTroubles: stomachTroubles.value,
-      faintingSeizure: faintingSeizure.value,
-      rapidWeightLossRadtionTherapy: rapidWeightLossRadtionTherapy.value,
-      // radiationTherapy: radiationTherapy.value,
-      jointReplacement: jointReplacement.value,
-      heartSurgery: heartSurgery.value,
-      thyroidProblem: thyroidProblem.value,
-      heartDisease: heartDisease.value,
-      heartMurmur: heartMurmur.value,
-      hepatitisLiverDisease: hepatitisLiverDisease.value,
-      rheumaticSeizure: rheumaticSeizure.value,
-      respiratoryProblems: respiratoryProblems.value,
-      hepatitisJaundice: hepatitisJaundice.value,
-      tuberculosis: tuberculosis.value,
-      swollenAnkles: swollenAnkles.value,
-      kidneyDisease: kidneyDisease.value,
-      others: others.value
   };
 
-  let registerResult = await register(registerInfo);
+  let updateResult = await updateMedicalHistory(medicalHistoryInfo);
 
-  if (registerResult) {
-    router.push('/login');
+  if (updateResult) {
+      studentOptionsShowing.value = false;
+  actionButton.value = false;
   }
 }
 
@@ -291,7 +236,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <!-- Dropdown -->
                               <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-60 absolute bg-white">
                                     <button class="flex flex-row items-center gap-20 w-full" @click="() => { actionButton = 'Edit'; studentOptionsShowing = false; }"><Edit /> EDIT</button>
-                                    <button class="flex flex-row items-center gap-20 w-full"><Printer /> PRINT</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="() => { actionButton = 'Print'; studentOptionsShowing = false; }"><Printer /> PRINT</button>
                               </div>
                         </div>
                         <!-- TODO -->
@@ -365,7 +310,6 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <input type="checkbox" v-model="goodHealth">
                   <p>ARE YOU IN GOOD HEALTH?</p>
                   </div>
-            
                   <div class="flex flex-col">
                   <div class="flex flex-row gap-5">
                         <input type="checkbox" v-model="underMedicalTreatment">
@@ -470,7 +414,15 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             
             <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Edit'">
                   <!-- TODO, Add functionality here -->
-                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="attemptRegister()">Save Changes</button>
+                  
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="updateMedicalHistoryFunc(studentInfo.student.id)">Save Changes</button>
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="() => { actionButton = '' }">Cancel</button>
+            </div>
+
+            <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Print'">
+                  <!-- TODO, Add functionality here -->
+                  
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="updateMedicalHistoryFunc(studentInfo.student.id)">PRINT</button>
                   <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="() => { actionButton = '' }">Cancel</button>
             </div>
       </div>

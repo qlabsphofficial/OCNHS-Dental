@@ -313,41 +313,41 @@ class UpdateStudentMedicalHistory(BaseModel):
     use_toothpaste: Optional[bool] = None
     dentist_visits_per_year: Optional[int] = None
 
-    allergy: Optional[bool] = None
-    # allergy_details: Optional[str] = None
-    emphysema: Optional[bool] = None
-    bleeding_problems: Optional[bool] = None
-    blood_diseases: Optional[bool] = None
-    head_injuries: Optional[bool] = None
-    arthritis_rheumatism: Optional[bool] = None
-    high_fever: Optional[bool] = None
-    diabetes: Optional[bool] = None
-    chest_pain: Optional[bool] = None
-    stroke: Optional[bool] = None
-    cancer_tumors: Optional[bool] = None
-    anemia: Optional[bool] = None
-    angina: Optional[bool] = None
-    asthma: Optional[bool] = None
-    high_blood_pressure: Optional[bool] = None
-    low_blood_pressure: Optional[bool] = None
-    aids_hiv_infection: Optional[bool] = None
-    sexually_transmitted_disease: Optional[bool] = None
-    stomach_troubles_ulcers: Optional[bool] = None
-    fainting_seizure: Optional[bool] = None
-    rapid_weight_loss_radiation_therapy: Optional[bool] = None
-    joint_replacement_implant: Optional[bool] = None
-    heart_surgery_heart_attack: Optional[bool] = None
-    thyroid_problem: Optional[bool] = None
-    heart_disease: Optional[bool] = None
-    heart_murmur: Optional[bool] = None
-    hepatitis_liver_disease: Optional[bool] = None
-    rheumatic_seizure: Optional[bool] = None
-    respiratory_problems: Optional[bool] = None
-    hepatitis_jaundice: Optional[bool] = None
-    tuberculosis: Optional[bool] = None
-    swollen_ankles: Optional[bool] = None
-    kidney_disease: Optional[bool] = None
-    other_diseases: Optional[str] = None
+    # allergy: Optional[bool] = None
+    # # allergy_details: Optional[str] = None
+    # emphysema: Optional[bool] = None
+    # bleeding_problems: Optional[bool] = None
+    # blood_diseases: Optional[bool] = None
+    # head_injuries: Optional[bool] = None
+    # arthritis_rheumatism: Optional[bool] = None
+    # high_fever: Optional[bool] = None
+    # diabetes: Optional[bool] = None
+    # chest_pain: Optional[bool] = None
+    # stroke: Optional[bool] = None
+    # cancer_tumors: Optional[bool] = None
+    # anemia: Optional[bool] = None
+    # angina: Optional[bool] = None
+    # asthma: Optional[bool] = None
+    # high_blood_pressure: Optional[bool] = None
+    # low_blood_pressure: Optional[bool] = None
+    # aids_hiv_infection: Optional[bool] = None
+    # sexually_transmitted_disease: Optional[bool] = None
+    # stomach_troubles_ulcers: Optional[bool] = None
+    # fainting_seizure: Optional[bool] = None
+    # rapid_weight_loss_radiation_therapy: Optional[bool] = None
+    # joint_replacement_implant: Optional[bool] = None
+    # heart_surgery_heart_attack: Optional[bool] = None
+    # thyroid_problem: Optional[bool] = None
+    # heart_disease: Optional[bool] = None
+    # heart_murmur: Optional[bool] = None
+    # hepatitis_liver_disease: Optional[bool] = None
+    # rheumatic_seizure: Optional[bool] = None
+    # respiratory_problems: Optional[bool] = None
+    # hepatitis_jaundice: Optional[bool] = None
+    # tuberculosis: Optional[bool] = None
+    # swollen_ankles: Optional[bool] = None
+    # kidney_disease: Optional[bool] = None
+    # other_diseases: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -1040,7 +1040,7 @@ async def update_student_medical_history(medical_history_data: UpdateStudentMedi
     db.commit()
     db.refresh(medical_history)
 
-    return {"message": message, "medical_history": medical_history}
+    return {"message": message, "medical_history": medical_history, "status_code": 200 }
     
     
 @app.post("/update_medical_record")
