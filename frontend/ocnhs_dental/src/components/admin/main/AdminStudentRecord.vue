@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory, updateMedicalHistory } from '@/services/MedicalHistoryService';
+import html2pdf from 'html2pdf.js';
 
 const fileType = ref('')
 const yearGraduated = ref('')
@@ -116,6 +117,56 @@ async function updateMedicalHistoryFunc(id) {
       studentOptionsShowing.value = false;
   actionButton.value = false;
   }
+}
+
+function convertToPDF() {
+const element = document.getElementById('pdf-content');
+
+// Clone the element to avoid modifying original content
+const cloned = element.cloneNode(true);
+
+// Apply font styles to h4 and p tags
+cloned.querySelectorAll('h4').forEach(el => {
+  el.style.fontSize = '12pt';
+});
+
+cloned.querySelectorAll('p').forEach(el => {
+  el.style.fontSize = '12pt';
+});
+
+// Replace all inputs with their current values or representation
+cloned.querySelectorAll('input, textarea, select').forEach(el => {
+  const span = document.createElement('span');
+
+  // Apply common styles
+  span.style.display = 'inline-block';
+  span.style.fontSize = '12pt';
+  span.style.fontFamily = 'Arial';
+  span.style.padding = '4px';
+
+  // ✅ Only apply bottom border if NOT a checkbox
+  if (el.type !== 'checkbox') {
+    span.style.borderBottom = '2px solid black';
+    span.textContent = el.value;
+  } else {
+    span.textContent = el.checked ? '☑' : '☐';
+  }
+
+  el.parentNode.replaceChild(span, el);
+});
+
+// Generate the PDF
+html2pdf()
+  .set({
+    margin: 0.5,
+    filename: 'filled-form.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  })
+  .from(cloned)
+  .save();
+
 }
 
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
@@ -246,172 +297,176 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <button @click="() => { showStudentInfo = false; }">Return to Student Records</button>
             </div>
             <hr class="mt-5 mb-20">
+            
+            <div id="pdf-content">
 
-            <div class="flex flex-row justify-between w-full mb-20" @click="() => { studentOptionsShowing = false; }">
-                  <div class="flex flex-col gap-6 w-1/2">
-                        <div class="flex flex-row gap-4">
-                              <h4>NAME:</h4>
-                              <p>{{ studentInfo.student.firstname }} {{ studentInfo.student.middlename }} {{ studentInfo.student.lastname }}</p>
+                  <div class="flex flex-row justify-between w-full mb-20" @click="() => { studentOptionsShowing = false; }">
+                        <div class="flex flex-col gap-6 w-1/2">
+                              <div class="flex flex-row gap-4">
+                                    <h4>NAME:</h4>
+                                    <p>{{ studentInfo.student.firstname }} {{ studentInfo.student.middlename }} {{ studentInfo.student.lastname }}</p>
+                              </div>
+
+                              <div class="flex flex-row gap-4">
+                                    <h4>DATE OF BIRTH:</h4>
+                                    <p>{{ studentInfo.student.dateofbirth }}</p>
+                              </div>
+
+                              <div class="flex flex-row gap-4">
+                                    <h4>BIRTHPLACE:</h4>
+                                    <p>{{ studentInfo.student.birthplace }}</p>
+                              </div>
+
+                              <div class="flex flex-row gap-4">
+                                    <h4>PARENT / GUARDIAN:</h4>
+                                    <p>{{ studentInfo.student.parent_guardian_name }}</p>
+                              </div>
+
+                              <div class="flex flex-row gap-4">
+                                    <h4>ADVISER:</h4>
+                                    <p>{{ studentInfo.student.adviser_name }}</p>
+                              </div>
                         </div>
 
-                        <div class="flex flex-row gap-4">
-                              <h4>DATE OF BIRTH:</h4>
-                              <p>{{ studentInfo.student.dateofbirth }}</p>
-                        </div>
+                        <div class="flex flex-col gap-6 w-1/2">
+                              <div class="flex flex-row gap-4">
+                                    <h4>GENDER:</h4>
+                                    <p>{{ studentInfo.student.gender }}</p>
+                              </div>
 
-                        <div class="flex flex-row gap-4">
-                              <h4>BIRTHPLACE:</h4>
-                              <p>{{ studentInfo.student.birthplace }}</p>
-                        </div>
+                              <div class="flex flex-row gap-4">
+                                    <h4>AGE:</h4>
+                                    <p>{{ studentInfo.student.age }}</p>
+                              </div>
 
-                        <div class="flex flex-row gap-4">
-                              <h4>PARENT / GUARDIAN:</h4>
-                              <p>{{ studentInfo.student.parent_guardian_name }}</p>
-                        </div>
+                              <div class="flex flex-row gap-4">
+                                    <h4>CONTACT NUMBER:</h4>
+                                    <p>{{ studentInfo.student.contact_no }}</p>
+                              </div>
 
-                        <div class="flex flex-row gap-4">
-                              <h4>ADVISER:</h4>
-                              <p>{{ studentInfo.student.adviser_name }}</p>
+                              <div class="flex flex-row gap-4">
+                                    <h4>ADDRESS:</h4>
+                                    <p>{{ studentInfo.student.address }}</p>
+                              </div>
+
+                              <div class="flex flex-row gap-4">
+                                    <h4>CURRICULUM, GRADE LEVEL, SECTION:</h4>
+                                    <p>{{ studentInfo.student.curriculum }}, {{ studentInfo.student.grade_level }}, {{ studentInfo.student.section }}</p>
+                              </div>
                         </div>
                   </div>
 
-                  <div class="flex flex-col gap-6 w-1/2">
-                        <div class="flex flex-row gap-4">
-                              <h4>GENDER:</h4>
-                              <p>{{ studentInfo.student.gender }}</p>
-                        </div>
+                  <!-- Medical Data -->
+                  <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false }">
+                        <div class="flex flex-col gap-2 h-1/2 w-1/2">
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="goodHealth">
+                                    <p>ARE YOU IN GOOD HEALTH?</p>
+                              </div>
 
-                        <div class="flex flex-row gap-4">
-                              <h4>AGE:</h4>
-                              <p>{{ studentInfo.student.age }}</p>
+                              <div class="flex flex-col">
+                                    <div class="flex flex-row gap-5">
+                                          <input type="checkbox" v-model="underMedicalTreatment">
+                                          <p>ARE YOU UNDER MEDICAL TREATMENT NOW?</p>
+                                    </div>
+                        
+                                    <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                          <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
+                                          <input type="text" class="border-b-2 p-1" v-model="treatmentCondition">
+                                    </div>
+                              </div>
+                  
+                              <div class="flex flex-col">
+                                    <div class="flex flex-row gap-5">
+                                          <input type="checkbox" v-model="seriousIllness">
+                                          <p>HAVE YOU EVER HAD SERIOUS ILLNESS OR SURGICAL OPERATION?</p>
+                                    </div>
+                        
+                                    <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                          <p>IF SO, WHAT ILLNESS OR OPERATION?</p>
+                                          <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation">
+                                    </div>
+                              </div>
+                  
+                              <div class="flex flex-col">
+                                    <div class="flex flex-row gap-5">
+                                          <input type="checkbox" v-model="hospitalized">
+                                          <p>HAVE YOU EVER BEEN HOSPITALIZED?</p>
+                                    </div>
+                        
+                                    <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                          <p>IF SO, WHEN AND WHY?</p>
+                                          <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails">
+                                    </div>
+                              </div>
+                  
+                              <div class="flex flex-col">
+                                    <div class="flex flex-row gap-5">
+                                          <input type="checkbox" v-model="takingMedications">
+                                          <p>ARE YOU TAKING ANY PRESCRIPTION/ NON-PRESCRIPTION MEDICATION?</p>
+                                    </div>
+                        
+                                    <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                          <p>IF YES, PLEASE SPECIFY:</p>
+                                          <input type="text" class="border-b-2 p-1" v-model="medicationsDetails">
+                                    </div>
+                              </div>
+                        
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="tobaccoUsage">
+                                    <p>DO YOU USE TOBACCO PRODUCTS?</p>
+                              </div>
+                        
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="drugUse">
+                                    <p>DO YOU USE ALCOHOL, COCAINE, OR OTHER DANGEROUS DRUGS?</p>
+                              </div>
+                  
+                              <div class="flex flex-col">
+                                    <div class="flex flex-row gap-5">
+                                          <input type="checkbox" v-model="womenOnly">
+                                          <p>FOR WOMEN ONLY: ARE YOU PREGNANT/ARE YOU NURSING/ARE YOU TAKING BIRTH CONTROL?</p>
+                                    </div>
+                        
+                                    <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                          <p>IF YES, PLEASE INDICATE:</p>
+                                          <input type="text" class="border-b-2 p-1" v-model="womenCondition">
+                                    </div>
+                              </div>
                         </div>
-
-                        <div class="flex flex-row gap-4">
-                              <h4>CONTACT NUMBER:</h4>
-                              <p>{{ studentInfo.student.contact_no }}</p>
-                        </div>
-
-                        <div class="flex flex-row gap-4">
-                              <h4>ADDRESS:</h4>
-                              <p>{{ studentInfo.student.address }}</p>
-                        </div>
-
-                        <div class="flex flex-row gap-4">
-                              <h4>CURRICULUM, GRADE LEVEL, SECTION:</h4>
-                              <p>{{ studentInfo.student.curriculum }}, {{ studentInfo.student.grade_level }}, {{ studentInfo.student.section }}</p>
+                  
+                        <!-- Guided Questions -->
+                        <div class="flex flex-col gap-4 h-1/2 w-1/2">
+                              <h2 class="text-2xl mb-2">Guided Questions</h2>
+                  
+                              <div class="flex flex-row gap-4">
+                                    <input type="checkbox" v-model="hasToothbrush">
+                                    <p>DO YOU HAVE A TOOTHBRUSH?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-4">
+                                    <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
+                                    <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-4">
+                                    <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
+                                    <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-4">
+                                    <input type="checkbox" v-model="useToothpaste">
+                                    <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-4">
+                                    <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
+                                    <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
+                              </div>
                         </div>
                   </div>
             </div>
 
-            <!-- Medical Data -->
-            <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false }">
-                  <div class="flex flex-col gap-2 h-1/2 w-1/2">
-                  <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="goodHealth">
-                  <p>ARE YOU IN GOOD HEALTH?</p>
-                  </div>
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="underMedicalTreatment">
-                        <p>ARE YOU UNDER MEDICAL TREATMENT NOW?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="treatmentCondition">
-                  </div>
-                  </div>
-            
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="seriousIllness">
-                        <p>HAVE YOU EVER HAD SERIOUS ILLNESS OR SURGICAL OPERATION?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHAT ILLNESS OR OPERATION?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation">
-                  </div>
-                  </div>
-            
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="hospitalized">
-                        <p>HAVE YOU EVER BEEN HOSPITALIZED?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHEN AND WHY?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails">
-                  </div>
-                  </div>
-            
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="takingMedications">
-                        <p>ARE YOU TAKING ANY PRESCRIPTION/ NON-PRESCRIPTION MEDICATION?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF YES, PLEASE SPECIFY:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="medicationsDetails">
-                  </div>
-                  </div>
-            
-                  <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="tobaccoUsage">
-                  <p>DO YOU USE TOBACCO PRODUCTS?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="drugUse">
-                  <p>DO YOU USE ALCOHOL, COCAINE, OR OTHER DANGEROUS DRUGS?</p>
-                  </div>
-            
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="womenOnly">
-                        <p>FOR WOMEN ONLY: ARE YOU PREGNANT/ARE YOU NURSING/ARE YOU TAKING BIRTH CONTROL?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF YES, PLEASE INDICATE:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="womenCondition">
-                  </div>
-                  </div>
-                  </div>
-            
-                  <!-- Guided Questions -->
-                  <div class="flex flex-col gap-4 h-1/2 w-1/2">
-                  <h2 class="text-2xl mb-2">Guided Questions</h2>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="hasToothbrush">
-                  <p>DO YOU HAVE A TOOTHBRUSH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
-                  <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
-                  <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="useToothpaste">
-                  <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
-                  <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
-                  </div>
-                  </div>
-            </div>
-            
             <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Edit'">
                   <!-- TODO, Add functionality here -->
                   
@@ -422,7 +477,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Print'">
                   <!-- TODO, Add functionality here -->
                   
-                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="updateMedicalHistoryFunc(studentInfo.student.id)">PRINT</button>
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="convertToPDF()">PRINT</button>
                   <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="() => { actionButton = '' }">Cancel</button>
             </div>
       </div>
