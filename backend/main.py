@@ -851,6 +851,32 @@ async def approve_appointment(request: ApproveAppointmentRequest, db: Session = 
     appointment.status = "APPROVED"
     db.commit()
     db.refresh(appointment)
+    
+    student = db.query(Student).filter(Student.id == appointment.student_id).first()
+    
+    formatted_appointment_datetime = appointment.appointment_datetime.strftime("%A, %B %d, %Y at %I:%M %p")
+    
+    msg = EmailMessage()
+    msg['Subject'] = "Appointment Approved"
+    msg['From'] = email_address
+    msg['To'] = student.email_address
+    msg.set_content(
+    f"""\
+    Hi {student.firstname} {student.lastname},
+
+    Your appointment for {formatted_appointment_datetime} has been approved.
+
+    This is an automated message—please do not reply.
+
+    Thanks,
+    OCNHS Dental Team
+    """,
+
+    )
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(email_address, email_password)
+        smtp.send_message(msg)
+        
 
     return { "message": "Appointment approved successfully" }
 
