@@ -158,34 +158,34 @@ onMounted(async() => {
 
     <div class="flex flex-col lg:flex-row gap-5 w-full mt-20">
       <div class="flex flex-col items-center justify-center h-full lg:w-3/12 border-1 border-grey-500 rounded-md p-22">
-        <div id="blog-1" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 1; router.push('/blog') }"></div>
+        <div id="blog-1" class="blog-tile h-60 w-60 rounded-full" @click="() => { blogStore.blog = 1; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">The Proper Way to Brush Your Teeth</p>
 
-        <div id="blog-2" class="h-60 w-60 rounded-full mt-24" @click="() => { blogStore.blog = 2; router.push('/blog') }"></div>
+        <div id="blog-2" class="blog-tile h-60 w-60 rounded-full mt-24" @click="() => { blogStore.blog = 2; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">Surprising Causes of Bad Breath</p>
       </div>
 
       <div class="flex flex-col items-center justify-center h-full lg:w-3/12 border-1 border-grey-500 rounded-md p-23">
-        <div id="blog-3" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 3; router.push('/blog') }"></div>
+        <div id="blog-3" class="blog-tile h-60 w-60 rounded-full" @click="() => { blogStore.blog = 3; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">How bad oral hygiene can lead to oral cancer and heart problems?</p>
 
-        <div id="blog-4" class="h-60 w-60 rounded-full mt-10" @click="() => { blogStore.blog = 4; router.push('/blog') }"></div>
+        <div id="blog-4" class="blog-tile h-60 w-60 rounded-full mt-10" @click="() => { blogStore.blog = 4; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">The relationship between diet and oral health explained</p>
       </div>
 
       <div class="flex flex-col items-center justify-center h-full lg:w-3/12 border-1 border-grey-500 rounded-md p-23">
-        <div id="blog-5" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 5; router.push('/blog') }"></div>
+        <div id="blog-5" class="blog-tile h-60 w-60 rounded-full" @click="() => { blogStore.blog = 5; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">8 ways poor oral hygiene can impact your life</p>
 
-        <div id="blog-6" class="h-60 w-60 rounded-full mt-17" @click="() => { blogStore.blog = 6; router.push('/blog') }"></div>
+        <div id="blog-6" class="blog-tile h-60 w-60 rounded-full mt-17" @click="() => { blogStore.blog = 6; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">Teaching children how to take care of their teeth</p>
       </div>
 
       <div class="flex flex-col items-center justify-center h-full lg:w-3/12 border-1 border-grey-500 rounded-md p-27">
-        <div id="blog-7" class="h-60 w-60 rounded-full" @click="() => { blogStore.blog = 7; router.push('/blog') }"></div>
+        <div id="blog-7" class="blog-tile h-60 w-60 rounded-full" @click="() => { blogStore.blog = 7; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">Dental Cosmetics</p>
 
-        <div id="blog-8" class="h-60 w-60 rounded-full mt-24" @click="() => { blogStore.blog = 8; router.push('/blog') }"></div>
+        <div id="blog-8" class="blog-tile h-60 w-60 rounded-full mt-24" @click="() => { blogStore.blog = 8; router.push('/blog') }"></div>
         <p class="mt-5 text-lg">Dental Surgery</p>
       </div>
     </div>
@@ -263,59 +263,23 @@ a {
   background-position: center;
 }
 
-#blog-1 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/1.png');
+.blog-tile {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  transition: transform 0.4s ease;
 }
 
-#blog-2 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/2.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+.blog-tile:hover {
+  transform: scale(1.15);
 }
 
-#blog-3 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/3.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#blog-4 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/4.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#blog-5 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/5.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#blog-6 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/6.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#blog-7 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/7.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#blog-8 {
-  background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/8.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+#blog-1 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/1.png'); }
+#blog-2 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/2.png'); }
+#blog-3 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/3.png'); }
+#blog-4 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/4.png'); }
+#blog-5 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/5.png'); }
+#blog-6 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/6.png'); }
+#blog-7 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/7.png'); }
+#blog-8 { background-image: url('@/assets/Clinic Assets/Dental Clinic images/blog/8.png'); }
 </style>

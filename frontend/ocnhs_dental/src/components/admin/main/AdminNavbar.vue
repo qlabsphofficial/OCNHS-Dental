@@ -11,8 +11,11 @@ const emit = defineEmits()
 const showOptions = ref(false)
 const router =  useRouter()
 const userStore = useUserStore()
+const currentModule = ref('dashboard')
 
 function changeModule(moduleName) {
+      currentModule.value = moduleName
+      
       emit('update-module', {
             'moduleName': moduleName
       })
@@ -49,22 +52,47 @@ async function downloadReport() {
 <template>
       <div class="flex flex-col justify-between h-full w-2/12 main-color text-white">
             <div class="flex flex-col items-start gap-10 p-5 mt-10">
-                  <button type="button" @click="changeModule('dashboard')" class="flex items-center gap-5">
+                  <button type="button"
+                        @click="changeModule('dashboard')"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'dashboard' }"
+                  >
                         <Home class="w-5 h-5" /> DASHBOARD
                   </button>
-                  <button type="button" @click="changeModule('appointments')" class="flex items-center gap-5">
+                  <button type="button"
+                        @click="changeModule('appointments')"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'appointments' }"
+                  >
                         <ClipboardList class="w-5 h-5" /> APPOINTMENTS
                   </button>
-                  <button type="button" @click="changeModule('calendar')" class="flex items-center gap-5">
+                  <button type="button"
+                        @click="changeModule('calendar')"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'calendar' }"
+                  >
                         <Calendar class="w-5 h-5" /> CALENDAR
                   </button>
-                  <button type="button" @click="changeModule('studentRecord')" class="flex items-center gap-5">
+                  <button type="button"
+                        @click="changeModule('studentRecord')"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'studentRecord' }"
+                  >
                         <Users class="w-5 h-5" /> STUDENT RECORD
                   </button>
-                  <button type="button" @click="changeModule('accounts')" class="flex items-center gap-5">
+                  <button type="button"
+                        @click="changeModule('accounts')"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'appointment' }"
+                  >
                         <FileText class="w-5 h-5" /> ACCOUNTS
                   </button>
-                  <button type="button" @click="changeModule('dentalExam')" class="flex items-center gap-5">
+                  <button 
+                        type="button"
+                        @click="changeModule('dentalExam')"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'dentalExam' }"
+                  >
                         <FileSearch class="w-5 h-5" /> DENTAL EXAM FORM
                   </button>
                   <button type="button" @click="downloadReport()" class="flex items-center gap-5">
@@ -111,5 +139,17 @@ async function downloadReport() {
 
 .negative-margin {
       margin-top: -10%;
+}
+
+.nav-button {
+  background-color: transparent;
+  color: white;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  background-color: #80B1B1; /* or any highlight color */
+  color: white;
+  transform: scale(1.02);
 }
 </style>

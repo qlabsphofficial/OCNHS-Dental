@@ -7,10 +7,13 @@ const emit = defineEmits()
 const router = useRouter()
 const showOptions = ref(false)
 const loggedInUser = ref('')
+const currentModule = ref('appointment')
 
 loggedInUser.value = JSON.parse(sessionStorage.getItem('user'))
 
 function changeModule(moduleName) {
+      currentModule.value = moduleName
+
       emit('update-module', {
             'moduleName': moduleName
       })
@@ -37,10 +40,41 @@ function changeModule(moduleName) {
             </div>
 
             <div class="flex flex-col items-start gap-10 p-5 lg:mt-10">
-                  <button type="button" class="flex flex-row gap-4" @click="changeModule('appointment')"><ClipboardPlus /> APPOINTMENT</button>
-                  <button type="button" class="flex flex-row gap-4" @click="changeModule('newAppointment')"><Book /> BOOK APPOINTMENT</button>
-                  <button type="button" class="flex flex-row gap-4" @click="changeModule('personalDetails')"><UserRound /> PERSONAL DETAILS</button>
-                  <button type="button" class="flex flex-row gap-4" @click="changeModule('medicalHistory')"><ScrollText /> MEDICAL HISTORY</button>
+                  <button
+                        type="button"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'appointment' }"
+                        @click="changeModule('appointment')"
+                  >
+                        <ClipboardPlus /> APPOINTMENT
+                  </button>
+
+                  <button
+                        type="button"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'newAppointment' }"
+                        @click="changeModule('newAppointment')"
+                  >
+                        <Book /> BOOK APPOINTMENT
+                  </button>
+
+                  <button
+                        type="button"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'personalDetails' }"
+                        @click="changeModule('personalDetails')"
+                  >
+                        <UserRound /> PERSONAL DETAILS
+                  </button>
+
+                  <button
+                        type="button"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        :class="{ active: currentModule === 'medicalHistory' }"
+                        @click="changeModule('medicalHistory')"
+                  >
+                        <ScrollText /> MEDICAL HISTORY
+                  </button>
             </div>
       </div>
 </template>
@@ -60,5 +94,17 @@ function changeModule(moduleName) {
 
 .overlay-color-2 {
       background-color: #9cc7be;
+}
+
+.nav-button {
+  background-color: transparent;
+  color: white;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  background-color: #80B1B1; /* or any highlight color */
+  color: white;
+  transform: scale(1.02);
 }
 </style>
