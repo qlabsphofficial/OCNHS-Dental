@@ -119,7 +119,7 @@ async function updateMedicalHistoryFunc(id) {
   }
 }
 
-function convertToPDF() {
+function convertToPDF(firstname, lastname) {
 const element = document.getElementById('pdf-content');
 
 // Clone the element to avoid modifying original content
@@ -159,7 +159,7 @@ cloned.querySelectorAll('input, textarea, select').forEach(el => {
 html2pdf()
   .set({
     margin: 0.5,
-    filename: 'filled-form.pdf',
+    filename: `${firstname} ${lastname} - Student Record`,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2 },
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -477,7 +477,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             <div class="flex flex-row justify-end mt-3 gap-4" v-if="actionButton == 'Print'">
                   <!-- TODO, Add functionality here -->
                   
-                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="convertToPDF()">PRINT</button>
+                  <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="convertToPDF(studentInfo.student.firstname, studentInfo.student.lastname)">PRINT</button>
                   <button class="border-2 p-2 text-center w-1/12 rounded-sm" @click="() => { actionButton = '' }">Cancel</button>
             </div>
       </div>
