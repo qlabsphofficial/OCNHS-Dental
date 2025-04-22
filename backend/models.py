@@ -35,6 +35,9 @@ class Student(Base):
     oral_health_condition = relationship("OralHealthCondition", back_populates="student")
     temporary_teeth = relationship("TemporaryTeeth", back_populates="student")
     permanent_teeth = relationship("PermanentTeeth", back_populates="student")
+    dental_procedures = relationship("DentalProcedure", back_populates="student")
+    condition_treatment_needs = relationship("ConditionTreatmentNeeds", back_populates="student")
+
 
 
 # --- Medical History Table ---
@@ -180,3 +183,38 @@ class PermanentTeeth(Base):
     total_sound_teeth = Column(Integer, nullable=True)
 
     student = relationship("Student", back_populates="permanent_teeth")
+    
+    
+class DentalProcedure(Base):
+    __tablename__ = "dental_procedures"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    grade_level = Column(String, nullable=True)
+    date = Column(Date, nullable=True)
+    examination = Column(Boolean, nullable=True)
+    sealant_gi = Column(Boolean, nullable=True)
+    gum_treatment = Column(Boolean, nullable=True)
+    permanent_filling = Column(Boolean, nullable=True)
+    art = Column(Boolean, nullable=True)
+    extraction = Column(Boolean, nullable=True)
+    oral_prophylaxis = Column(Boolean, nullable=True)
+    referral = Column(Boolean, nullable=True)
+    other_oral_treatment = Column(Boolean, nullable=True)
+    remarks = Column(String, nullable=True)
+    examined_by = Column(String, nullable=True)
+
+    student = relationship("Student", back_populates="dental_procedures")
+    
+    
+class ConditionTreatmentNeeds(Base):
+    __tablename__ = "condition_treatment_needs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    tooth_number = Column(String, nullable=False)
+    tooth_side = Column(String, nullable=False)
+    condition = Column(String, nullable=False)
+    treatment_needs = Column(String, nullable=False)
+
+    student = relationship("Student", back_populates="condition_treatment_needs")
