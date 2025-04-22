@@ -857,7 +857,7 @@ async def approve_appointment(request: ApproveAppointmentRequest, db: Session = 
     formatted_appointment_datetime = appointment.appointment_datetime.strftime("%A, %B %d, %Y at %I:%M %p")
     
     msg = EmailMessage()
-    msg['Subject'] = "Appointment Approved"
+    msg['Subject'] = f"Your OCNHS Dental Appointment – {formatted_appointment_datetime}"
     msg['From'] = email_address
     msg['To'] = student.email_address
     msg.set_content(
@@ -892,13 +892,39 @@ async def cancel_appointment(request: CancelAppointmentRequest, db: Session = De
     db.commit()
     db.refresh(appointment)
 
+    student = db.query(Student).filter(Student.id == appointment.student_id).first()
+    
+    formatted_appointment_datetime = appointment.appointment_datetime.strftime("%A, %B %d, %Y at %I:%M %p")
+    
+    msg = EmailMessage()
+    msg['Subject'] = f"Your OCNHS Dental Appointment – {formatted_appointment_datetime}"
+    msg['From'] = email_address
+    msg['To'] = student.email_address
+    msg.set_content(
+    f"""\
+    Hi {student.firstname} {student.lastname},
+
+    Your appointment for {formatted_appointment_datetime} has been canceled.
+
+    This is an automated message—please do not reply.
+
+    Thanks,
+    OCNHS Dental Team
+    """,
+
+    )
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(email_address, email_password)
+        smtp.send_message(msg)
+
     return { "message": "Appointment cancelled successfully" }
 
 
 @app.put("/reschedule_appointment")
 async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Session = Depends(get_database)):
     appointment = db.query(Appointment).filter(Appointment.id == request.appointment_id).first()
-
+    formatted_appointment_datetime = appointment.appointment_datetime.strftime("%A, %B %d, %Y at %I:%M %p")
+    
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
 
@@ -906,6 +932,31 @@ async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Sess
     appointment.appointment_datetime = request.date
     db.commit()
     db.refresh(appointment)
+
+    student = db.query(Student).filter(Student.id == appointment.student_id).first()
+    
+    formatted_new_appointment_datetime = request.date.strftime("%A, %B %d, %Y at %I:%M %p")
+
+    msg = EmailMessage()
+    msg['Subject'] = f"Your OCNHS Dental Appointment – {formatted_appointment_datetime}"
+    msg['From'] = email_address
+    msg['To'] = student.email_address
+    msg.set_content(
+    f"""\
+    Hi {student.firstname} {student.lastname},
+
+    Your appointment has been rescheduled to {formatted_new_appointment_datetime}.
+
+    This is an automated message—please do not reply.
+
+    Thanks,
+    OCNHS Dental Team
+    """,
+
+    )
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(email_address, email_password)
+        smtp.send_message(msg)
 
     return { "message": "Appointment rescheduled successfully" }
 
