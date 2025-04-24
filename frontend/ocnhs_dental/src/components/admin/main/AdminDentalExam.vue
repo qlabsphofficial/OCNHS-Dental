@@ -45,6 +45,34 @@ const healthConditions = ref([
       'Others, specify'
 ])
 
+const dentalProcedures = ref([
+      'DATE',
+      'Examination',
+      'Sealant (G.I.)',
+      'Gum Treatment',
+      'Permanent Filling',
+      'ART',
+      'Extraction',
+      'Oral Prophylaxis',
+      'Referral',
+      'Other Oral Treatment',
+      '',
+      'Examined by'
+])
+
+const temporaryTeeth = ref([
+      'No. T/decayed',
+      'No. T/filled',
+      'Total d. f. t.'
+])
+
+const permanentTeeth = ref([
+      'No. T/decayed',
+      'No. T/missing',
+      'No. T/filled',
+      'Total D. M. F. T.',
+      'Total Sound Teeth'
+])
 
 // Student Info
 const studentInfo = ref({})
@@ -393,7 +421,8 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   </div>
             </div>
 
-            <div class="w-full">
+            <div class="w-full mt-10">
+                  <!-- Top Dental -->
                   <div>
                         <div></div>
                         <div class="flex flex-col items-center justify-center w-1/2">
@@ -401,20 +430,56 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <table class="border-2 w-full">
                                     <thead>
                                           <tr>
+                                                <th class="p-2"></th>
+                                                <th class="p-2"></th>
+                                                <th class="p-2">1</th>
+                                                <th class="p-2">2</th>
+                                                <th class="p-2">3</th>
+                                                <th class="p-2">4</th>
+                                                <th class="p-2">5</th>
+                                                <th class="p-2">6</th>
+                                          </tr>
+                                    </thead>
+
+                                    <tbody>
+                                          <tr v-for="condition of healthConditions" :key="condition">
+                                                <td class="p-2">{{ condition }}</td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                          </tr>
+                                    </tbody>
+                              </table>
+                        </div>
+                  </div>
+
+                  <!-- Middle Half Dental -->
+                  <div class="flex flex-row justify-between gap-5 h-11/12 mt-10">
+                        <div class="flex flex-col items-center justify-center w-7/12 h-full">
+                              <h4 class="font-bold">DENTAL PROCEDURES</h4>
+                              <table class="border-2 w-full h-full">
+                                    <thead>
+                                          <tr>
                                                 <th></th>
-                                                <th></th>
+                                                <th>Pre-Schooler</th>
                                                 <th>1</th>
                                                 <th>2</th>
                                                 <th>3</th>
                                                 <th>4</th>
                                                 <th>5</th>
                                                 <th>6</th>
+                                                <th>Remarks</th>
                                           </tr>
                                     </thead>
 
                                     <tbody>
-                                          <tr v-for="condition of healthConditions" :key="condition">
-                                                <td>{{ condition }}</td>
+                                          <tr v-for="procedure of dentalProcedures" :key="procedure">
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -426,8 +491,76 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                     </tbody>
                               </table>
                         </div>
+
+                        <div class="flex flex-col gap-5 w-5/12 h-full">
+                              <div class="flex flex-col w-full h-1/2">
+                                    <h4 class="font-bold">TEMPORARY TEETH</h4>
+                                    <table class="border-2 w-full h-full">
+                                          <thead>
+                                                <tr>
+                                                      <th>Index d. f. t.</th>
+                                                      <th>Pre-Schooler</th>
+                                                      <th>1</th>
+                                                      <th>2</th>
+                                                      <th>3</th>
+                                                      <th>4</th>
+                                                      <th>5</th>
+                                                      <th>6</th>
+                                                </tr>
+                                          </thead>
+
+                                          <tbody>
+                                                <tr v-for="temporaryTooth of temporaryTeeth" :key="temporaryTooth">
+                                                      <td>{{ temporaryTooth }}</td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                              </div>
+
+                              <div class="flex flex-col w-full h-1/2">
+                                    <h4 class="font-bold">PERMANENT TEETH</h4>
+                                    <table class="border-2 w-full h-full">
+                                          <thead>
+                                                <tr>
+                                                      <th>Index D. M. F. T.</th>
+                                                      <th></th>
+                                                      <th>7</th>
+                                                      <th>8</th>
+                                                      <th>9</th>
+                                                      <th>10</th>
+                                                      <th>11</th>
+                                                      <th>12</th>
+                                                </tr>
+                                          </thead>
+
+                                          <tbody>
+                                                <tr v-for="permanentTooth of permanentTeeth" :key="permanentTooth">
+                                                      <td>{{ permanentTooth }}</td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                      <td></td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                              </div>
+                        </div>
                   </div>
-                  <div></div>
+
+                  <!-- Bottom Dental -->
+                   <div>
+                        <div></div>
+                        <div></div>
+                   </div>
             </div>
             
             <div class="flex flex-row justify-end mt-3">

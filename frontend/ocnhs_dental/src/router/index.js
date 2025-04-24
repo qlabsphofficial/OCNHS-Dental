@@ -10,6 +10,8 @@ import AdminLoginView from '@/views/AdminLoginView.vue'
 import BlogView from '@/views/BlogView.vue'
 import ServiceView from '@/views/ServiceView.vue'
 import AdminSignUpView from '@/views/AdminSignUpView.vue'
+import ForgotPassView from '@/views/ForgotPassView.vue'
+import ResetPassView from '@/views/ResetPassView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -48,6 +50,18 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+
+    {
+      path: '/forgotPassword',
+      name: 'forgotPassword',
+      component: ForgotPassView,
+    },
+
+    {
+      path: '/resetPassword',
+      name: 'resetPassword',
+      component: ResetPassView,
     },
 
     {

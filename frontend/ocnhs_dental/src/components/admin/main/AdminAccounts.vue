@@ -3,6 +3,9 @@ import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
+import { Archive } from 'lucide-vue-next';
+import { Trash2 } from 'lucide-vue-next';
+
 
 const fileType = ref('')
 const yearGraduated = ref('')
@@ -206,7 +209,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-90 absolute bg-white">
                                     <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Edit')"><Edit /> EDIT</button>
                                     <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Archive')"><Archive /> ARCHIVE / OLD FILES</button>
-                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Trash')"><Trash2 /> DELETE / DEACTIVATE</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Trash')"><Trash2 />DEACTIVATE</button>
                               </div>
                         </div>
                         <!-- TODO -->
@@ -387,7 +390,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <!-- TODO, Add functionality here -->
                   <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm">Save Changes</button>
                   <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm">Archive / Old Files</button>
-                  <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm">Deactivate / Delete</button>
+                  <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm">Delete</button>
             </div>
       </div>
 </template>

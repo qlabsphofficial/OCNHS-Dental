@@ -61,7 +61,7 @@ onMounted(async() => {
 
   <div class="flex flex-col justify-center items-center w-full p-6 pt-20 pb-20 lg:p-0 w-full lg:w-8/12">
     <h1 class="text-green-800 text-4xl lg:text-8xl font-bold chewy">SMILE, LEARN, AND GROW</h1>
-    <p class="mt-5 text-sm lg:text-2xl lg:font-extrabold text-center lg:text-left">Discover the importance of medical care at our school clinic.</p>
+    <p class="mt-5 text-sm lg:text-2xl lg:font-extrabold text-center lg:text-left">Discover the importance of dental care at our school clinic.</p>
   </div>
 </div>
 

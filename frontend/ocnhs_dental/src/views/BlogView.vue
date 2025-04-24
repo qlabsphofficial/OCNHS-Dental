@@ -23,11 +23,11 @@ const blogStore = useBlogStore()
   </div>
 
   <!-- Blogs -->
-  <div class="flex flex-col p-10 h-full w-full items-center justify-center">
-      <div class="flex flex-col h-8/12 w-8/12 gap-5 p-10 border-2 rounded-md">
+  <div class="flex flex-col lg:p-10 h-full w-full items-center justify-center">
+      <div class="flex flex-col w-full lg:h-8/12 lg:w-8/12 gap-5 p-10 border-2 rounded-md">
             <div v-if="blogStore.blog == 1">
-                  <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                        <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/1.png" height="180px" width="180px">
+                  <div class="flex flex-row gap-10 border-4 lg:w-6/12 rounded-md p-3 lg:p-6 items-center overlay-color-2">
+                        <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/1.png" height="180px" width="180px" class="hidden lg:block">
                         <h1 class="text-4xl">The Proper Way to Brush Your Teeth</h1>
                   </div>
 
@@ -53,8 +53,8 @@ const blogStore = useBlogStore()
             </div>
 
             <div v-else-if="blogStore.blog == 2">
-              <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/2.png" height="180px" width="180px">
+              <div class="flex flex-row gap-10 border-4 lg:w-6/12 rounded-md p-3 lg:p-6 items-center overlay-color-2">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/2.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">Surprising causes of bad breath</h1>
               </div>
               
@@ -72,8 +72,8 @@ const blogStore = useBlogStore()
             </div>
 
             <div v-else-if="blogStore.blog == 3">
-              <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/3.png" height="180px" width="180px">
+              <div class="flex flex-row gap-10 border-4 lg:w-6/12 rounded-md p-3 lg:p-6 items-center overlay-color-2">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/3.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">How bad oral hygiene can lead to oral cancer?</h1>
               </div>
               
@@ -93,8 +93,8 @@ const blogStore = useBlogStore()
             </div>
 
             <div v-else-if="blogStore.blog == 4">
-              <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/4.png" height="180px" width="180px">
+              <div class="flex flex-row gap-10 border-4 lg:w-6/12 rounded-md p-3 lg:p-6 items-center overlay-color-2">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/4.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">The relationship between diet and oral health explained</h1>
               </div>
               
@@ -159,8 +159,8 @@ const blogStore = useBlogStore()
             </div>
 
             <div v-else-if="blogStore.blog == 5">
-              <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/5.png" height="180px" width="180px">
+              <div class="flex flex-row gap-10 border-4 lg:w-6/12 rounded-md p-3 lg:p-6 items-center overlay-color-2">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/5.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">8 ways poor oral hygiene can impact your life</h1>
               </div>
               
@@ -178,8 +178,8 @@ const blogStore = useBlogStore()
             </div>
 
             <div v-else-if="blogStore.blog == 6">
-              <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/3.png" height="180px" width="180px">
+              <div class="flex flex-row gap-10 border-4 lg:w-6/12 rounded-md p-3 lg:p-6 items-center overlay-color-2">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/3.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">Teaching children how to take care of their teeth</h1>
               </div>
               
@@ -264,7 +264,7 @@ const blogStore = useBlogStore()
 
             <div v-else-if="blogStore.blog == 7">
               <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/7.png" height="180px" width="180px">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/7.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">Dental Cosmetics</h1>
               </div>
               
@@ -312,7 +312,7 @@ const blogStore = useBlogStore()
 
             <div v-else-if="blogStore.blog == 8">
               <div class="flex flex-row gap-10 border-4 w-6/12 rounded-md p-6 items-center overlay-color-2">
-                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/2.png" height="180px" width="180px">
+                    <img src="@/assets/Clinic Assets/Dental Clinic images/blogcontent/2.png" height="180px" width="180px" class="hidden lg:block">
                     <h1 class="text-4xl">Dental Surgery</h1>
               </div>
               
@@ -337,7 +337,7 @@ const blogStore = useBlogStore()
   </div>
 
   <!-- Footer -->
-  <div class="flex flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
+  <div class="flex flex-col lg:flex-row justify-evenly items-center h-full w-full overlay-color-2 p-10">
     <div>
       <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo2.png" height="240px" width="240px">
     </div>
@@ -383,17 +383,17 @@ const blogStore = useBlogStore()
   </div>
 
   <!-- Footer 2 -->
-  <div class="flex flex-row justify-evenly items-evenly h-full w-full overlay-color p-10">
-    <div class="flex flex-col justify-center 3/12">
+  <div class="flex flex-col lg:flex-row justify-evenly items-evenly h-full w-full overlay-color p-4 lg:p-10">
+    <div class="flex flex-col justify-center lg:w-3/12">
       <img src="@/assets/Clinic Assets/Dental Clinic images/image/logo3.png" height="240px" width="240px">
     </div>
 
-    <div class="flex flex-col justify-center 3/12 text-white">
+    <div class="flex flex-col justify-center lg:w-3/12 text-white">
       <h4>REPUBLIC OF THE PHILIPPINES</h4>
       <p>All content is in the public domain unless otherwise stated.</p>
     </div>
 
-    <div class="flex flex-col justify-center 3/12 text-white">
+    <div class="flex flex-col justify-center lg:w-3/12 text-white">
       <p>ABOUT GOVPH</p>
       <p>
         Learn more about the Philippine
@@ -406,7 +406,7 @@ const blogStore = useBlogStore()
       <p>Official Gazette</p>
     </div>
 
-    <div class="flex flex-col w-3/12 footer-links-1">
+    <div class="flex flex-col lg:w-3/12 footer-links-1">
       <a>Office of the President</a>
       <a>Office of the Vice President</a>
       <a>Senate of the Philippines</a>
