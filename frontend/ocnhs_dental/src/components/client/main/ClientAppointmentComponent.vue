@@ -30,7 +30,7 @@ onMounted(async() => {
                               </div>
                         </div>
                   </div>
-                  <button class="mt-5 border-2 p-2 cursor-pointer" @click="downloadParentsConsent()">Download Parent's Consent Form</button>
+                  <button class="mt-5 border-2 p-2 cursor-pointer hover:bg-black hover:text-white transition duration-300 ease-in-out" @click="downloadParentsConsent()">Download Parent's Consent Form</button>
             </div>
 
             <div class="flex flex-col gap-3 items-center justify-center lg:items-start lg:justify-start w-full lg:w-1/2">

@@ -107,12 +107,12 @@ async function downloadReport() {
                   </div>
 
                   <div>
-                        <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 bottom-20 negative-margin p-5 rounded-md">
-                              <button class="flex flex-row justify-center gap-4"><Settings />Settings</button>
-                              <button class="flex flex-row justify-center gap-4" @click="attemptLogout()"><LogOut />Sign Out</button>
+                        <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 shadow-md bottom-20 negative-margin p-5 rounded-md">
+                              <button class="flex flex-row justify-center gap-4 text-black cursor-pointer border border-transparent rounded-md hover:bg-black hover:text-white p-2 transition duration-300 ease-in-out"><Settings />Settings</button>
+                              <button class="flex flex-row justify-center gap-4 text-black cursor-pointer border border-transparent rounded-md hover:bg-black hover:text-white p-2 transition duration-300 ease-in-out" @click="attemptLogout()"><LogOut />Sign Out</button>
                         </div>
                         <button class="flex items-center gap-2">
-                              <Settings class="w-5 h-5" @click="() => { showOptions = !showOptions }" />
+                              <Settings class="w-5 h-5 hover:scale-150 transition duration-300 ease-in-out" @click="() => { showOptions = !showOptions }" />
                         </button>
                   </div>
             </div>

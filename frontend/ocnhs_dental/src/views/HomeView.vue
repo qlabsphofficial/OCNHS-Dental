@@ -44,7 +44,7 @@ function accessService(service){
           <button @click="accessService(4)" class="text-sm lg:text-lg">EXTRACTION/BUNOT</button>
         </div>
       </div>
-      <button class="w-20 text-white text-sm lg:text-xl rounded-sm main-color" @click="() => { router.push('/login') }">LOGIN</button>
+      <button class="border main-color hover:bg-transparent hover:text-black transition duration-300 ease-in-out w-20 text-white text-sm lg:text-xl rounded-sm" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 
@@ -138,11 +138,6 @@ function accessService(service){
 </template>
 
 <style scoped>
-/* RESPONSIVE DESIGN */
-@media (max-width: 768px) {
-
-} 
-
 .main-color {
   background-color: #3B6364;
 }

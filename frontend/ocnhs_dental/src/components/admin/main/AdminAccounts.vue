@@ -6,6 +6,7 @@ import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 import { Archive } from 'lucide-vue-next';
 import { Trash2 } from 'lucide-vue-next';
 
+const showDeleteModal = ref(false)
 
 const fileType = ref('')
 const yearGraduated = ref('')
@@ -33,8 +34,6 @@ const brushingTimes = ref(0);
 const toothbrushChange = ref(0);
 const useToothpaste = ref(false);
 const dentistVisits = ref(0);
-
-
 
 
 // Student Info
@@ -90,12 +89,27 @@ async function retrieveStudentInfo(id) {
       dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
 }
 
+const changeButton = (module) => {
+      actionButton.value = module
+      studentOptionsShowing.value = false
+}
+
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
       listenToFilterChanges();
 });
 </script>
 
 <template>
+      <div v-if="showDeleteModal" id="deleteModalContainer" class="top-0 left-0 absolute flex items-center justify-center w-full h-full bg-black">
+            <div class="flex flex-col justify-center items-center w-5/12 h-10/12 rounded-md shadow-md bg-white p-20 text-center">
+                  <h3 class="text-3xl font-bold text-red-500">Delete Account</h3>
+                  <p class="mt-20">Deleting the account will remove all the information from the database. This cannot be undone.</p>
+
+                  <button class="mt-20 rounded-md border p-3 w-2/3 text-red-500">Continue Deleting Account</button>
+                  <button class="mt-10 rounded-md border p-3 w-2/3 hover:bg-gray-400 transition duration-100" @click="() => { showDeleteModal = false }">Cancel</button>
+            </div>
+      </div>
+
       <div v-if="!showStudentInfo" class="flex flex-col h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md">
             <div class="flex flex-row items-between justify-between">
                   <h4 v-if="fileType == 'CURRENT'">{{ fileType }} / {{ curriculum }} / {{ gradeLvl }} / {{ section }}</h4>
@@ -209,7 +223,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-90 absolute bg-white">
                                     <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Edit')"><Edit /> EDIT</button>
                                     <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Archive')"><Archive /> ARCHIVE / OLD FILES</button>
-                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Trash')"><Trash2 />DEACTIVATE</button>
+                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Trash')"><Trash2 />DELETE</button>
                               </div>
                         </div>
                         <!-- TODO -->
@@ -279,122 +293,124 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             <!-- Medical Data -->
             <div class="flex flex-row justify-between w-full" @click="() => { studentOptionsShowing = false }">
                   <div class="flex flex-col gap-2 h-1/2 w-1/2">
-                  <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="goodHealth">
-                  <p>ARE YOU IN GOOD HEALTH?</p>
-                  </div>
+                        <div class="flex flex-row gap-5">
+                              <input type="checkbox" v-model="goodHealth">
+                              <p>ARE YOU IN GOOD HEALTH?</p>
+                        </div>
             
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="underMedicalTreatment">
-                        <p>ARE YOU UNDER MEDICAL TREATMENT NOW?</p>
-                  </div>
+                        <div class="flex flex-col">
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="underMedicalTreatment">
+                                    <p>ARE YOU UNDER MEDICAL TREATMENT NOW?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                    <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
+                                    <input type="text" class="border-b-2 p-1" v-model="treatmentCondition">
+                              </div>
+                        </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHAT IS THE CONDITION BEING TREATED?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="treatmentCondition">
-                  </div>
-                  </div>
+                        <div class="flex flex-col">
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="seriousIllness">
+                                    <p>HAVE YOU EVER HAD SERIOUS ILLNESS OR SURGICAL OPERATION?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                    <p>IF SO, WHAT ILLNESS OR OPERATION?</p>
+                                    <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation">
+                              </div>
+                        </div>
             
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="seriousIllness">
-                        <p>HAVE YOU EVER HAD SERIOUS ILLNESS OR SURGICAL OPERATION?</p>
-                  </div>
+                        <div class="flex flex-col">
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="hospitalized">
+                                    <p>HAVE YOU EVER BEEN HOSPITALIZED?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                    <p>IF SO, WHEN AND WHY?</p>
+                                    <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails">
+                              </div>
+                        </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHAT ILLNESS OR OPERATION?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="illnessOrOperation">
-                  </div>
-                  </div>
+                        <div class="flex flex-col">
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="takingMedications">
+                                    <p>ARE YOU TAKING ANY PRESCRIPTION/ NON-PRESCRIPTION MEDICATION?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                    <p>IF YES, PLEASE SPECIFY:</p>
+                                    <input type="text" class="border-b-2 p-1" v-model="medicationsDetails">
+                              </div>
+                        </div>
             
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="hospitalized">
-                        <p>HAVE YOU EVER BEEN HOSPITALIZED?</p>
-                  </div>
+                        <div class="flex flex-row gap-5">
+                              <input type="checkbox" v-model="tobaccoUsage">
+                              <p>DO YOU USE TOBACCO PRODUCTS?</p>
+                        </div>
             
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF SO, WHEN AND WHY?</p>
-                        <input type="text" class="border-b-2 p-1" v-model="hospitalizationDetails">
-                  </div>
-                  </div>
+                        <div class="flex flex-row gap-5">
+                              <input type="checkbox" v-model="drugUse">
+                              <p>DO YOU USE ALCOHOL, COCAINE, OR OTHER DANGEROUS DRUGS?</p>
+                        </div>
             
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="takingMedications">
-                        <p>ARE YOU TAKING ANY PRESCRIPTION/ NON-PRESCRIPTION MEDICATION?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF YES, PLEASE SPECIFY:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="medicationsDetails">
-                  </div>
-                  </div>
-            
-                  <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="tobaccoUsage">
-                  <p>DO YOU USE TOBACCO PRODUCTS?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-5">
-                  <input type="checkbox" v-model="drugUse">
-                  <p>DO YOU USE ALCOHOL, COCAINE, OR OTHER DANGEROUS DRUGS?</p>
-                  </div>
-            
-                  <div class="flex flex-col">
-                  <div class="flex flex-row gap-5">
-                        <input type="checkbox" v-model="womenOnly">
-                        <p>FOR WOMEN ONLY: ARE YOU PREGNANT/ARE YOU NURSING/ARE YOU TAKING BIRTH CONTROL?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
-                        <p>IF YES, PLEASE INDICATE:</p>
-                        <input type="text" class="border-b-2 p-1" v-model="womenCondition">
-                  </div>
-                  </div>
+                        <div class="flex flex-col">
+                              <div class="flex flex-row gap-5">
+                                    <input type="checkbox" v-model="womenOnly">
+                                    <p>FOR WOMEN ONLY: ARE YOU PREGNANT/ARE YOU NURSING/ARE YOU TAKING BIRTH CONTROL?</p>
+                              </div>
+                  
+                              <div class="flex flex-row gap-3 items-center w-3/4 justify-end">
+                                    <p>IF YES, PLEASE INDICATE:</p>
+                                    <input type="text" class="border-b-2 p-1" v-model="womenCondition">
+                              </div>
+                        </div>
                   </div>
             
                   <!-- Guided Questions -->
                   <div class="flex flex-col gap-4 h-1/2 w-1/2">
-                  <h2 class="text-2xl mb-2">Guided Questions</h2>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="hasToothbrush">
-                  <p>DO YOU HAVE A TOOTHBRUSH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
-                  <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
-                  <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="useToothpaste">
-                  <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
-                  <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
-                  </div>
+                        <h2 class="text-2xl mb-2">Guided Questions</h2>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="checkbox" v-model="hasToothbrush">
+                              <p>DO YOU HAVE A TOOTHBRUSH?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
+                              <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
+                              <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="checkbox" v-model="useToothpaste">
+                              <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
+                              <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
+                        </div>
                   </div>
             </div>
             
             <div class="flex flex-row justify-end mt-3">
                   <!-- TODO, Add functionality here -->
-                  <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm">Save Changes</button>
-                  <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm">Archive / Old Files</button>
-                  <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm">Delete</button>
+                  <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out">Save Changes</button>
+                  <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out">Archive / Old Files</button>
+                  <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out" @click="() => { showDeleteModal = true }">Delete</button>
             </div>
       </div>
 </template>
 
 <style scoped>
-
+#deleteModalContainer {
+      background-color:rgba(0, 0, 0, 0.411);
+}
 </style>

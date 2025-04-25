@@ -58,10 +58,10 @@ async function attemptLogin() {
             <input v-model="password" type="password" placeholder="Enter your password..." class="w-full rounded-md p-3 bg-gray-300">
           </div>
           
-          <button @click="attemptLogin()" id="submit" class="w-full rounded-md mt-10 mb-20 p-3">Login</button>
+          <button @click="attemptLogin()" class="w-full rounded-md mt-10 mb-20 p-3 cursor-pointer bg-green-400 hover:bg-transparent border border-transparent hover:border-green-500 transition duration-300 ease-in-out">Login</button>
 
-          <p>DON'T HAVE AN ACCOUNT? <a @click="() => { router.push('/signUp') }">CLICK HERE</a></p>
-          <a @click="() => { router.push('/forgotPassword') }" class="mt-5">FORGOT PASSWORD</a>
+          <p>DON'T HAVE AN ACCOUNT? <a @click="() => { router.push('/signUp') }" class="cursor-pointer">CLICK HERE</a></p>
+          <a @click="() => { router.push('/forgotPassword') }" class="mt-5 cursor-pointer">FORGOT PASSWORD</a>
         </div>
       </div>
   </div>

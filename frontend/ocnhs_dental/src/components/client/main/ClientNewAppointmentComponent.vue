@@ -64,7 +64,7 @@ async function attemptBooking(){
             </div>
 
             <div class="flex justify-center w-full">
-                  <button class="border-2 p-2 text-center rounded-md w-full" @click="attemptBooking()">Book Now</button>
+                  <button class="border-2 p-2 text-center rounded-md w-full hover:bg-black hover:scale-100 hover:text-white transition duration-300 ease-in-out" @click="attemptBooking()">Book Now</button>
             </div>
       </div>
 </template>

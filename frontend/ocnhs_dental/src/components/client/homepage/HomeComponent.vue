@@ -107,7 +107,7 @@ onMounted(async() => {
       <h2 class="text-5xl font-bold">ABOUT US</h2>
 
       <div class="flex flex-row justify-center w-full gap-3 mt-5 lg:mt-20">
-        <div class="flex flex-col gap-4 justify-center items-center w-3/12 p-3 border-1 rounded-md hidden lg:block">
+        <div class="flex flex-col gap-4 justify-center items-center w-3/12 p-3 border-1 rounded-md hidden lg:flex">
           <div id="info-1" class="h-60 w-60 rounded-full border-4"></div>
           <div id="info-2" class="h-60 w-60 rounded-full border-4"></div>
         </div>
@@ -125,7 +125,7 @@ onMounted(async() => {
           </p>
         </div>
 
-        <div class="flex flex-col gap-4 justify-center items-center w-3/12 p-3 border-1 rounded-md hidden lg:block">
+        <div class="flex flex-col gap-4 justify-center items-center w-3/12 p-3 border-1 rounded-md hidden lg:flex">
           <div id="info-3" class="h-60 w-60 rounded-full border-4"></div>
           <div id="info-4" class="h-60 w-60 rounded-full border-4"></div>
         </div>

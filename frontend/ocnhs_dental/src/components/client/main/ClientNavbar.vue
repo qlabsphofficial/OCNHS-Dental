@@ -30,11 +30,11 @@ function changeModule(moduleName) {
 
                   <div class="w-1/2 flex justify-end">
                         <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 top-34 lg:top-50 p-5 rounded-md">
-                              <button class="flex flex-row justify-center gap-4" @click="() => { changeModule('settings'); showOptions = false; }"><Settings />Settings</button>
-                              <button class="flex flex-row justify-center gap-4" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
+                              <button class="flex flex-row justify-center gap-4 p-2 rounded-md text-black hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="() => { changeModule('settings'); showOptions = false; }"><Settings />Settings</button>
+                              <button class="flex flex-row justify-center gap-4 p-2 rounded-md text-black hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
                         </div>
                         <button class="flex items-center gap-2">
-                              <Settings class="w-5 h-5" @click="() => { showOptions = !showOptions }" />
+                              <Settings class="w-5 h-5 hover:scale-150 transition duration-300 ease-in-out" @click="() => { showOptions = !showOptions }" />
                         </button>
                   </div>
             </div>

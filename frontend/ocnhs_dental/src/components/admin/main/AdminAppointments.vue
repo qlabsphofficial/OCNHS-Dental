@@ -61,7 +61,7 @@ function formatDate(datetime) {
 <template>
       <div class="flex flex-col justify-between h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md">
             <div class="h-11/12 w-full overflow-y-scroll">
-                  <table class="w-full h-full">
+                  <table class="w-full h-auto">
                         <thead>
                               <tr class="border-2 sticky bg-white">
                                     <th class="text-lg">NAME</th>
@@ -81,13 +81,17 @@ function formatDate(datetime) {
                               <td class="text-center p-2">{{ appointment.student_info.section }}</td>
                               <td class="p-2">{{ formatDate(appointment.appointment_datetime) }}</td>
                               <td class="text-center p-2">{{ appointment.appointment_type }}</td>
-                              <td class="text-center p-2">{{ appointment.status }}</td>
-                              <td class="text-center p-2"><button @click="attemptApprove(appointment.appointment_id)"><Check /></button></td>
-                              <td class="text-center p-2"><button @click="attemptCancel(appointment.appointment_id)"><X /></button></td>
                               <td class="text-center p-2">
-                                    <div class="flex flex-row items-center justify-evenly">
-                                          <input type="datetime-local" v-model="chosenDates[appointment.appointment_id]" :min="selectedDate">
-                                          <button class="flex flex-row text-center gap-4 border-2 rounded-md p-2" @click="attemptReschedule(appointment.appointment_id)"><CalendarSync /> Submit</button>
+                                    <div v-if="appointment.status == 'RESCHEDULED'" class="bg-blue-400 rounded-md p-2 text-white">{{ appointment.status }}</div>
+                                    <div v-else-if="appointment.status == 'APPROVED'" class="bg-green-500 rounded-md p-2 text-white">{{ appointment.status }}</div>
+                                    <div v-else-if="appointment.status == 'CANCELLED'" class="bg-red-500 rounded-md p-2 text-white">{{ appointment.status }}</div>
+                              </td>
+                              <td class="text-center p-2"><button @click="attemptApprove(appointment.appointment_id)" class="bg-transparent hover:bg-green-400 p-2 rounded-md transition duration-300 ease-in-out cursor-pointer"><Check /></button></td>
+                              <td class="text-center p-2"><button @click="attemptCancel(appointment.appointment_id)" class="bg-transparent hover:bg-red-400 p-2 rounded-md transition duration-300 ease-in-out cursor-pointer"><X /></button></td>
+                              <td class="text-center p-2">
+                                    <div class="flex flex-row items-center justify-evenly gap-4">
+                                          <input type="datetime-local" v-model="chosenDates[appointment.appointment_id]" :min="selectedDate" class="w-5/12 cursor-pointer">
+                                          <button class="flex flex-row text-center gap-4 border-2 rounded-md p-2 hover:bg-gray-300 transition duration-300 ease-in-out cursor-pointer" @click="attemptReschedule(appointment.appointment_id)"><CalendarSync /> Submit</button>
                                     </div>
                               </td>
                         </tr>

@@ -191,13 +191,27 @@ async function attemptRegister() {
 
             <!-- Student Info -->
             <div class="flex flex-col lg:flex-row justify-between w-full">
-                  <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-4">
-                              <h4>NAME:</h4>
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="First Name" v-model="firstName">
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="Middle Name" v-model="middleName">
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="Last Name" v-model="lastName">
-                              <input type="text" class="border-2 rounded-md p-1" placeholder="Suffix" v-model="suffix">
+                  <div class="w-full lg:w-5/12 flex flex-col gap-6">
+                        <div class="flex flex-col w-full gap-4">
+                              <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                    <h4>FIRST NAME:</h4>
+                                    <input type="text" class="border-2 rounded-md p-1 w-3/4" placeholder="First Name" v-model="firstName">
+                              </div>
+
+                              <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                    <h4>MIDDLE NAME:</h4>
+                                    <input type="text" class="border-2 rounded-md p-1 w-3/4" placeholder="Middle Name" v-model="middleName">
+                              </div>
+
+                              <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                    <h4>LAST NAME:</h4>
+                                    <input type="text" class="border-2 rounded-md p-1 w-3/4" placeholder="Last Name" v-model="lastName">
+                              </div>
+
+                              <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                    <h4>SUFFIX:</h4>
+                                    <input type="text" class="border-2 rounded-md p-1 w-3/4" placeholder="Suffix" v-model="suffix">
+                              </div>
                         </div>
 
                         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
@@ -231,7 +245,7 @@ async function attemptRegister() {
                   <div class="w-full lg:w-1/2 flex flex-col gap-6 mt-10 lg:mt-0">
                         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-4">
                               <h4>ADDRESS:</h4>
-                              <input type="email" class="border-2 rounded-md p-1 w-full" v-model="address">
+                              <input type="email" class="border-2 rounded-md p-1 w-3/4" v-model="address">
                         </div>
 
                         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-4">
@@ -591,8 +605,8 @@ async function attemptRegister() {
             </div>
 
             <div class="w-full flex flex-row items-center justify-center lg:justify-end mt-5 gap-2">
-                  <button class="bg-green-500 rounded-md p-2 w-4/12 lg:w-1/12 text-white cursor-pointer" @click="attemptRegister()">Register</button>
-                  <button class="bg-red-500 rounded-md p-2 w-4/12 lg:w-1/12 text-white cursor-pointer" @click="() => { router.push('/') }">Cancel</button>
+                  <button class="cursor-pointer bg-green-500 hover:bg-transparent hover:border-green-500 hover:text-green-500 border transition duration-300 ease-in-out rounded-md p-2 w-4/12 lg:w-1/12 text-white cursor-pointer" @click="attemptRegister()">Register</button>
+                  <button class="cursor-pointer bg-red-500 hover:bg-transparent hover:border-red-500 hover:text-red-500 border transition duration-300 ease-in-out rounded-md p-2 w-4/12 lg:w-1/12 text-white cursor-pointer" @click="() => { router.push('/') }">Cancel</button>
             </div>
       </div>
 </div>
