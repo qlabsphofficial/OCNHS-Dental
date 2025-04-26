@@ -42,7 +42,7 @@ async function attemptLogin() {
 
         
 
-        <div class="flex flex-col items-center w-10/12 lg:w-7/12 mt-10 lg:mt-0">       
+        <div class="flex flex-col items-center w-10/12 lg:w-7/12 mt-10">       
           <!-- For checking login status -->
           <div v-if="errorMessage" id="error" class="flex items-center justify-center mt-10 mb-5 w-full p-2 rounded-md">
             <p>{{ errorMessage }}</p>

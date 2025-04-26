@@ -180,4 +180,32 @@ export async function register({
     
       return registerSuccessful;
 }
+
+export async function forgotPassword(email){
+  let registerSuccessful = false
+
+  try {
+    const response = await fetch(`${current_address}/forgot_password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"email": email})
+    });
+
+    if (!response.ok) {
+      throw new Error('There was an error sending a password reset request.');
+    }
     
+    const data = await response.json();
+
+    if(data.status_code === 200) {
+      registerSuccessful = true;
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    return false;
+  }
+
+  return registerSuccessful;
+}

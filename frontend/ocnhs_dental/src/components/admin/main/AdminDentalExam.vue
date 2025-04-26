@@ -423,8 +423,11 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 
             <div class="w-full mt-10">
                   <!-- Top Dental -->
-                  <div>
-                        <div></div>
+                  <div class="flex flex-row justify-between gap-5 h-11/12 mt-10">
+                        <div class="flex flex-col items-center justify-center w-1/2">
+                              <h4 class="font-bold">DENTAL EXAMINATION</h4>
+                        </div>
+
                         <div class="flex flex-col items-center justify-center w-1/2">
                               <h4 class="font-bold">ORAL HEALTH CONDITION</h4>
                               <table class="border-2 w-full">
@@ -478,7 +481,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 
                                     <tbody>
                                           <tr v-for="procedure of dentalProcedures" :key="procedure">
-                                                <td></td>
+                                                <td>{{ procedure }}</td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>

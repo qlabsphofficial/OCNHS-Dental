@@ -1,4 +1,14 @@
 <script setup>
+import { ref } from 'vue';
+import { forgotPassword } from '@/services/RegisterService';
+
+const email = ref('')
+const emailSuccess = ref(false)
+
+async function attemptEmail(){
+    emailSuccess.value = await forgotPassword(email.value)
+    email.value = ''
+}
 </script>
 
 <template>
@@ -10,9 +20,9 @@
                 <img src="" alt="">
             </div>
 
-            <input type="email" placeholder="Enter your email address" class="w-full border p-3 rounded-md">
+            <input type="email" placeholder="Enter your email address" class="w-full border p-3 rounded-md" v-model="email">
 
-            <div>
+            <div v-if="!emailSuccess">
                 <p>
                     Enter the email address you used when you registered your account and we'll send you instructions to reset your password.
                 </p>
@@ -22,7 +32,11 @@
                 </p>
             </div>
 
-            <button class="w-3/4 h-10 rounded-md text-white bg-blue-500 text-center">RESET PASSWORD</button>
+            <div v-else>
+                <p class="text-green-500">A confirmation link has been sent to this email. Please verify that you have received the email.</p>
+            </div>
+
+            <button v-if="!emailSuccess" class="w-3/4 h-10 rounded-md text-white bg-blue-500 text-center" @click="attemptEmail()">RESET PASSWORD</button>
         </div>
     </div>
 </template>
