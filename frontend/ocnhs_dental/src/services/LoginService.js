@@ -43,3 +43,39 @@ export async function login(email, password) {
 
       return loginSuccessful
 }
+
+export async function resetPassword(encryptedEmail, newPassword, confirmNewPassword) {
+      console.log(encryptedEmail);
+      let resetPasswordSuccessful = false;
+    
+      try {
+        const response = await fetch(`${current_address}/reset_password/${encryptedEmail}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            new_password: newPassword,
+            confirm_new_password: confirmNewPassword
+          })
+        });
+    
+        if (!response.ok) {
+          throw new Error('Password change failed');
+        }
+    
+        const data = await response.json();
+        console.log('Server Response:', data);
+    
+        if (data.status_code == 200) {
+          resetPasswordSuccessful = true;
+        }
+    
+      } catch (error) {
+        console.error('Password change error:', error);
+        return false;
+      }
+    
+      return resetPasswordSuccessful;
+    }
+    

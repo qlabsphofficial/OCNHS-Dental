@@ -282,7 +282,7 @@ class ActiveUpdateRequest(BaseModel):
     is_active: int
 
 
-class RequestResetPassword(BaseModel):
+class ForgotPasswordRequest(BaseModel):
     email: str
 
 
@@ -313,46 +313,16 @@ class UpdateStudentMedicalHistory(BaseModel):
     use_toothpaste: Optional[bool] = None
     dentist_visits_per_year: Optional[int] = None
 
-    # allergy: Optional[bool] = None
-    # # allergy_details: Optional[str] = None
-    # emphysema: Optional[bool] = None
-    # bleeding_problems: Optional[bool] = None
-    # blood_diseases: Optional[bool] = None
-    # head_injuries: Optional[bool] = None
-    # arthritis_rheumatism: Optional[bool] = None
-    # high_fever: Optional[bool] = None
-    # diabetes: Optional[bool] = None
-    # chest_pain: Optional[bool] = None
-    # stroke: Optional[bool] = None
-    # cancer_tumors: Optional[bool] = None
-    # anemia: Optional[bool] = None
-    # angina: Optional[bool] = None
-    # asthma: Optional[bool] = None
-    # high_blood_pressure: Optional[bool] = None
-    # low_blood_pressure: Optional[bool] = None
-    # aids_hiv_infection: Optional[bool] = None
-    # sexually_transmitted_disease: Optional[bool] = None
-    # stomach_troubles_ulcers: Optional[bool] = None
-    # fainting_seizure: Optional[bool] = None
-    # rapid_weight_loss_radiation_therapy: Optional[bool] = None
-    # joint_replacement_implant: Optional[bool] = None
-    # heart_surgery_heart_attack: Optional[bool] = None
-    # thyroid_problem: Optional[bool] = None
-    # heart_disease: Optional[bool] = None
-    # heart_murmur: Optional[bool] = None
-    # hepatitis_liver_disease: Optional[bool] = None
-    # rheumatic_seizure: Optional[bool] = None
-    # respiratory_problems: Optional[bool] = None
-    # hepatitis_jaundice: Optional[bool] = None
-    # tuberculosis: Optional[bool] = None
-    # swollen_ankles: Optional[bool] = None
-    # kidney_disease: Optional[bool] = None
-    # other_diseases: Optional[str] = None
-
     class Config:
         orm_mode = True
         
-        
+    
+class ResetPasswordRequest(BaseModel):
+    new_password: str
+    confirm_new_password: str
+    
+    
+    
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -1252,13 +1222,46 @@ async def download_parent_consent():
         media_type='application/pdf'
     )
 
+def caesar_cipher_encrypt(text: str, shift: int) -> str:
+    encrypted_text = []
+    for char in text:
+        if char.isalpha():
+            shift_amount = shift % 26
+            if char.islower():
+                encrypted_text.append(chr((ord(char) - ord('a') + shift_amount) % 26 + ord('a')))
+            elif char.isupper():
+                encrypted_text.append(chr((ord(char) - ord('A') + shift_amount) % 26 + ord('A')))
+        else:
+            encrypted_text.append(char)
+    return ''.join(encrypted_text)
 
-@app.post('/reset_password')
-async def reset_password(request: RequestResetPassword, db: Session = Depends(get_database)):
+
+def caesar_cipher_decrypt(encrypted_text: str, shift: int) -> str:
+    decrypted_text = []
+    for char in encrypted_text:
+        if char.isalpha():
+            shift_amount = shift % 26
+            if char.islower():
+                decrypted_text.append(chr((ord(char) - ord('a') - shift_amount) % 26 + ord('a')))
+            elif char.isupper():
+                decrypted_text.append(chr((ord(char) - ord('A') - shift_amount) % 26 + ord('A')))
+        else:
+            decrypted_text.append(char)
+    return ''.join(decrypted_text)
+
+
+@app.post('/forgot_password')
+async def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.email_address == request.email).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
+    
+    encrypted_email = caesar_cipher_encrypt(student.email_address, shift=3)
+
+    # Generate the reset password URL with the encrypted email
+    # reset_url = f"https://ocnhs-dental.onrender.com/#/resetPassword/{encrypted_email}"
+    reset_url = f"http://localhost:5173/#/resetPassword/{encrypted_email}"
     
     msg = EmailMessage()
     msg['Subject'] = "Account Password Reset"
@@ -1266,11 +1269,11 @@ async def reset_password(request: RequestResetPassword, db: Session = Depends(ge
     msg['To'] = request.email
     msg.set_content(
     f"""\
-    Hi {student.firstname},
+    Hi {student.firstname} {student.lastname},
 
     We received a request to reset your password. If you made this request, just click the URL below to create a new password:
 
-    URL: test
+    URL: {reset_url}
 
     If you didn’t request a password reset, you can safely ignore this email — your account is still secure.
 
@@ -1284,6 +1287,27 @@ async def reset_password(request: RequestResetPassword, db: Session = Depends(ge
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(email_address, email_password)
         smtp.send_message(msg)
+
+    return { 'response': 'Forgot password successful.', 'status_code': 200 }
+
+
+@app.post('/reset_password/{encrypted_email}')
+async def reset_password(encrypted_email: str, request: ResetPasswordRequest, db: Session = Depends(get_database)):
+    try:
+        email = caesar_cipher_decrypt(encrypted_email, shift=3)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid or corrupted link")
+
+    student = db.query(Student).filter(Student.email_address == email).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    if request.new_password != request.confirm_new_password:
+        raise HTTPException(status_code=400, detail="Password does not match")
+
+    student.password = request.new_password
+    db.commit()
 
     return { 'response': 'Reset password successful.', 'status_code': 200 }
 
@@ -1389,19 +1413,3 @@ async def generate_report(db: Session = Depends(get_database)):
     file_path = os.path.join(os.path.dirname(__file__), "static", "DENTAL ACCOMPLISHMENT REPORT.xlsx")
     return FileResponse(path=file_path, filename="DENTAL ACCOMPLISHMENT REPORT.xlsx", media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
-
-# @app.get('/change_password')
-# async def change_password(user_id: int, db: Session = Depends(get_database)):
-#      try:
-#         user = db.query(User).filter(User.id == user_id).first()
-        
-#         user.is_active = True
-#         db.commit()
-
-#         payload = {}
-#         payload.update({ 'user_data': user })
-
-#         return RedirectResponse("https://resumerank-fe.onrender.com")
-        
-#     except:
-#         return { 'response': 'Error retrieving data.', 'status_code': 400 }

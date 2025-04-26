@@ -59,7 +59,7 @@ const router = createRouter({
     },
 
     {
-      path: '/resetPassword',
+      path: '/resetPassword/:encryptedEmail',
       name: 'resetPassword',
       component: ResetPassView,
     },
