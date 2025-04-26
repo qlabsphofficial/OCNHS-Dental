@@ -265,7 +265,7 @@ class RescheduleAppointmentRequest(BaseModel):
 
 
 class StudentFilterRequest(BaseModel):
-    is_archive: int
+    is_archive: bool
     year: int | None
     curriculum: str | None
     grade_level: str | None
@@ -274,12 +274,12 @@ class StudentFilterRequest(BaseModel):
 
 class ArchiveUpdateRequest(BaseModel):
     student_id: int
-    is_archive: int
+    is_archive: bool
     
 
 class ActiveUpdateRequest(BaseModel):
     student_id: int
-    is_active: int
+    is_active: bool
 
 
 class ForgotPasswordRequest(BaseModel):
@@ -1164,7 +1164,7 @@ async def update_medical_record(medical_history_data: UpdateMedicalRecordRequest
         return {"message": "Medical history updated successfully", "medical_history": medical_history}
     
     
-@app.put("/update_archive_status")
+@app.post("/update_archive_status")
 async def update_archive_status(archive_data: ArchiveUpdateRequest, db: Session = Depends(get_database)):
     student = db.query(Student).filter(Student.id == archive_data.student_id).first()
     
@@ -1175,7 +1175,7 @@ async def update_archive_status(archive_data: ArchiveUpdateRequest, db: Session 
     
     db.commit()
     
-    return {"message": "Student's archive status updated successfully"}
+    return {"message": "Student's archive status updated successfully", "status_code": 200}
 
 
 @app.put("/update_active_status")

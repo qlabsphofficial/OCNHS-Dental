@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
-import { retrieveStudentRecords } from '@/services/StudentRecordService';
+import { retrieveStudentRecords, updateArchiveStatus } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 import { Archive } from 'lucide-vue-next';
 import { Trash2 } from 'lucide-vue-next';
@@ -87,6 +87,20 @@ async function retrieveStudentInfo(id) {
       toothbrushChange.value = studentInfo.value.medicalHistory.change_toothbrush_per_year
       useToothpaste.value = studentInfo.value.medicalHistory.use_toothpaste
       dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
+}
+
+async function updateArchiveStatusFunc(id) {
+  const archiveInfo = {
+    studentID: id,
+    isArchive: true
+  };
+
+  const updateResult = await updateArchiveStatus(archiveInfo);
+
+  if (updateResult) {
+    studentOptionsShowing.value = false;
+    actionButton.value = false;
+  }
 }
 
 const changeButton = (module) => {
@@ -403,7 +417,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             <div class="flex flex-row justify-end mt-3">
                   <!-- TODO, Add functionality here -->
                   <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out">Save Changes</button>
-                  <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out">Archive / Old Files</button>
+                  <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out" @click="updateArchiveStatusFunc(studentInfo.student.id)">Archive / Old Files</button>
                   <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out" @click="() => { showDeleteModal = true }">Delete</button>
             </div>
       </div>

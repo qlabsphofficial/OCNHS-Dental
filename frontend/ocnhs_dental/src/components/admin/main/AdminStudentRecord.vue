@@ -115,7 +115,7 @@ async function updateMedicalHistoryFunc(id) {
 
   if (updateResult) {
       studentOptionsShowing.value = false;
-  actionButton.value = false;
+      actionButton.value = false;
   }
 }
 

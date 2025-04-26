@@ -7,7 +7,7 @@ export async function retrieveStudentRecords(fileType, year, curriculum, gradeLv
     // Make dynamic request to the endpoint
     if (fileType == 'CURRENT') {
         requestBody = {
-            "is_archive": 0,
+            "is_archive": false,
             "year": null,
             "curriculum": curriculum,
             "grade_level": gradeLvl,
@@ -17,7 +17,7 @@ export async function retrieveStudentRecords(fileType, year, curriculum, gradeLv
 
     else {
         requestBody = {
-            "is_archive": 1,
+            "is_archive": true,
             "year": year,
             "curriculum": curriculum,
             "grade_level": null,
@@ -50,4 +50,44 @@ export async function retrieveStudentRecords(fileType, year, curriculum, gradeLv
     }
 
     return studentRecords
+}
+
+export async function updateArchiveStatus({
+    studentID,
+    isArchive,
+}) {
+
+    let updateSuccessful = false;
+    
+    try {
+      const response = await fetch(`${current_address}/update_archive_status`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "student_id": studentID,
+            "is_archive": isArchive,
+        })
+      });
+
+     
+  
+      if (!response.ok) {
+        throw new Error('Failed to update');
+      }
+      
+      const data = await response.json();
+      console.log('Server Response:', data);
+  
+      if(data.status_code === 200) {
+          updateSuccessful = true;
+      }
+    } catch (error) {
+      console.error('Update error:', error);
+      return false;
+    }
+  
+    return updateSuccessful;
+
 }
