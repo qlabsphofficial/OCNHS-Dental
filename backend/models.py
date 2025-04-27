@@ -29,6 +29,7 @@ class Student(Base):
 
     is_archive = Column(Boolean, nullable=False, default=False)
     is_active = Column(Boolean, nullable=False, default=True)
+    date_archived = Column(Date, nullable=True, default=None)
 
     medical_history = relationship('MedicalHistory', back_populates='student')
     appointments = relationship('Appointment', back_populates='student')

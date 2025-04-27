@@ -1172,8 +1172,14 @@ async def update_archive_status(archive_data: ArchiveUpdateRequest, db: Session 
         raise HTTPException(status_code=404, detail="Student not found")
     
     student.is_archive = archive_data.is_archive
-    
+
+    if archive_data.is_archive:
+        student.date_archived = date.today()
+    else:
+        student.date_archived = None
+
     db.commit()
+    db.refresh(student)
     
     return {"message": "Student's archive status updated successfully", "status_code": 200}
 
@@ -1260,8 +1266,8 @@ async def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(
     encrypted_email = caesar_cipher_encrypt(student.email_address, shift=3)
 
     # Generate the reset password URL with the encrypted email
-    # reset_url = f"https://ocnhs-dental.onrender.com/#/resetPassword/{encrypted_email}"
-    reset_url = f"http://localhost:5173/#/resetPassword/{encrypted_email}"
+    reset_url = f"https://ocnhs-dental.onrender.com/#/resetPassword/{encrypted_email}"
+    # reset_url = f"http://localhost:5173/#/resetPassword/{encrypted_email}"
     
     msg = EmailMessage()
     msg['Subject'] = "Account Password Reset"
