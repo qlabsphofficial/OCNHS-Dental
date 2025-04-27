@@ -266,7 +266,7 @@ class RescheduleAppointmentRequest(BaseModel):
 
 class StudentFilterRequest(BaseModel):
     is_archive: bool
-    year: int | None
+    year: str | None
     curriculum: str | None
     grade_level: str | None
     section: str | None
@@ -933,16 +933,26 @@ async def reschedule_appointment(request: RescheduleAppointmentRequest, db: Sess
 
 @app.post("/get_students")
 async def get_students(filters: StudentFilterRequest, db: Session = Depends(get_database)):
-    query = db.query(Student).filter(Student.is_archive == filters.is_archive)
+    if filters.is_archive:
+        query = db.query(Student).filter(Student.is_archive == filters.is_archive)
 
-    if filters.curriculum:
-        query = query.filter(Student.curriculum == filters.curriculum)
-    if filters.grade_level:
-        query = query.filter(Student.grade_level == filters.grade_level)
-    if filters.section:
-        query = query.filter(Student.section == filters.section)
+        if filters.year:
+            query = query.filter(extract('year', Student.date_archived) == filters.year)
+        if filters.curriculum:
+            query = query.filter(Student.curriculum == filters.curriculum)
 
-    students = query.all()
+        students = query.all()
+    else:
+        query = db.query(Student).filter(Student.is_archive == filters.is_archive)
+
+        if filters.curriculum:
+            query = query.filter(Student.curriculum == filters.curriculum)
+        if filters.grade_level:
+            query = query.filter(Student.grade_level == filters.grade_level)
+        if filters.section:
+            query = query.filter(Student.section == filters.section)
+
+        students = query.all()
 
     return {"students": students}
 
