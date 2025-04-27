@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
-import { retrieveStudentRecords, updateArchiveStatus } from '@/services/StudentRecordService';
+import { retrieveStudentRecords, updateArchiveStatus, deleteStudentRecord } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory, updateMedicalHistory } from '@/services/MedicalHistoryService';
 import { Archive } from 'lucide-vue-next';
 import { Trash2 } from 'lucide-vue-next';
@@ -130,6 +130,19 @@ async function updateArchiveStatusFunc(id) {
 
   if (updateResult) {
       listenToFilterChanges();
+      showStudentInfo.value = false;
+      studentOptionsShowing.value = false;
+      actionButton.value = false;
+  }
+}
+
+async function deleteStudentRecordFunc(id) {
+  const deleteResult = await deleteStudentRecord(id);
+
+  if (deleteResult) {
+      listenToFilterChanges();
+      showDeleteModal.value = false;
+      showStudentInfo.value = false;
       studentOptionsShowing.value = false;
       actionButton.value = false;
   }
@@ -151,7 +164,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <h3 class="text-3xl font-bold text-red-500">Delete Account</h3>
                   <p class="mt-20">Deleting the account will remove all the information from the database. This cannot be undone.</p>
 
-                  <button class="mt-20 rounded-md border p-3 w-2/3 text-red-500">Continue Deleting Account</button>
+                  <button class="mt-20 rounded-md border p-3 w-2/3 text-red-500" @click="deleteStudentRecordFunc(studentInfo.student.id)">Continue Deleting Account</button>
                   <button class="mt-10 rounded-md border p-3 w-2/3 hover:bg-gray-400 transition duration-100" @click="() => { showDeleteModal = false }">Cancel</button>
             </div>
       </div>

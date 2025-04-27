@@ -89,5 +89,37 @@ export async function updateArchiveStatus({
     }
   
     return updateSuccessful;
+}
 
+export async function deleteStudentRecord(id) {
+
+    let deleteSuccessful = false;
+    
+    try {
+      const response = await fetch(`${current_address}/delete_student_record`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "student_id": id
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete');
+      }
+      
+      const data = await response.json();
+      console.log('Server Response:', data);
+  
+      if(data.status_code === 200) {
+        deleteSuccessful = true;
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      return false;
+    }
+  
+    return deleteSuccessful;
 }

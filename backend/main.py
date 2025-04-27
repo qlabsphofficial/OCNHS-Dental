@@ -6,7 +6,7 @@ from sqlalchemy import func, desc
 from database import SessionLocal, engine, Base
 from pydantic import BaseModel
 from typing import Optional
-from models import Student, MedicalHistory, Appointment, Admin
+from models import Student, MedicalHistory, Appointment, Admin, OralHealthCondition, TemporaryTeeth, PermanentTeeth, DentalProcedure, ConditionTreatmentNeeds
 from datetime import date, datetime, timedelta
 from sqlalchemy import extract, cast, Date
 from pytz import timezone
@@ -322,7 +322,10 @@ class ResetPasswordRequest(BaseModel):
     confirm_new_password: str
     
     
-    
+class DeleteStudentRecord(BaseModel):
+    student_id: int
+
+
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -1208,24 +1211,31 @@ async def update_active_status(active_data: ActiveUpdateRequest, db: Session = D
     return {"message": "Student's active status updated successfully"}
 
 
-@app.delete("/delete_student")
-async def delete_student(student_id: int, db: Session = Depends(get_database)):
-    student = db.query(Student).filter(Student.id == student_id).first()
+@app.post("/delete_student_record")
+async def delete_student_record(delete: DeleteStudentRecord, db: Session = Depends(get_database)):
+    student = db.query(Student).filter(Student.id == delete.student_id).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     
-    # Delete medical history records
-    db.query(MedicalHistory).filter(MedicalHistory.student_id == student_id).delete()
+    db.query(MedicalHistory).filter(MedicalHistory.student_id == delete.student_id).delete()
     
-    # Delete appointment records
-    db.query(Appointment).filter(Appointment.student_id == student_id).delete()
+    db.query(Appointment).filter(Appointment.student_id == delete.student_id).delete()
+
+    db.query(OralHealthCondition).filter(OralHealthCondition.student_id == delete.student_id).delete()
+
+    db.query(TemporaryTeeth).filter(TemporaryTeeth.student_id == delete.student_id).delete()
+
+    db.query(PermanentTeeth).filter(PermanentTeeth.student_id == delete.student_id).delete()
+
+    db.query(DentalProcedure).filter(DentalProcedure.student_id == delete.student_id).delete()
+
+    db.query(ConditionTreatmentNeeds).filter(ConditionTreatmentNeeds.student_id == delete.student_id).delete()
     
-    # Delete the student record
     db.delete(student)
     db.commit()
 
-    return {"message": "Student, medical history, and appointments deleted successfully"}
+    return {"message": "Student record deleted successfully", "status_code": 200}
 
 
 @app.get("/download_parent_consent")
