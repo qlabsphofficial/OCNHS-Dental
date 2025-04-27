@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords, updateArchiveStatus } from '@/services/StudentRecordService';
-import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
+import { retrieveMedicalHistory, updateMedicalHistory } from '@/services/MedicalHistoryService';
 import { Archive } from 'lucide-vue-next';
 import { Trash2 } from 'lucide-vue-next';
 
@@ -76,8 +76,8 @@ async function retrieveStudentInfo(id) {
       illnessOrOperation.value = studentInfo.value.medicalHistory.illness_or_operation
       hospitalized.value = studentInfo.value.medicalHistory.hospitalized
       hospitalizationDetails.value = studentInfo.value.medicalHistory.hospitalization_details
-      takingMedications.value = studentInfo.value.medicalHistory.taking_medication
-      medicationsDetails.value = studentInfo.value.medicalHistory.taking_medication
+      takingMedications.value = studentInfo.value.medicalHistory.taking_medication  
+      medicationsDetails.value = studentInfo.value.medicalHistory.medication_details
       tobaccoUsage.value = studentInfo.value.medicalHistory.use_tobacco
       drugUse.value = studentInfo.value.medicalHistory.use_alcohol_or_drugs
       womenOnly.value = studentInfo.value.medicalHistory.pregnant_nursing_birth_control
@@ -89,6 +89,37 @@ async function retrieveStudentInfo(id) {
       dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
 }
 
+async function updateMedicalHistoryFunc(id) {
+  const medicalHistoryInfo = {
+      studentID: id,
+      goodHealth: goodHealth.value,
+      underMedicalTreatment: underMedicalTreatment.value,
+      treatmentCondition: treatmentCondition.value,
+      seriousIllness: seriousIllness.value,
+      illnessOrOperation: illnessOrOperation.value,
+      hospitalized: hospitalized.value,
+      hospitalizationDetails: hospitalizationDetails.value,
+      takingMedications: takingMedications.value,
+      medicationsDetails: medicationsDetails.value,
+      tobaccoUsage: tobaccoUsage.value,
+      drugUse: drugUse.value,
+      womenOnly: womenOnly.value,
+      womenCondition: womenCondition.value,
+      hasToothbrush: hasToothbrush.value,
+      brushingTimes: brushingTimes.value,
+      toothbrushChange: toothbrushChange.value,
+      useToothpaste: useToothpaste.value,
+      dentistVisits: dentistVisits.value,
+  };
+
+  let updateResult = await updateMedicalHistory(medicalHistoryInfo);
+
+  if (updateResult) {
+      studentOptionsShowing.value = false;
+      actionButton.value = false;
+  }
+}
+
 async function updateArchiveStatusFunc(id) {
   const archiveInfo = {
     studentID: id,
@@ -98,8 +129,9 @@ async function updateArchiveStatusFunc(id) {
   const updateResult = await updateArchiveStatus(archiveInfo);
 
   if (updateResult) {
-    studentOptionsShowing.value = false;
-    actionButton.value = false;
+      listenToFilterChanges();
+      studentOptionsShowing.value = false;
+      actionButton.value = false;
   }
 }
 
@@ -148,6 +180,8 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                           <option value="2022">2022</option>
                                           <option value="2023">2023</option>
                                           <option value="2024">2024</option>
+                                          <option value="2025">2025</option>
+                                          <option value="2026">2026</option>
                                     </select>
                               </div>
             
@@ -416,7 +450,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             
             <div class="flex flex-row justify-end mt-3">
                   <!-- TODO, Add functionality here -->
-                  <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out">Save Changes</button>
+                  <button v-if="actionButton == 'Edit'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out" @click="updateMedicalHistoryFunc(studentInfo.student.id)">Save Changes</button>
                   <button v-else-if="actionButton == 'Archive'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out" @click="updateArchiveStatusFunc(studentInfo.student.id)">Archive / Old Files</button>
                   <button v-else-if="actionButton == 'Trash'" class="border-2 p-2 text-center w-3/12 rounded-sm hover:bg-gray-300 transition duration-300 ease-in-out" @click="() => { showDeleteModal = true }">Delete</button>
             </div>
