@@ -217,11 +217,11 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   <table class="w-full mt-10">
                         <thead>
                               <tr>
-                                    <th>FIRST NAME</th>
-                                    <th>MIDDLE NAME</th>
-                                    <th>LAST NAME</th>
-                                    <th>BIRTHDATE</th>
-                                    <th>VIEW</th>
+                                    <th class="p-2">FIRST NAME</th>
+                                    <th class="p-2">MIDDLE NAME</th>
+                                    <th class="p-2">LAST NAME</th>
+                                    <th class="p-2">BIRTHDATE</th>
+                                    <th class="p-2">VIEW</th>
                               </tr>
                         </thead>
 
@@ -231,7 +231,14 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <td class="text-center p-1">{{ student.middlename }}</td>
                               <td class="text-center p-1">{{ student.lastname }}</td>
                               <td class="text-center p-1">{{ student.dateofbirth }}</td>
-                              <td class="text-center p-1"><button @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"><Eye /></button></td>
+                              <td class="text-center p-1">
+                                    <button 
+                                          @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"
+                                          class="hover:scale-150 transition duration-300 ease-in-out"
+                                    >
+                                          <Eye />
+                                    </button>
+                              </td>
                         </tr>
                   </table>
             </div>
@@ -394,40 +401,62 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             
                   <!-- Guided Questions -->
                   <div class="flex flex-col gap-4 h-1/2 w-1/2">
-                  <h2 class="text-2xl mb-2">Guided Questions</h2>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="hasToothbrush">
-                  <p>DO YOU HAVE A TOOTHBRUSH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
-                  <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
-                  <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="checkbox" v-model="useToothpaste">
-                  <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
-                  </div>
-            
-                  <div class="flex flex-row gap-4">
-                  <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
-                  <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
-                  </div>
+                        <h2 class="text-2xl mb-2">Guided Questions</h2>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="checkbox" v-model="hasToothbrush">
+                              <p>DO YOU HAVE A TOOTHBRUSH?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="brushingTimes">
+                              <p>HOW MANY TIMES DO YOU BRUSH YOUR TEETH?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="toothbrushChange">
+                              <p>HOW MANY TIMES DO YOU CHANGE YOUR TOOTHBRUSH IN A YEAR?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="checkbox" v-model="useToothpaste">
+                              <p>DO YOU USE TOOTHPASTE IN BRUSHING?</p>
+                        </div>
+                  
+                        <div class="flex flex-row gap-4">
+                              <input type="number" class="w-20 bg-gray-300 rounded-sm" v-model="dentistVisits">
+                              <p>HOW MANY TIMES DO YOU VISIT THE DENTIST IN A YEAR?</p>
+                        </div>
                   </div>
             </div>
 
             <div class="w-full mt-10">
                   <!-- Top Dental -->
-                  <div class="flex flex-row justify-between gap-5 h-11/12 mt-10">
+                  <div class="flex flex-row justify-between gap-5 h-auto mt-10 mb-20">
                         <div class="flex flex-col items-center justify-center w-1/2">
                               <h4 class="font-bold">DENTAL EXAMINATION</h4>
+                              <table class="h-full border w-full">
+                                    <tbody>
+                                          <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                          </tr>
+                                    </tbody>
+                              </table>
                         </div>
 
                         <div class="flex flex-col items-center justify-center w-1/2">
@@ -469,29 +498,29 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <table class="border-2 w-full h-full">
                                     <thead>
                                           <tr>
-                                                <th></th>
-                                                <th>Pre-Schooler</th>
-                                                <th>1</th>
-                                                <th>2</th>
-                                                <th>3</th>
-                                                <th>4</th>
-                                                <th>5</th>
-                                                <th>6</th>
-                                                <th>Remarks</th>
+                                                <th class="p-2"></th>
+                                                <th class="p-2">Pre-Schooler</th>
+                                                <th class="p-2">1</th>
+                                                <th class="p-2">2</th>
+                                                <th class="p-2">3</th>
+                                                <th class="p-2">4</th>
+                                                <th class="p-2">5</th>
+                                                <th class="p-2">6</th>
+                                                <th class="p-2">Remarks</th>
                                           </tr>
                                     </thead>
 
                                     <tbody>
                                           <tr v-for="procedure of dentalProcedures" :key="procedure">
-                                                <td>{{ procedure }}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="p-2">{{ procedure }}</td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
+                                                <td class="p-2"></td>
                                           </tr>
                                     </tbody>
                               </table>
@@ -503,26 +532,26 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                     <table class="border-2 w-full h-full">
                                           <thead>
                                                 <tr>
-                                                      <th>Index d. f. t.</th>
-                                                      <th>Pre-Schooler</th>
-                                                      <th>1</th>
-                                                      <th>2</th>
-                                                      <th>3</th>
-                                                      <th>4</th>
-                                                      <th>5</th>
-                                                      <th>6</th>
+                                                      <th class="p-2">Index d. f. t.</th>
+                                                      <th class="p-2">Pre-Schooler</th>
+                                                      <th class="p-2">1</th>
+                                                      <th class="p-2">2</th>
+                                                      <th class="p-2">3</th>
+                                                      <th class="p-2">4</th>
+                                                      <th class="p-2">5</th>
+                                                      <th class="p-2">6</th>
                                                 </tr>
                                           </thead>
 
                                           <tbody>
                                                 <tr v-for="temporaryTooth of temporaryTeeth" :key="temporaryTooth">
-                                                      <td>{{ temporaryTooth }}</td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
+                                                      <td class="p-2">{{ temporaryTooth }}</td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
                                                 </tr>
                                           </tbody>
                                     </table>
@@ -533,27 +562,27 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                     <table class="border-2 w-full h-full">
                                           <thead>
                                                 <tr>
-                                                      <th>Index D. M. F. T.</th>
-                                                      <th></th>
-                                                      <th>7</th>
-                                                      <th>8</th>
-                                                      <th>9</th>
-                                                      <th>10</th>
-                                                      <th>11</th>
-                                                      <th>12</th>
+                                                      <th class="p-2">Index D. M. F. T.</th>
+                                                      <th class="p-2"></th>
+                                                      <th class="p-2">7</th>
+                                                      <th class="p-2">8</th>
+                                                      <th class="p-2">9</th>
+                                                      <th class="p-2">10</th>
+                                                      <th class="p-2">11</th>
+                                                      <th class="p-2">12</th>
                                                 </tr>
                                           </thead>
 
                                           <tbody>
                                                 <tr v-for="permanentTooth of permanentTeeth" :key="permanentTooth">
-                                                      <td>{{ permanentTooth }}</td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
-                                                      <td></td>
+                                                      <td class="p-2">{{ permanentTooth }}</td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
+                                                      <td class="p-2"></td>
                                                 </tr>
                                           </tbody>
                                     </table>
@@ -576,5 +605,8 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 </template>
 
 <style scoped>
-
+table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+}
 </style>

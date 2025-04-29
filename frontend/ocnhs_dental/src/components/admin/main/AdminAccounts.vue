@@ -267,7 +267,13 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <td class="text-center p-1">{{ student.middlename }}</td>
                               <td class="text-center p-1">{{ student.lastname }}</td>
                               <td class="text-center p-1">{{ student.dateofbirth }}</td>
-                              <td class="text-center p-1"><button @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"><Eye /></button></td>
+                              <td class="text-center p-1">
+                                    <button
+                                          @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"
+                                          class="hover:scale-150 transition duration-300 ease-in-out"
+                                    ><Eye />
+                                    </button>
+                              </td>
                         </tr>
                   </table>
             </div>

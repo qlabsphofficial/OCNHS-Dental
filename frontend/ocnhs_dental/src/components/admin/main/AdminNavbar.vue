@@ -95,7 +95,9 @@ async function downloadReport() {
                   >
                         <FileSearch class="w-5 h-5" /> DENTAL EXAM FORM
                   </button>
-                  <button type="button" @click="downloadReport()" class="flex items-center gap-5">
+                  <button type="button" @click="downloadReport()"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                  >
                         <BarChart class="w-5 h-5" /> REPORTS
                   </button>
             </div>
