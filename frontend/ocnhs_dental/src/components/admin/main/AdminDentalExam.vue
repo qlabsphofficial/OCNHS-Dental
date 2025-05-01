@@ -234,7 +234,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <td class="text-center p-1">
                                     <button 
                                           @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"
-                                          class="hover:scale-150 transition duration-300 ease-in-out"
+                                          class="hover:scale-150 transition duration-300 ease-in-out cursor-pointer"
                                     >
                                           <Eye />
                                     </button>
@@ -247,20 +247,20 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
       <div v-if="showStudentInfo" class="flex flex-col w-11/12 h-11/12 p-16 border-2 rounded-md overflow-y-scroll">
             <!-- Personal Info -->
             <div class="flex flex-row justify-between items-between w-full">
-                  <div class="flex flex-row w-3/12">
+                  <div class="flex flex-row items-center w-3/12">
                         <div class="flex flex-col w-3/12">
-                              <button @click="() => { studentOptionsShowing = !studentOptionsShowing }"><MenuSquare /></button>
+                              <button @click="() => { studentOptionsShowing = !studentOptionsShowing }" class="flex items-center justify-center hover:scale-150 transition duration-300 ease-in-out cursor-pointer"><MenuSquare /></button>
       
                               <!-- Dropdown -->
-                              <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-90 absolute bg-white">
-                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Edit')"><Edit /> EDIT</button>
+                              <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 absolute bg-white">
+                                    <button class="flex flex-row items-center gap-20 w-full p-4 hover:bg-black hover:text-white transition duration-300 ease-in-out rounded-md cursor-pointer" @click="changeButton('Edit')"><Edit /> EDIT</button>
                               </div>
                         </div>
                         <!-- TODO -->
                         <p class="text-2xl">{{ studentInfo.student.lastname }} {{ studentInfo.student.firstname }}</p>
                   </div>
 
-                  <button @click="() => { showStudentInfo = false; studentOptionsShowing = false }">Return to Student Records</button>
+                  <button @click="() => { showStudentInfo = false; studentOptionsShowing = false }" class="p-2 hover:text-white hover:bg-black rounded-md transition duration-300 ease-out cursor-pointer">Return to Student Records</button>
             </div>
             <hr class="mt-5 mb-20">
 

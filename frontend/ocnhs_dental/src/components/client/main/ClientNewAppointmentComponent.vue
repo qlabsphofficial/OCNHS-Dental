@@ -49,7 +49,7 @@ async function attemptBooking(){
             <div class="flex flex-col gap-3 w-full lg:w-1/2 mt-2">
                   <h3 class="text-xl">Services Offered</h3>
                   <div class="w-full lg:w-1/2">
-                        <select v-model="category" class="p-2 border-1 w-full">
+                        <select v-model="category" class="p-2 border-1 w-full cursor-pointer">
                               <option value="CLEANING">CLEANING</option>
                               <option value="FLOURIDE">FLOURIDE</option>
                               <option value="RESTORATION">RESTORATION</option>
@@ -59,12 +59,12 @@ async function attemptBooking(){
 
                   <div class="mt-10">
                         <h3 class="text-xl">Schedule</h3>
-                        <input type="datetime-local" v-model="date" class="mt-5 p-2 border-1 w-full" :min="selectedDate">
+                        <input type="datetime-local" v-model="date" class="mt-5 p-2 border-1 w-full cursor-pointer" :min="selectedDate">
                   </div>
             </div>
 
             <div class="flex justify-center w-full">
-                  <button class="border-2 p-2 text-center rounded-md w-full hover:bg-black hover:scale-100 hover:text-white transition duration-300 ease-in-out" @click="attemptBooking()">Book Now</button>
+                  <button class="border-2 p-2 text-center rounded-md w-full hover:bg-black hover:scale-100 hover:text-white transition duration-300 ease-in-out cursor-pointer" @click="attemptBooking()">Book Now</button>
             </div>
       </div>
 </template>

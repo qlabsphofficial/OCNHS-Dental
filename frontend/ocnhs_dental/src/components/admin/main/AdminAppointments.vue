@@ -61,6 +61,8 @@ function formatDate(datetime) {
 <template>
       <div class="flex flex-col justify-between h-11/12 w-11/12 gap-5 p-10 border-2 rounded-md">
             <div class="h-11/12 w-full overflow-y-scroll">
+                  <h1 class="text-2xl font-bold mb-5">APPOINTMENTS</h1>
+
                   <table class="w-full h-auto">
                         <thead>
                               <tr class="border-2 sticky bg-white">

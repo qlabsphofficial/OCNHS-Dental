@@ -54,35 +54,35 @@ async function downloadReport() {
             <div class="flex flex-col items-start gap-10 p-5 mt-10">
                   <button type="button"
                         @click="changeModule('dashboard')"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'dashboard' }"
                   >
                         <Home class="w-5 h-5" /> DASHBOARD
                   </button>
                   <button type="button"
                         @click="changeModule('appointments')"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'appointments' }"
                   >
                         <ClipboardList class="w-5 h-5" /> APPOINTMENTS
                   </button>
                   <button type="button"
                         @click="changeModule('calendar')"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'calendar' }"
                   >
                         <Calendar class="w-5 h-5" /> CALENDAR
                   </button>
                   <button type="button"
                         @click="changeModule('studentRecord')"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'studentRecord' }"
                   >
                         <Users class="w-5 h-5" /> STUDENT RECORD
                   </button>
                   <button type="button"
                         @click="changeModule('accounts')"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'appointment' }"
                   >
                         <FileText class="w-5 h-5" /> ACCOUNTS
@@ -90,13 +90,13 @@ async function downloadReport() {
                   <button 
                         type="button"
                         @click="changeModule('dentalExam')"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'dentalExam' }"
                   >
                         <FileSearch class="w-5 h-5" /> DENTAL EXAM FORM
                   </button>
                   <button type="button" @click="downloadReport()"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                   >
                         <BarChart class="w-5 h-5" /> REPORTS
                   </button>
@@ -114,7 +114,7 @@ async function downloadReport() {
                               <button class="flex flex-row justify-center gap-4 text-black cursor-pointer border border-transparent rounded-md hover:bg-black hover:text-white p-2 transition duration-300 ease-in-out" @click="attemptLogout()"><LogOut />Sign Out</button>
                         </div>
                         <button class="flex items-center gap-2">
-                              <Settings class="w-5 h-5 hover:scale-150 transition duration-300 ease-in-out" @click="() => { showOptions = !showOptions }" />
+                              <Settings class="w-5 h-5 hover:scale-150 transition duration-300 ease-in-out cursor-pointer" @click="() => { showOptions = !showOptions }" />
                         </button>
                   </div>
             </div>

@@ -270,7 +270,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <td class="text-center p-1">
                                     <button
                                           @click="() => { showStudentInfo = true; retrieveStudentInfo(student.id) }"
-                                          class="hover:scale-150 transition duration-300 ease-in-out"
+                                          class="hover:scale-150 transition duration-300 ease-in-out cursor-pointer"
                                     ><Eye />
                                     </button>
                               </td>
@@ -282,22 +282,22 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
       <div v-if="showStudentInfo" class="flex flex-col w-11/12 h-11/12 p-16 border-2 rounded-md overflow-y-scroll">
             <!-- Personal Info -->
             <div class="flex flex-row justify-between items-between w-full">
-                  <div class="flex flex-row w-3/12">
-                        <div class="flex flex-col w-3/12">
-                              <button @click="() => { studentOptionsShowing = !studentOptionsShowing }"><MenuSquare /></button>
+                  <div class="flex flex-row items-center w-3/12">
+                        <div class="flex flex-col items-center w-3/12">
+                              <button @click="() => { studentOptionsShowing = !studentOptionsShowing }" class="flex items-center justify-center hover:scale-150 cursor-pointer transition duration-300 ease-in-out"><MenuSquare /></button>
       
                               <!-- Dropdown -->
                               <div v-if="studentOptionsShowing" class="flex flex-col gap-4 mt-10 rounded-md border-2 p-8 w-90 absolute bg-white">
-                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Edit')"><Edit /> EDIT</button>
-                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Archive')"><Archive /> ARCHIVE / OLD FILES</button>
-                                    <button class="flex flex-row items-center gap-20 w-full" @click="changeButton('Trash')"><Trash2 />DELETE</button>
+                                    <button class="flex flex-row items-center gap-20 w-full p-1 rounded-md cursor-pointer hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="changeButton('Edit')"><Edit /> EDIT</button>
+                                    <button class="flex flex-row items-center gap-20 w-full p-1 rounded-md cursor-pointer hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="changeButton('Archive')"><Archive /> ARCHIVE / OLD FILES</button>
+                                    <button class="flex flex-row items-center gap-20 w-full p-1 rounded-md cursor-pointer hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="changeButton('Trash')"><Trash2 />DELETE</button>
                               </div>
                         </div>
                         <!-- TODO -->
                         <p class="text-2xl">{{ studentInfo.student.lastname }} {{ studentInfo.student.firstname }}</p>
                   </div>
 
-                  <button @click="() => { showStudentInfo = false; }">Return to Student Records</button>
+                  <button @click="() => { showStudentInfo = false; }" class="hover:text-white hover:bg-black cursor-pointer p-2 rounded-md transition duration-300 ease-in-out">Return to Student Records</button>
             </div>
             <hr class="mt-5 mb-20">
 
@@ -479,5 +479,10 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 <style scoped>
 #deleteModalContainer {
       background-color:rgba(0, 0, 0, 0.411);
+}
+
+table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
 }
 </style>

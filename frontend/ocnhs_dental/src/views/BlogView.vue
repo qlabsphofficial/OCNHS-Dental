@@ -331,7 +331,7 @@ const blogStore = useBlogStore()
             </div>
 
             <div class="w-full flex justify-end mt-12">
-                  <button @click="() => { router.push('/') }">Return to Homepage</button>
+                  <button @click="() => { router.push('/') }" class="cursor-pointer hover:bg-black hover:text-white p-2 rounded-md transition duration-300 ease-in-out">Return to Homepage</button>
             </div>
       </div>
   </div>

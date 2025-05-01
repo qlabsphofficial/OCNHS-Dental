@@ -30,11 +30,11 @@ function changeModule(moduleName) {
 
                   <div class="w-1/2 flex justify-end z-10 transition duration-300 ease-in-out">
                         <div v-if="showOptions" class="flex flex-col gap-5 w-60 absolute bg-gray-300 top-34 lg:top-50 p-5 rounded-md">
-                              <button class="flex flex-row justify-center gap-4 p-2 rounded-md text-black hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="() => { changeModule('settings'); showOptions = false; }"><Settings />Settings</button>
-                              <button class="flex flex-row justify-center gap-4 p-2 rounded-md text-black hover:text-white hover:bg-black transition duration-300 ease-in-out" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
+                              <button class="flex flex-row justify-center gap-4 p-2 rounded-md text-black hover:text-white hover:bg-black transition duration-300 ease-in-out cursor-pointer" @click="() => { changeModule('settings'); showOptions = false; }"><Settings />Settings</button>
+                              <button class="flex flex-row justify-center gap-4 p-2 rounded-md text-black hover:text-white hover:bg-black transition duration-300 ease-in-out cursor-pointer" @click="() => { router.push('/') } "><LogOut />Sign Out</button>
                         </div>
                         <button class="flex items-center gap-2">
-                              <Settings class="w-5 h-5 hover:scale-150 transition duration-300 ease-in-out" @click="() => { showOptions = !showOptions }" />
+                              <Settings class="w-5 h-5 hover:scale-150 transition duration-300 ease-in-out cursor-pointer" @click="() => { showOptions = !showOptions }" />
                         </button>
                   </div>
             </div>
@@ -42,7 +42,7 @@ function changeModule(moduleName) {
             <div class="flex flex-col items-start gap-10 p-5 lg:mt-10">
                   <button
                         type="button"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'appointment' }"
                         @click="changeModule('appointment')"
                   >
@@ -51,7 +51,7 @@ function changeModule(moduleName) {
 
                   <button
                         type="button"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'newAppointment' }"
                         @click="changeModule('newAppointment')"
                   >
@@ -60,7 +60,7 @@ function changeModule(moduleName) {
 
                   <button
                         type="button"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'personalDetails' }"
                         @click="changeModule('personalDetails')"
                   >
@@ -69,7 +69,7 @@ function changeModule(moduleName) {
 
                   <button
                         type="button"
-                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1]"
+                        class="nav-button w-full flex flex-row items-center gap-4 p-2 rounded-md transition-all duration-300 hover:bg-[#80B1B1] cursor-pointer"
                         :class="{ active: currentModule === 'medicalHistory' }"
                         @click="changeModule('medicalHistory')"
                   >
