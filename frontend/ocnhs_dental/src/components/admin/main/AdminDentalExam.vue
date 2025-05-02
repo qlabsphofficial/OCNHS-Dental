@@ -4,6 +4,10 @@ import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
 import { retrieveStudentRecords } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 
+import DentalExamLayerTypeA from './DentalExamLayerTypeA.vue';
+import DentalExamLayerTypeB from './DentalExamLayerTypeB.vue';
+import DentalExamLayerTypeC from './DentalExamLayerTypeC.vue';
+
 const fileType = ref('')
 const yearGraduated = ref('')
 const curriculum = ref('')
@@ -433,33 +437,25 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
             <div class="w-full mt-10">
                   <!-- Top Dental -->
                   <div class="flex flex-row justify-between gap-5 h-auto mt-10 mb-20">
-                        <div class="flex flex-col items-center justify-center w-1/2">
+                        <div class="flex flex-col items-center justify-center w-8/12">
                               <h4 class="font-bold">DENTAL EXAMINATION</h4>
                               <table class="h-full border w-full">
                                     <tbody>
-                                          <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                          </tr>
+                                          <DentalExamLayerTypeA :layer-no="1" />
+                                          <DentalExamLayerTypeA :layer-no="2" />
+
+                                          <DentalExamLayerTypeC :layer-no="1" />
+                                          <DentalExamLayerTypeB :layer-no="3" />
+                                          <DentalExamLayerTypeB :layer-no="4" />
+                                          <DentalExamLayerTypeC :layer-no="2" />
+
+                                          <DentalExamLayerTypeA :layer-no="5" />
+                                          <DentalExamLayerTypeA :layer-no="6" />
                                     </tbody>
                               </table>
                         </div>
 
-                        <div class="flex flex-col items-center justify-center w-1/2">
+                        <div class="flex flex-col items-center justify-center w-4/12">
                               <h4 class="font-bold">ORAL HEALTH CONDITION</h4>
                               <table class="border-2 w-full">
                                     <thead>
