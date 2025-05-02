@@ -205,7 +205,6 @@ class DentalProcedure(Base):
     referral = Column(String, nullable=True)
     other_oral_treatment = Column(String, nullable=True)
 
-    remarks = Column(String, nullable=True)
     examined_by = Column(String, nullable=True)
 
     student = relationship("Student", back_populates="dental_procedures")

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
 from database import SessionLocal, engine, Base
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from models import Student, MedicalHistory, Appointment, Admin, OralHealthCondition, TemporaryTeeth, PermanentTeeth, DentalProcedure, ConditionTreatmentNeeds
 from datetime import date, datetime, timedelta
 from sqlalchemy import extract, cast, Date
@@ -326,6 +326,74 @@ class DeleteStudentRecord(BaseModel):
     student_id: int
 
 
+class TemporaryTeethSchema(BaseModel):
+    student_id: int
+    grade_level: str
+    no_t_decayed: str
+    no_t_filled: str
+    total_dft: str
+    
+    
+class PermanentTeethSchema(BaseModel):
+    student_id: int
+    grade_level: str
+    no_t_decayed: str
+    no_t_missing: str
+    no_t_filled: str
+    total_d_m_f_t: str
+    total_sound_teeth: str
+    
+    
+class OralHealthConditionSchema(BaseModel):
+    student_id: int
+    grade_level: str
+    
+    gingivitis: str
+    periodontal_disease: str
+    malocclusion: str
+    supernumerary_teeth: str
+    retained_deciduous_teeth: str
+    decubital_ulcer: str
+    calculus: str
+    cleft_lip_palate: str
+    root_fragment: str
+    fluorosis: str
+    others: str
+    
+    
+class OralHealthConditionSchema(BaseModel):
+    student_id: int
+    grade_level: str
+    
+    gingivitis: str
+    periodontal_disease: str
+    malocclusion: str
+    supernumerary_teeth: str
+    retained_deciduous_teeth: str
+    decubital_ulcer: str
+    calculus: str
+    cleft_lip_palate: str
+    root_fragment: str
+    fluorosis: str
+    others: str
+    
+    
+class DentalProcedureSchema(BaseModel):
+    student_id: int
+    grade_level: str
+    
+    date: str
+    examination: str
+    sealant_gi: str
+    gum_treatment: str
+    permanent_filling: str
+    art: str
+    extraction: str
+    oral_prophylaxis: str
+    referral: str
+    other_oral_treatment: str
+    examined_by: str
+    
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
     if student.password != student.confirm_password:
@@ -1336,6 +1404,194 @@ async def reset_password(encrypted_email: str, request: ResetPasswordRequest, db
     db.commit()
 
     return { 'response': 'Reset password successful.', 'status_code': 200 }
+
+
+@app.post("/create_temp_teeth_bulk")
+async def create_temp_teeth_bulk(records: List[TemporaryTeethSchema],db: Session = Depends(get_database)):
+    try:
+        for record in records:
+            existing = db.query(TemporaryTeeth).filter(TemporaryTeeth.student_id == record.student_id, TemporaryTeeth.grade_level == record.grade_level).first()
+
+            if existing:
+                existing.no_t_decayed = record.no_t_decayed
+                existing.no_t_filled = record.no_t_filled
+                existing.total_dft = record.total_dft
+            else:
+                new_record = TemporaryTeeth(
+                    student_id=record.student_id,
+                    grade_level=record.grade_level,
+                    no_t_decayed=record.no_t_decayed,
+                    no_t_filled=record.no_t_filled,
+                    total_dft=record.total_dft
+                )
+                db.add(new_record)
+
+        db.commit()
+
+        return {"status_code": 200, "message": "Bulk upsert successful"}
+    except Exception as e:
+        print("Error:", e)
+        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+
+
+@app.get("/get_temporary_teeth/{student_id}")
+def get_temporary_teeth(student_id: int, db: Session = Depends(get_database)):
+    records = db.query(TemporaryTeeth).filter(TemporaryTeeth.student_id == student_id).all()
+    
+    if not records:
+        raise HTTPException(status_code=404, detail="Records not found")
+    
+    return records
+
+
+@app.post("/create_perma_teeth_bulk")
+async def create_perma_teeth_bulk(records: List[PermanentTeethSchema],db: Session = Depends(get_database)):
+    try:
+        for record in records:
+            existing = db.query(PermanentTeeth).filter(PermanentTeeth.student_id == record.student_id, PermanentTeeth.grade_level == record.grade_level).first()
+
+            if existing:
+                existing.no_t_decayed = record.no_t_decayed
+                existing.no_t_missing = record.no_t_missing
+                existing.no_t_filled = record.no_t_filled
+                existing.total_d_m_f_t = record.total_d_m_f_t
+                existing.total_sound_teeth = record.total_sound_teeth
+            else:
+                new_record = PermanentTeeth(
+                    student_id=record.student_id,
+                    grade_level=record.grade_level,
+                    no_t_decayed=record.no_t_decayed,
+                    no_t_missing=record.no_t_missing,
+                    no_t_filled=record.no_t_filled,
+                    total_d_m_f_t=record.total_d_m_f_t,
+                    total_sound_teeth=record.total_sound_teeth
+                )
+                db.add(new_record)
+
+        db.commit()
+
+        return {"status_code": 200, "message": "Bulk upsert successful"}
+    except Exception as e:
+        print("Error:", e)
+        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+
+
+@app.get("/get_permarnent_teeth/{student_id}")
+def get_permarnent_teeth(student_id: int, db: Session = Depends(get_database)):
+    records = db.query(PermanentTeeth).filter(PermanentTeeth.student_id == student_id).all()
+    
+    if not records:
+        raise HTTPException(status_code=404, detail="Records not found")
+    
+    return records
+
+
+@app.post("/create_oral_health_condition_bulk")
+async def create_oral_health_condition_bulk(records: List[OralHealthConditionSchema],db: Session = Depends(get_database)):
+    try:
+        for record in records:
+            existing = db.query(OralHealthCondition).filter(OralHealthCondition.student_id == record.student_id, OralHealthCondition.grade_level == record.grade_level).first()
+
+            if existing:
+                existing.gingivitis = record.gingivitis
+                existing.periodontal_disease = record.periodontal_disease
+                existing.malocclusion = record.malocclusion
+                existing.supernumerary_teeth = record.supernumerary_teeth
+                existing.retained_deciduous_teeth = record.retained_deciduous_teeth
+                existing.decubital_ulcer = record.decubital_ulcer
+                existing.calculus = record.calculus
+                existing.cleft_lip_palate = record.cleft_lip_palate
+                existing.root_fragment = record.root_fragment
+                existing.fluorosis = record.fluorosis
+                existing.others = record.others
+            else:
+                new_record = OralHealthCondition(
+                    student_id=record.student_id,
+                    grade_level=record.grade_level,
+                    gingivitis=record.gingivitis,
+                    periodontal_disease=record.periodontal_disease,
+                    malocclusion=record.malocclusion,
+                    supernumerary_teeth=record.supernumerary_teeth,
+                    retained_deciduous_teeth=record.retained_deciduous_teeth,
+                    decubital_ulcer=record.decubital_ulcer,
+                    calculus=record.calculus,
+                    cleft_lip_palate=record.cleft_lip_palate,
+                    root_fragment=record.root_fragment,
+                    fluorosis=record.fluorosis,
+                    others=record.others
+                )
+                db.add(new_record)
+
+        db.commit()
+
+        return {"status_code": 200, "message": "Bulk upsert successful"}
+    except Exception as e:
+        print("Error:", e)
+        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+
+
+@app.get("/get_oral_health_condition_teeth/{student_id}")
+def get_oral_health_condition_teeth(student_id: int, db: Session = Depends(get_database)):
+    records = db.query(OralHealthCondition).filter(OralHealthCondition.student_id == student_id).all()
+    
+    if not records:
+        raise HTTPException(status_code=404, detail="Records not found")
+    
+    return records
+
+
+@app.post("/create_dental_procedure_bulk")
+async def create_dental_procedure_bulk(records: List[DentalProcedureSchema],db: Session = Depends(get_database)):
+    try:
+        for record in records:
+            existing = db.query(DentalProcedure).filter(DentalProcedure.student_id == record.student_id, DentalProcedure.grade_level == record.grade_level).first()
+
+            if existing:
+                existing.date = record.date
+                existing.examination = record.examination
+                existing.sealant_gi = record.sealant_gi
+                existing.gum_treatment = record.gum_treatment
+                existing.permanent_filling = record.permanent_filling
+                existing.art = record.art
+                existing.extraction = record.extraction
+                existing.oral_prophylaxis = record.oral_prophylaxis
+                existing.referral = record.referral
+                existing.other_oral_treatment = record.other_oral_treatment
+                existing.examined_by = record.examined_by
+            else:
+                new_record = DentalProcedure(
+                    student_id=record.student_id,
+                    grade_level=record.grade_level,
+                    date=record.date,
+                    examination=record.examination,
+                    sealant_gi=record.sealant_gi,
+                    gum_treatment=record.gum_treatment,
+                    permanent_filling=record.permanent_filling,
+                    art=record.art,
+                    extraction=record.extraction,
+                    oral_prophylaxis=record.oral_prophylaxis,
+                    referral=record.referral,
+                    other_oral_treatment=record.other_oral_treatment,
+                    examined_by=record.examined_by
+                )
+                db.add(new_record)
+
+        db.commit()
+
+        return {"status_code": 200, "message": "Bulk upsert successful"}
+    except Exception as e:
+        print("Error:", e)
+        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+
+
+@app.get("/get_dental_procedure_teeth/{student_id}")
+def get_dental_procedure_teeth(student_id: int, db: Session = Depends(get_database)):
+    records = db.query(DentalProcedure).filter(DentalProcedure.student_id == student_id).all()
+    
+    if not records:
+        raise HTTPException(status_code=404, detail="Records not found")
+    
+    return records
 
 
 @app.get('/generate_report')

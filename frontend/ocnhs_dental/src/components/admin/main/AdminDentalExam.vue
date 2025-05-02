@@ -1,7 +1,9 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Eye, MenuSquare, Edit, Printer } from 'lucide-vue-next';
-import { retrieveStudentRecords } from '@/services/StudentRecordService';
+import { retrieveStudentRecords, submitTemporaryTeethData, fetchTemporaryTeeth, submitPermanentTeethData, fetchPermanentTeeth ,
+      submitOralHealthConditionData, fetchOralHealthCondition, submitDentalProcedureData, fetchDentalProcedure
+} from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 
 import DentalExamLayerTypeA from './DentalExamLayerTypeA.vue';
@@ -35,50 +37,108 @@ const toothbrushChange = ref(0);
 const useToothpaste = ref(false);
 const dentistVisits = ref(0);
 
-const healthConditions = ref([
-      'Gingivitis',
-      'Periodontal Disease',
-      'Malocclussion',
-      'Supernumerary Teeth',
-      'Retained Deciduous Teeth',
-      'Decubital Ulcer',
-      'Calculus',
-      'Cleft Lip / Palate',
-      'Root Fragment',
-      'Fluorosis',
-      'Others, specify'
-])
+const oralHealthGradeLevels = ['1', '2', '3', '4', '5', '6']
 
-const dentalProcedures = ref([
-      'DATE',
-      'Examination',
-      'Sealant (G.I.)',
-      'Gum Treatment',
-      'Permanent Filling',
-      'ART',
-      'Extraction',
-      'Oral Prophylaxis',
-      'Referral',
-      'Other Oral Treatment',
-      '',
-      'Examined by'
-])
+const oralHealthGingivitis = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthPeriodontalDisease = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthMalocclusion = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthSupernumeraryTeeth = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthRetainedDeciduousTeeth = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthDecubitalUlcer = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthCalculus = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthCleftLipPalate = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthRootFragment = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthFluorosis = ref(Array(oralHealthGradeLevels.length).fill(''))
+const oralHealthOthers = ref(Array(oralHealthGradeLevels.length).fill(''))
 
-const temporaryTeeth = ref([
-      'No. T/decayed',
-      'No. T/filled',
-      'Total d. f. t.'
-])
+const createOralHealthConditionData = (studentID) => {
+  return oralHealthGradeLevels.map((gradeLevel, index) => ({
+    student_id: studentID,
+    grade_level: gradeLevel,
+    gingivitis: oralHealthGingivitis.value[index],
+    periodontal_disease: oralHealthPeriodontalDisease.value[index],
+    malocclusion: oralHealthMalocclusion.value[index],
+    supernumerary_teeth: oralHealthSupernumeraryTeeth.value[index],
+    retained_deciduous_teeth: oralHealthRetainedDeciduousTeeth.value[index],
+    decubital_ulcer: oralHealthDecubitalUlcer.value[index],
+    calculus: oralHealthCalculus.value[index],
+    cleft_lip_palate: oralHealthCleftLipPalate.value[index],
+    root_fragment: oralHealthRootFragment.value[index],
+    fluorosis: oralHealthFluorosis.value[index],
+    others: oralHealthOthers.value[index],
+  }));
+};
 
-const permanentTeeth = ref([
-      'No. T/decayed',
-      'No. T/missing',
-      'No. T/filled',
-      'Total D. M. F. T.',
-      'Total Sound Teeth'
-])
+const dentalProcedureGradeLevels = ['Pre-Schooler', '1', '2', '3', '4', '5', '6', 'Remarks']
 
-// Student Info
+const dentalProcedureDate = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureExamination = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureSealantGi = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureGumTreatment = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedurePermanentFilling = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureArt = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureExtraction = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureOralProphylaxis = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureReferral = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureOtherOralTreatment = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+const dentalProcedureExaminedBy = ref(Array(dentalProcedureGradeLevels.length).fill(''))
+
+const createDentalProcedureData = (studentID) => {
+  return dentalProcedureGradeLevels.map((gradeLevel, index) => ({
+    student_id: studentID,
+    grade_level: gradeLevel,
+    date: dentalProcedureDate.value[index],
+    examination: dentalProcedureExamination.value[index],
+    sealant_gi: dentalProcedureSealantGi.value[index],
+    gum_treatment: dentalProcedureGumTreatment.value[index],
+    permanent_filling: dentalProcedurePermanentFilling.value[index],
+    art: dentalProcedureArt.value[index],
+    extraction: dentalProcedureExtraction.value[index],
+    oral_prophylaxis: dentalProcedureOralProphylaxis.value[index],
+    referral: dentalProcedureReferral.value[index],
+    other_oral_treatment: dentalProcedureOtherOralTreatment.value[index],
+    examined_by: dentalProcedureExaminedBy.value[index],
+  }));
+};
+
+const tempGradeLevels = ['Pre-Schooler', '1', '2', '3', '4', '5', '6']
+
+const tempDecayedValues = ref(Array(tempGradeLevels.length).fill(''))
+const tempFilledValues = ref(Array(tempGradeLevels.length).fill(''))
+const tempdftValues = ref(Array(tempGradeLevels.length).fill(''))
+
+const createTemporaryTeethData = (studentID) => {
+  return tempGradeLevels.map((gradeLevel, index) => ({
+    student_id: studentID,
+    grade_level: gradeLevel,
+    no_t_decayed: tempDecayedValues.value[index],
+    no_t_filled: tempFilledValues.value[index],
+    total_dft: tempdftValues.value[index],
+  }));
+};
+
+
+const permaGradeLevels = ['7', '8', '9', '10', '11', '12']
+
+const permaDecayedValues = ref(Array(permaGradeLevels.length).fill(''))
+const permaMissingValues = ref(Array(permaGradeLevels.length).fill(''))
+const permaFilledValues = ref(Array(permaGradeLevels.length).fill(''))
+const permaTotalDMFTValues = ref(Array(permaGradeLevels.length).fill(''))
+const permaTotalSoundValues = ref(Array(permaGradeLevels.length).fill(''))
+
+const createPermanentTeethData = (studentID) => {
+  return permaGradeLevels.map((gradeLevel, index) => ({
+    student_id: studentID,
+    grade_level: gradeLevel,
+    no_t_decayed: permaDecayedValues.value[index],
+    no_t_missing: permaMissingValues.value[index],
+    no_t_filled: permaFilledValues.value[index],
+    total_d_m_f_t: permaTotalDMFTValues.value[index],
+    total_sound_teeth: permaTotalSoundValues.value[index]
+  }));
+};
+
+
 const studentInfo = ref({})
 const showStudentInfo = ref(false)
 const studentOptionsShowing = ref(false)
@@ -129,7 +189,190 @@ async function retrieveStudentInfo(id) {
       toothbrushChange.value = studentInfo.value.medicalHistory.change_toothbrush_per_year
       useToothpaste.value = studentInfo.value.medicalHistory.use_toothpaste
       dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
+
+      this.fetchTemporaryTeethFunc(id)
+      this.fetchPermanentTeethFunc(id)
+      this.fetchOralHealthConditionFunc(id)
+      this.fetchDentalProcedureFunc(id)
 }
+
+async function updateTemporaryTeethFunc(id) {
+  const temporaryTeethData = createTemporaryTeethData(id);
+
+  const success = await submitTemporaryTeethData({
+    temporaryTeethData: temporaryTeethData
+  });
+
+  if (success) {
+    console.log('All records submitted successfully!');
+  } else {
+    console.warn('Submission failed.');
+  }
+}
+
+async function fetchTemporaryTeethFunc(id) {
+      try {
+    const data = await fetchTemporaryTeeth(id);
+
+    tempDecayedValues.value = Array(tempGradeLevels.length).fill('');
+    tempFilledValues.value = Array(tempGradeLevels.length).fill('');
+    tempdftValues.value = Array(tempGradeLevels.length).fill('');
+
+    data.forEach((item) => {
+      const index = tempGradeLevels.indexOf(item.grade_level);
+      if (index !== -1) {
+        tempDecayedValues.value[index] = item.no_t_decayed;
+        tempFilledValues.value[index] = item.no_t_filled;
+        tempdftValues.value[index] = item.total_dft;
+      }
+    });
+  } catch (error) {
+    console.error('Failed to fetch Temporary Teeth data:', error);
+  }
+}
+
+async function updatePermanentTeethFunc(id) {
+  const PermanentTeethData = createPermanentTeethData(id);
+
+  const success = await submitPermanentTeethData({
+      PermanentTeethData: PermanentTeethData
+  });
+
+  if (success) {
+    console.log('All records submitted successfully!');
+  } else {
+    console.warn('Submission failed.');
+  }
+}
+
+async function fetchPermanentTeethFunc(id) {
+      try {
+    const data = await fetchPermanentTeeth(id);
+
+    permaDecayedValues.value = Array(permaGradeLevels.length).fill('');
+    permaMissingValues.value = Array(permaGradeLevels.length).fill('');
+    permaFilledValues.value = Array(permaGradeLevels.length).fill('');
+    permaTotalDMFTValues.value = Array(permaGradeLevels.length).fill('');
+    permaTotalSoundValues.value = Array(permaGradeLevels.length).fill('');
+
+    data.forEach((item) => {
+      const index = permaGradeLevels.indexOf(item.grade_level);
+      if (index !== -1) {
+            permaDecayedValues.value[index] = item.no_t_decayed;
+            permaMissingValues.value[index] = item.no_t_missing;
+            permaFilledValues.value[index] = item.no_t_filled;
+            permaTotalDMFTValues.value[index] = item.total_d_m_f_t;
+            permaTotalSoundValues.value[index] = item.total_sound_teeth;
+      }
+    });
+  } catch (error) {
+    console.error('Failed to fetch Permanent Teeth data:', error);
+  }
+}
+
+
+async function updateOralHealthConditionFunc(id) {
+  const OralHealthConditionData = createOralHealthConditionData(id);
+
+  const success = await submitOralHealthConditionData({
+      OralHealthConditionData: OralHealthConditionData
+  });
+
+  if (success) {
+    console.log('All records submitted successfully!');
+  } else {
+    console.warn('Submission failed.');
+  }
+}
+
+async function fetchOralHealthConditionFunc(id) {
+      try {
+    const data = await fetchOralHealthCondition(id);
+
+    oralHealthGingivitis.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthPeriodontalDisease.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthMalocclusion.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthSupernumeraryTeeth.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthRetainedDeciduousTeeth.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthDecubitalUlcer.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthCalculus.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthCleftLipPalate.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthRootFragment.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthFluorosis.value = Array(oralHealthGradeLevels.length).fill('');
+    oralHealthOthers.value = Array(oralHealthGradeLevels.length).fill('');
+
+    data.forEach((item) => {
+      const index = oralHealthGradeLevels.indexOf(item.grade_level);
+      if (index !== -1) {
+            oralHealthGingivitis.value[index] = item.gingivitis;
+            oralHealthPeriodontalDisease.value[index] = item.periodontal_disease;
+            oralHealthMalocclusion.value[index] = item.malocclusion;
+            oralHealthSupernumeraryTeeth.value[index] = item.supernumerary_teeth;
+            oralHealthRetainedDeciduousTeeth.value[index] = item.retained_deciduous_teeth;
+            oralHealthDecubitalUlcer.value[index] = item.decubital_ulcer;
+            oralHealthCalculus.value[index] = item.calculus;
+            oralHealthCleftLipPalate.value[index] = item.cleft_lip_palate;
+            oralHealthRootFragment.value[index] = item.root_fragment;
+            oralHealthFluorosis.value[index] = item.fluorosis;
+            oralHealthOthers.value[index] = item.others;
+      }
+    });
+  } catch (error) {
+    console.error('Failed to fetch Oral Health Condition data:', error);
+  }
+}
+
+async function updateDentalProcedureFunc(id) {
+  const DentalProcedureData = createDentalProcedureData(id);
+
+  const success = await submitDentalProcedureData({
+      DentalProcedureData: DentalProcedureData
+  });
+
+  if (success) {
+    console.log('All records submitted successfully!');
+  } else {
+    console.warn('Submission failed.');
+  }
+}
+
+async function fetchDentalProcedureFunc(id) {
+      try {
+    const data = await fetchDentalProcedure(id);
+
+    dentalProcedureDate.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureExamination.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureSealantGi.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureGumTreatment.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedurePermanentFilling.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureArt.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureExtraction.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureOralProphylaxis.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureReferral.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureOtherOralTreatment.value = Array(dentalProcedureGradeLevels.length).fill('');
+    dentalProcedureExaminedBy.value = Array(dentalProcedureGradeLevels.length).fill('');
+
+    data.forEach((item) => {
+      const index = dentalProcedureGradeLevels.indexOf(item.grade_level);
+      if (index !== -1) {
+            dentalProcedureDate.value[index] = item.date;
+            dentalProcedureExamination.value[index] = item.examination;
+            dentalProcedureSealantGi.value[index] = item.sealant_gi;
+            dentalProcedureGumTreatment.value[index] = item.gum_treatment;
+            dentalProcedurePermanentFilling.value[index] = item.permanent_filling;
+            dentalProcedureArt.value[index] = item.art;
+            dentalProcedureExtraction.value[index] = item.extraction;
+            dentalProcedureOralProphylaxis.value[index] = item.oral_prophylaxis;
+            dentalProcedureReferral.value[index] = item.referral;
+            dentalProcedureOtherOralTreatment.value[index] = item.other_oral_treatment;
+            dentalProcedureExaminedBy.value[index] = item.examined_by;
+      }
+    });
+  } catch (error) {
+    console.error('Failed to fetch Oral Health Condition data:', error);
+  }
+}
+
 
 watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
       listenToFilterChanges();
@@ -461,29 +704,85 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                     <thead>
                                           <tr>
                                                 <th class="p-2"></th>
-                                                <th class="p-2"></th>
-                                                <th class="p-2">1</th>
-                                                <th class="p-2">2</th>
-                                                <th class="p-2">3</th>
-                                                <th class="p-2">4</th>
-                                                <th class="p-2">5</th>
-                                                <th class="p-2">6</th>
+                                                <th v-for="grade in oralHealthGradeLevels" :key="grade" class="p-2">
+                                                      {{ grade }}
+                                                </th>
                                           </tr>
                                     </thead>
 
                                     <tbody>
-                                          <tr v-for="condition of healthConditions" :key="condition">
-                                                <td class="p-2">{{ condition }}</td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
+                                          <tr>
+                                                <td class="p-2">Gingivitis</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthGingivitis[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Periodontal Disease</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthPeriodontalDisease[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Malocclussion</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthMalocclusion[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Supernumerary Teeth</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthSupernumeraryTeeth[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Retained Deciduous Teeth</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthRetainedDeciduousTeeth[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Decubital Ulcer</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthDecubitalUlcer[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Calculus</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthCalculus[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Cleft Lip / Palate</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthCleftLipPalate[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Root Fragment</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthRootFragment[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Fluorosis</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthFluorosis[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Others, specify</td>
+                                                <td v-for="(grade, i) in oralHealthGradeLevels" :key="grade">
+                                                      <input v-model="oralHealthOthers[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
                                           </tr>
                                     </tbody>
                               </table>
+                              <button @click="updateOralHealthConditionFunc(studentInfo.student.id)">test</button>
                         </div>
                   </div>
 
@@ -495,31 +794,86 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                     <thead>
                                           <tr>
                                                 <th class="p-2"></th>
-                                                <th class="p-2">Pre-Schooler</th>
-                                                <th class="p-2">1</th>
-                                                <th class="p-2">2</th>
-                                                <th class="p-2">3</th>
-                                                <th class="p-2">4</th>
-                                                <th class="p-2">5</th>
-                                                <th class="p-2">6</th>
-                                                <th class="p-2">Remarks</th>
+                                                <th v-for="grade in dentalProcedureGradeLevels" :key="grade" class="p-2">
+                                                      {{ grade }}
+                                                </th>
                                           </tr>
                                     </thead>
 
                                     <tbody>
-                                          <tr v-for="procedure of dentalProcedures" :key="procedure">
-                                                <td class="p-2">{{ procedure }}</td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
-                                                <td class="p-2"></td>
+                                          <tr>
+                                                <td class="p-2">DATE</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureDate[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Examination</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureExamination[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Sealant (G.I.)</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureSealantGi[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Gum Treatment</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureGumTreatment[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Permanent Filling</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedurePermanentFilling[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">ART</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureArt[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td class="p-2">Extraction</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureExtraction[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Oral Prophylaxis</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureOralProphylaxis[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Referral</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureReferral[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Other Oral Treatment</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureOtherOralTreatment[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
+                                          </tr>
+
+                                          <tr>
+                                                <td class="p-2">Examined by</td>
+                                                <td v-for="(grade, i) in dentalProcedureGradeLevels" :key="grade">
+                                                      <input v-model="dentalProcedureExaminedBy[i]" type="text" class="border px-2 py-1 w-full" />
+                                                </td>
                                           </tr>
                                     </tbody>
                               </table>
+                              <button @click="updateDentalProcedureFunc(studentInfo.student.id)">test</button>
                         </div>
 
                         <div class="flex flex-col gap-5 w-5/12 h-full">
@@ -529,28 +883,34 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                           <thead>
                                                 <tr>
                                                       <th class="p-2">Index d. f. t.</th>
-                                                      <th class="p-2">Pre-Schooler</th>
-                                                      <th class="p-2">1</th>
-                                                      <th class="p-2">2</th>
-                                                      <th class="p-2">3</th>
-                                                      <th class="p-2">4</th>
-                                                      <th class="p-2">5</th>
-                                                      <th class="p-2">6</th>
+                                                      <th v-for="grade in tempGradeLevels" :key="grade" class="p-2">
+                                                            {{ grade }}
+                                                      </th>
                                                 </tr>
                                           </thead>
 
                                           <tbody>
-                                                <tr v-for="temporaryTooth of temporaryTeeth" :key="temporaryTooth">
-                                                      <td class="p-2">{{ temporaryTooth }}</td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
+                                                <tr>
+                                                      <td class="p-2">No. T/decayed</td>
+                                                      <td v-for="(grade, i) in tempGradeLevels" :key="grade">
+                                                            <input v-model="tempDecayedValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                      <td class="p-2">No. T/filled</td>
+                                                      <td v-for="(grade, i) in tempGradeLevels" :key="grade">
+                                                            <input v-model="tempFilledValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                      <td class="p-2">Total d. f. t.</td>
+                                                      <td v-for="(grade, i) in tempGradeLevels" :key="grade">
+                                                            <input v-model="tempdftValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
                                                 </tr>
                                           </tbody>
                                     </table>
+                                    <button @click="updateTemporaryTeethFunc(studentInfo.student.id)">test</button>
                               </div>
 
                               <div class="flex flex-col w-full h-1/2">
@@ -559,29 +919,46 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                           <thead>
                                                 <tr>
                                                       <th class="p-2">Index D. M. F. T.</th>
-                                                      <th class="p-2"></th>
-                                                      <th class="p-2">7</th>
-                                                      <th class="p-2">8</th>
-                                                      <th class="p-2">9</th>
-                                                      <th class="p-2">10</th>
-                                                      <th class="p-2">11</th>
-                                                      <th class="p-2">12</th>
+                                                      <th v-for="grade in permaGradeLevels" :key="grade" class="p-2">
+                                                            {{ grade }}
+                                                      </th>
                                                 </tr>
                                           </thead>
 
                                           <tbody>
-                                                <tr v-for="permanentTooth of permanentTeeth" :key="permanentTooth">
-                                                      <td class="p-2">{{ permanentTooth }}</td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
-                                                      <td class="p-2"></td>
+                                                <tr>
+                                                      <td class="p-2">No. T/decayed</td>
+                                                      <td v-for="(grade, i) in permaGradeLevels" :key="grade">
+                                                            <input v-model="permaDecayedValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                      <td class="p-2">No. T/missing</td>
+                                                      <td v-for="(grade, i) in permaGradeLevels" :key="grade">
+                                                            <input v-model="permaMissingValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                      <td class="p-2">No. T/filled</td>
+                                                      <td v-for="(grade, i) in permaGradeLevels" :key="grade">
+                                                            <input v-model="permaFilledValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                      <td class="p-2">Total D. M. F. T.</td>
+                                                      <td v-for="(grade, i) in permaGradeLevels" :key="grade">
+                                                            <input v-model="permaTotalDMFTValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                      <td class="p-2">Total Sound Teeth</td>
+                                                      <td v-for="(grade, i) in permaGradeLevels" :key="grade">
+                                                            <input v-model="permaTotalSoundValues[i]" type="text" class="border px-2 py-1 w-full" />
+                                                      </td>
                                                 </tr>
                                           </tbody>
                                     </table>
+                                    <button @click="updatePermanentTeethFunc(studentInfo.student.id)">test</button>
                               </div>
                         </div>
                   </div>

@@ -123,3 +123,223 @@ export async function deleteStudentRecord(id) {
   
     return deleteSuccessful;
 }
+
+export async function submitTemporaryTeethData({
+  temporaryTeethData
+}) {
+  let submissionSuccessful = false;
+
+  try {
+    // Send all records as a bulk POST request
+    const response = await fetch(`${current_address}/create_temp_teeth_bulk`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(temporaryTeethData) // Send the whole list of records
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit data');
+    }
+
+    const data = await response.json();
+    console.log('Bulk submission successful:', data);
+
+    if (data.status_code !== 200) {
+      throw new Error('Server returned error');
+    }
+
+    submissionSuccessful = true;
+  } catch (error) {
+    console.error('Submission error:', error);
+    return false;
+  }
+
+  return submissionSuccessful;
+}
+
+export const fetchTemporaryTeeth = async (studentID) => {
+  try {
+    const response = await fetch(`${current_address}/get_temporary_teeth/${studentID}`);
+
+    if (response.status === 404) {
+      // No data found is not an error in our case — return an empty array
+      return [];
+    }
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch Temporary Teeth records");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Temporary Teeth:", error);
+    throw error;
+  }
+};
+
+export async function submitPermanentTeethData({
+  PermanentTeethData
+}) {
+  let submissionSuccessful = false;
+
+  try {
+    // Send all records as a bulk POST request
+    const response = await fetch(`${current_address}/create_perma_teeth_bulk`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(PermanentTeethData) // Send the whole list of records
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit data');
+    }
+
+    const data = await response.json();
+    console.log('Bulk submission successful:', data);
+
+    if (data.status_code !== 200) {
+      throw new Error('Server returned error');
+    }
+
+    submissionSuccessful = true;
+  } catch (error) {
+    console.error('Submission error:', error);
+    return false;
+  }
+
+  return submissionSuccessful;
+}
+
+export const fetchPermanentTeeth = async (studentID) => {
+  try {
+    const response = await fetch(`${current_address}/get_permarnent_teeth/${studentID}`);
+
+    if (response.status === 404) {
+      // No data found is not an error in our case — return an empty array
+      return [];
+    }
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch Temporary Teeth records");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Temporary Teeth:", error);
+    throw error;
+  }
+};
+
+export async function submitOralHealthConditionData({
+  OralHealthConditionData
+}) {
+  let submissionSuccessful = false;
+
+  try {
+    // Send all records as a bulk POST request
+    const response = await fetch(`${current_address}/create_oral_health_condition_bulk`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(OralHealthConditionData) // Send the whole list of records
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit data');
+    }
+
+    const data = await response.json();
+    console.log('Bulk submission successful:', data);
+
+    if (data.status_code !== 200) {
+      throw new Error('Server returned error');
+    }
+
+    submissionSuccessful = true;
+  } catch (error) {
+    console.error('Submission error:', error);
+    return false;
+  }
+
+  return submissionSuccessful;
+}
+
+export const fetchOralHealthCondition = async (studentID) => {
+  try {
+    const response = await fetch(`${current_address}/get_oral_health_condition_teeth/${studentID}`);
+
+    if (response.status === 404) {
+      // No data found is not an error in our case — return an empty array
+      return [];
+    }
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch Temporary Teeth records");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Temporary Teeth:", error);
+    throw error;
+  }
+};
+
+export async function submitDentalProcedureData({
+  DentalProcedureData
+}) {
+  let submissionSuccessful = false;
+
+  try {
+    // Send all records as a bulk POST request
+    const response = await fetch(`${current_address}/create_dental_procedure_bulk`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(DentalProcedureData) // Send the whole list of records
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit data');
+    }
+
+    const data = await response.json();
+    console.log('Bulk submission successful:', data);
+
+    if (data.status_code !== 200) {
+      throw new Error('Server returned error');
+    }
+
+    submissionSuccessful = true;
+  } catch (error) {
+    console.error('Submission error:', error);
+    return false;
+  }
+
+  return submissionSuccessful;
+}
+
+export const fetchDentalProcedure = async (studentID) => {
+  try {
+    const response = await fetch(`${current_address}/get_dental_procedure_teeth/${studentID}`);
+
+    if (response.status === 404) {
+      // No data found is not an error in our case — return an empty array
+      return [];
+    }
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch Temporary Teeth records");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Temporary Teeth:", error);
+    throw error;
+  }
+};
