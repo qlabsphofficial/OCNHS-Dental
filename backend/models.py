@@ -215,9 +215,8 @@ class ConditionTreatmentNeeds(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
-    tooth_number = Column(String, nullable=False)
-    tooth_side = Column(String, nullable=False)
-    condition = Column(String, nullable=False)
-    treatment_needs = Column(String, nullable=False)
+    layer_no = Column(Integer, nullable=False)
+    cell_no = Column(Integer, nullable=False)
+    value = Column(String, nullable=False)
 
     student = relationship("Student", back_populates="condition_treatment_needs")

@@ -369,7 +369,7 @@ async function fetchDentalProcedureFunc(id) {
       }
     });
   } catch (error) {
-    console.error('Failed to fetch Oral Health Condition data:', error);
+    console.error('Failed to fetch Dental Procedure data:', error);
   }
 }
 

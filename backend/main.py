@@ -347,7 +347,6 @@ class PermanentTeethSchema(BaseModel):
 class OralHealthConditionSchema(BaseModel):
     student_id: int
     grade_level: str
-    
     gingivitis: str
     periodontal_disease: str
     malocclusion: str
@@ -364,7 +363,6 @@ class OralHealthConditionSchema(BaseModel):
 class OralHealthConditionSchema(BaseModel):
     student_id: int
     grade_level: str
-    
     gingivitis: str
     periodontal_disease: str
     malocclusion: str
@@ -381,7 +379,6 @@ class OralHealthConditionSchema(BaseModel):
 class DentalProcedureSchema(BaseModel):
     student_id: int
     grade_level: str
-    
     date: str
     examination: str
     sealant_gi: str
@@ -393,6 +390,21 @@ class DentalProcedureSchema(BaseModel):
     referral: str
     other_oral_treatment: str
     examined_by: str
+    
+    
+class ConditionTreatmentNeedsSchema(BaseModel):
+    student_id: int
+    layer_no: int
+    cell_no: int
+    value: str
+    
+    
+class ConditionTreatmentNeedsArraySchema(BaseModel):
+    student_id: int
+    layer_no: int
+    cell_no: int
+    values: List[str]
+    
     
 @app.post("/register")
 async def register(student: StudentModel, db: Session = Depends(get_database)):
@@ -1406,8 +1418,8 @@ async def reset_password(encrypted_email: str, request: ResetPasswordRequest, db
     return { 'response': 'Reset password successful.', 'status_code': 200 }
 
 
-@app.post("/create_temp_teeth_bulk")
-async def create_temp_teeth_bulk(records: List[TemporaryTeethSchema],db: Session = Depends(get_database)):
+@app.post("/create_temp_teeth")
+async def create_temp_teeth(records: List[TemporaryTeethSchema],db: Session = Depends(get_database)):
     try:
         for record in records:
             existing = db.query(TemporaryTeeth).filter(TemporaryTeeth.student_id == record.student_id, TemporaryTeeth.grade_level == record.grade_level).first()
@@ -1428,10 +1440,10 @@ async def create_temp_teeth_bulk(records: List[TemporaryTeethSchema],db: Session
 
         db.commit()
 
-        return {"status_code": 200, "message": "Bulk upsert successful"}
+        return {"status_code": 200, "message": "Data saved successfully!"}
     except Exception as e:
         print("Error:", e)
-        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+        raise HTTPException(status_code=500, detail="Failed to save data.")
 
 
 @app.get("/get_temporary_teeth/{student_id}")
@@ -1444,8 +1456,8 @@ def get_temporary_teeth(student_id: int, db: Session = Depends(get_database)):
     return records
 
 
-@app.post("/create_perma_teeth_bulk")
-async def create_perma_teeth_bulk(records: List[PermanentTeethSchema],db: Session = Depends(get_database)):
+@app.post("/create_perma_teeth")
+async def create_perma_teeth(records: List[PermanentTeethSchema],db: Session = Depends(get_database)):
     try:
         for record in records:
             existing = db.query(PermanentTeeth).filter(PermanentTeeth.student_id == record.student_id, PermanentTeeth.grade_level == record.grade_level).first()
@@ -1470,10 +1482,10 @@ async def create_perma_teeth_bulk(records: List[PermanentTeethSchema],db: Sessio
 
         db.commit()
 
-        return {"status_code": 200, "message": "Bulk upsert successful"}
+        return {"status_code": 200, "message": "Data saved successfully!"}
     except Exception as e:
         print("Error:", e)
-        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+        raise HTTPException(status_code=500, detail="Failed to save data.")
 
 
 @app.get("/get_permarnent_teeth/{student_id}")
@@ -1486,8 +1498,8 @@ def get_permarnent_teeth(student_id: int, db: Session = Depends(get_database)):
     return records
 
 
-@app.post("/create_oral_health_condition_bulk")
-async def create_oral_health_condition_bulk(records: List[OralHealthConditionSchema],db: Session = Depends(get_database)):
+@app.post("/create_oral_health_condition")
+async def create_oral_health_condition(records: List[OralHealthConditionSchema],db: Session = Depends(get_database)):
     try:
         for record in records:
             existing = db.query(OralHealthCondition).filter(OralHealthCondition.student_id == record.student_id, OralHealthCondition.grade_level == record.grade_level).first()
@@ -1524,10 +1536,10 @@ async def create_oral_health_condition_bulk(records: List[OralHealthConditionSch
 
         db.commit()
 
-        return {"status_code": 200, "message": "Bulk upsert successful"}
+        return {"status_code": 200, "message": "Data saved successfully!"}
     except Exception as e:
         print("Error:", e)
-        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+        raise HTTPException(status_code=500, detail="Failed to save data.")
 
 
 @app.get("/get_oral_health_condition_teeth/{student_id}")
@@ -1540,8 +1552,8 @@ def get_oral_health_condition_teeth(student_id: int, db: Session = Depends(get_d
     return records
 
 
-@app.post("/create_dental_procedure_bulk")
-async def create_dental_procedure_bulk(records: List[DentalProcedureSchema],db: Session = Depends(get_database)):
+@app.post("/create_dental_procedure")
+async def create_dental_procedure(records: List[DentalProcedureSchema],db: Session = Depends(get_database)):
     try:
         for record in records:
             existing = db.query(DentalProcedure).filter(DentalProcedure.student_id == record.student_id, DentalProcedure.grade_level == record.grade_level).first()
@@ -1578,10 +1590,10 @@ async def create_dental_procedure_bulk(records: List[DentalProcedureSchema],db: 
 
         db.commit()
 
-        return {"status_code": 200, "message": "Bulk upsert successful"}
+        return {"status_code": 200, "message": "Data saved successfully!"}
     except Exception as e:
         print("Error:", e)
-        raise HTTPException(status_code=500, detail="Bulk upsert failed")
+        raise HTTPException(status_code=500, detail="Failed to save data.")
 
 
 @app.get("/get_dental_procedure_teeth/{student_id}")
@@ -1592,6 +1604,85 @@ def get_dental_procedure_teeth(student_id: int, db: Session = Depends(get_databa
         raise HTTPException(status_code=404, detail="Records not found")
     
     return records
+
+
+@app.post("/create_condition_treatment_need")
+async def create_condition_treatment_need(record: ConditionTreatmentNeedsSchema, db: Session = Depends(get_database)):
+    existing = db.query(ConditionTreatmentNeeds).filter_by(student_id=record.student_id, layer_no=record.layer_no, cell_no=record.cell_no).first()
+
+    if existing:
+        existing.value = record.value
+    else:
+        new_record = ConditionTreatmentNeeds(
+            student_id=record.student_id,
+            layer_no=record.layer_no,
+            cell_no=record.cell_no,
+            value=record.value
+        )
+        db.add(new_record)
+
+    db.commit()
+    return {"status_code": 200, "message": "Data saved successfully!"}
+
+
+@app.post("/update_condition_treatment_needs")
+async def update_condition_treatment_needs(record: ConditionTreatmentNeedsArraySchema,db: Session = Depends(get_database)):
+    try:
+        db.query(ConditionTreatmentNeeds).filter_by(
+            student_id=record.student_id,
+            layer_no=record.layer_no,
+            cell_no=record.cell_no
+        ).delete()
+
+        for value in record.values:
+            db.add(ConditionTreatmentNeeds(
+                student_id=record.student_id,
+                layer_no=record.layer_no,
+                cell_no=record.cell_no,
+                value=value
+            ))
+
+        db.commit()
+        return {"status_code": 200, "message": "Condition treatment needs updated successfully."}
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/get_condition_treatment_needs/{student_id}")
+async def get_condition_treatment_needs(student_id: int, db: Session = Depends(get_database)):
+    records = db.query(ConditionTreatmentNeeds).filter_by(student_id=student_id).all()
+
+    from collections import defaultdict
+    value_map = defaultdict(list)
+    for r in records:
+        key = (r.layer_no, r.cell_no)
+        value_map[key].append(r.value)
+
+    result = {}
+
+    for layer in range(1, 7):
+        layer_cells = []
+        for cell in range(1, 17):
+            key = (layer, cell)
+            values = value_map.get(key)
+
+            if layer in [3, 4]:
+                value = values if values else []
+            else:
+                value = values[0] if values else None
+
+            layer_cells.append({
+                "student_id": student_id,
+                "layer_no": layer,
+                "cell_no": cell,
+                "value": value
+            })
+
+        result[f"layer_{layer}"] = layer_cells
+
+    return result
 
 
 @app.get('/generate_report')

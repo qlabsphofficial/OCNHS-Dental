@@ -130,13 +130,12 @@ export async function submitTemporaryTeethData({
   let submissionSuccessful = false;
 
   try {
-    // Send all records as a bulk POST request
-    const response = await fetch(`${current_address}/create_temp_teeth_bulk`, {
+    const response = await fetch(`${current_address}/create_temp_teeth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(temporaryTeethData) // Send the whole list of records
+      body: JSON.stringify(temporaryTeethData)
     });
 
     if (!response.ok) {
@@ -144,7 +143,7 @@ export async function submitTemporaryTeethData({
     }
 
     const data = await response.json();
-    console.log('Bulk submission successful:', data);
+    console.log('Data submission successful:', data);
 
     if (data.status_code !== 200) {
       throw new Error('Server returned error');
@@ -164,7 +163,6 @@ export const fetchTemporaryTeeth = async (studentID) => {
     const response = await fetch(`${current_address}/get_temporary_teeth/${studentID}`);
 
     if (response.status === 404) {
-      // No data found is not an error in our case — return an empty array
       return [];
     }
 
@@ -185,13 +183,12 @@ export async function submitPermanentTeethData({
   let submissionSuccessful = false;
 
   try {
-    // Send all records as a bulk POST request
-    const response = await fetch(`${current_address}/create_perma_teeth_bulk`, {
+    const response = await fetch(`${current_address}/create_perma_teeth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(PermanentTeethData) // Send the whole list of records
+      body: JSON.stringify(PermanentTeethData)
     });
 
     if (!response.ok) {
@@ -199,7 +196,7 @@ export async function submitPermanentTeethData({
     }
 
     const data = await response.json();
-    console.log('Bulk submission successful:', data);
+    console.log('Data submission successful:', data);
 
     if (data.status_code !== 200) {
       throw new Error('Server returned error');
@@ -219,17 +216,16 @@ export const fetchPermanentTeeth = async (studentID) => {
     const response = await fetch(`${current_address}/get_permarnent_teeth/${studentID}`);
 
     if (response.status === 404) {
-      // No data found is not an error in our case — return an empty array
       return [];
     }
     
     if (!response.ok) {
-      throw new Error("Failed to fetch Temporary Teeth records");
+      throw new Error("Failed to fetch Permanent Teeth records");
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching Temporary Teeth:", error);
+    console.error("Error fetching Permanent Teeth:", error);
     throw error;
   }
 };
@@ -240,13 +236,12 @@ export async function submitOralHealthConditionData({
   let submissionSuccessful = false;
 
   try {
-    // Send all records as a bulk POST request
-    const response = await fetch(`${current_address}/create_oral_health_condition_bulk`, {
+    const response = await fetch(`${current_address}/create_oral_health_condition`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(OralHealthConditionData) // Send the whole list of records
+      body: JSON.stringify(OralHealthConditionData)
     });
 
     if (!response.ok) {
@@ -254,7 +249,7 @@ export async function submitOralHealthConditionData({
     }
 
     const data = await response.json();
-    console.log('Bulk submission successful:', data);
+    console.log('Data submission successful:', data);
 
     if (data.status_code !== 200) {
       throw new Error('Server returned error');
@@ -274,17 +269,16 @@ export const fetchOralHealthCondition = async (studentID) => {
     const response = await fetch(`${current_address}/get_oral_health_condition_teeth/${studentID}`);
 
     if (response.status === 404) {
-      // No data found is not an error in our case — return an empty array
       return [];
     }
     
     if (!response.ok) {
-      throw new Error("Failed to fetch Temporary Teeth records");
+      throw new Error("Failed to fetch Oral Health Condition records");
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching Temporary Teeth:", error);
+    console.error("Error fetching Oral Health Condition:", error);
     throw error;
   }
 };
@@ -295,13 +289,12 @@ export async function submitDentalProcedureData({
   let submissionSuccessful = false;
 
   try {
-    // Send all records as a bulk POST request
-    const response = await fetch(`${current_address}/create_dental_procedure_bulk`, {
+    const response = await fetch(`${current_address}/create_dental_procedure`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(DentalProcedureData) // Send the whole list of records
+      body: JSON.stringify(DentalProcedureData)
     });
 
     if (!response.ok) {
@@ -309,7 +302,7 @@ export async function submitDentalProcedureData({
     }
 
     const data = await response.json();
-    console.log('Bulk submission successful:', data);
+    console.log('Data submission successful:', data);
 
     if (data.status_code !== 200) {
       throw new Error('Server returned error');
@@ -329,17 +322,16 @@ export const fetchDentalProcedure = async (studentID) => {
     const response = await fetch(`${current_address}/get_dental_procedure_teeth/${studentID}`);
 
     if (response.status === 404) {
-      // No data found is not an error in our case — return an empty array
       return [];
     }
     
     if (!response.ok) {
-      throw new Error("Failed to fetch Temporary Teeth records");
+      throw new Error("Failed to fetch Dental Procedure records");
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching Temporary Teeth:", error);
+    console.error("Error fetching Dental Procedure:", error);
     throw error;
   }
 };
