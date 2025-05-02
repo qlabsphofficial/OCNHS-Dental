@@ -1625,8 +1625,8 @@ async def create_condition_treatment_need(record: ConditionTreatmentNeedsSchema,
     return {"status_code": 200, "message": "Data saved successfully!"}
 
 
-@app.post("/update_condition_treatment_needs")
-async def update_condition_treatment_needs(record: ConditionTreatmentNeedsArraySchema,db: Session = Depends(get_database)):
+@app.post("/create_condition_treatment_needs_array")
+async def create_condition_treatment_needs_array(record: ConditionTreatmentNeedsArraySchema,db: Session = Depends(get_database)):
     try:
         db.query(ConditionTreatmentNeeds).filter_by(
             student_id=record.student_id,
