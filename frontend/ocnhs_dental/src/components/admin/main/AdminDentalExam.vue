@@ -698,7 +698,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               </table>
                         </div>
 
-                        <div class="flex flex-col items-center justify-center w-4/12">
+                        <div class="flex flex-col items-center justify-center w-4/12 dental-table">
                               <h4 class="font-bold">ORAL HEALTH CONDITION</h4>
                               <table class="border-2 w-full">
                                     <thead>
@@ -788,7 +788,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 
                   <!-- Middle Half Dental -->
                   <div class="flex flex-row justify-between gap-5 h-11/12 mt-10">
-                        <div class="flex flex-col items-center justify-center w-7/12 h-full">
+                        <div class="flex flex-col items-center justify-center w-7/12 h-full dental-table">
                               <h4 class="font-bold">DENTAL PROCEDURES</h4>
                               <table class="border-2 w-full h-full">
                                     <thead>
@@ -876,7 +876,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <button @click="updateDentalProcedureFunc(studentInfo.student.id)">test</button>
                         </div>
 
-                        <div class="flex flex-col gap-5 w-5/12 h-full">
+                        <div class="flex flex-col gap-5 w-5/12 h-full dental-table">
                               <div class="flex flex-col w-full h-1/2">
                                     <h4 class="font-bold">TEMPORARY TEETH</h4>
                                     <table class="border-2 w-full h-full">
@@ -981,5 +981,14 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
 table, th, td {
       border: 1px solid black;
       border-collapse: collapse;
+}
+
+.dental-table input {
+      border: none;
+      transition: .4s;
+}
+
+.dental-table input:focus {
+      outline: none;
 }
 </style>

@@ -37,14 +37,16 @@ function accessService(service){
       <div class="flex flex-col">
         <a class="text-sm lg:text-xl" @click="() => { servicesVisible = !servicesVisible }">SERVICES</a>
 
-        <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-30 lg:top-50 border-2 p-4 lg:p-6 w-8/12 lg:w-2/12 bg-white negative-marg-left">
-          <button @click="accessService(1)" class="text-sm lg:text-lg">FLOURIDE APPLICATION</button>
-          <button @click="accessService(2)" class="text-sm lg:text-lg">ORAL PROPHYLAXIS/CLEANING</button>
-          <button @click="accessService(3)" class="text-sm lg:text-lg">RESTORATION/PASTA</button>
-          <button @click="accessService(4)" class="text-sm lg:text-lg">EXTRACTION/BUNOT</button>
-        </div>
+        <Transition>
+          <div v-if="servicesVisible" class="flex flex-col items-start justify-start absolute top-30 lg:top-50 border-2 p-4 lg:p-6 w-8/12 lg:w-2/12 bg-white negative-marg-left">
+            <button @click="accessService(1)" class="text-sm lg:text-lg text-gray-400 hover:text-black transition duration-300 ease-out cursor-pointer">FLOURIDE APPLICATION</button>
+            <button @click="accessService(2)" class="text-sm lg:text-lg text-gray-400 hover:text-black transition duration-300 ease-out cursor-pointer">ORAL PROPHYLAXIS/CLEANING</button>
+            <button @click="accessService(3)" class="text-sm lg:text-lg text-gray-400 hover:text-black transition duration-300 ease-out cursor-pointer">RESTORATION/PASTA</button>
+            <button @click="accessService(4)" class="text-sm lg:text-lg text-gray-400 hover:text-black transition duration-300 ease-out cursor-pointer">EXTRACTION/BUNOT</button>
+          </div>
+        </Transition>
       </div>
-      <button class="border main-color hover:bg-transparent hover:text-black transition duration-300 ease-in-out w-20 text-white text-sm lg:text-xl rounded-sm" @click="() => { router.push('/login') }">LOGIN</button>
+      <button class="border main-color hover:bg-transparent hover:text-black transition duration-300 ease-in-out w-20 text-white text-sm lg:text-xl rounded-sm cursor-pointer" @click="() => { router.push('/login') }">LOGIN</button>
     </div>
   </div>
 
@@ -242,5 +244,15 @@ a {
 
 .footer-links-2 a {
   color: black;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
