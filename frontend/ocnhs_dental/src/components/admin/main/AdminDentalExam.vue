@@ -5,6 +5,7 @@ import { retrieveStudentRecords, submitTemporaryTeethData, fetchTemporaryTeeth, 
       submitOralHealthConditionData, fetchOralHealthCondition, submitDentalProcedureData, fetchDentalProcedure
 } from '@/services/StudentRecordService';
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
+import { getDentalExam } from '@/services/DentalService';
 
 import DentalExamLayerTypeA from './DentalExamLayerTypeA.vue';
 import DentalExamLayerTypeB from './DentalExamLayerTypeB.vue';
@@ -142,6 +143,7 @@ const createPermanentTeethData = (studentID) => {
 const studentInfo = ref({})
 const showStudentInfo = ref(false)
 const studentOptionsShowing = ref(false)
+const dentalExamLayerData = ref([])
 
 const actionButton = ref(false)
 
@@ -194,6 +196,7 @@ async function retrieveStudentInfo(id) {
       this.fetchPermanentTeethFunc(id)
       this.fetchOralHealthConditionFunc(id)
       this.fetchDentalProcedureFunc(id)
+      dentalExamLayerData.value = getDentalExam(studentInfo.value.student.id)
 }
 
 async function updateTemporaryTeethFunc(id) {
@@ -684,16 +687,16 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                               <h4 class="font-bold">DENTAL EXAMINATION</h4>
                               <table class="h-full border w-full">
                                     <tbody>
-                                          <DentalExamLayerTypeA :layer-no="1" />
-                                          <DentalExamLayerTypeA :layer-no="2" />
+                                          <DentalExamLayerTypeA :layerNo="1" :studentId="studentInfo.student.id" :layerData="dentalExamLayerData['layer_1']" />
+                                          <DentalExamLayerTypeA :layerNo="2" :studentId="studentInfo.student.id" :layerData="dentalExamLayerData['layer_2']" />
 
-                                          <DentalExamLayerTypeC :layer-no="1" />
-                                          <DentalExamLayerTypeB :layer-no="3" />
-                                          <DentalExamLayerTypeB :layer-no="4" />
-                                          <DentalExamLayerTypeC :layer-no="2" />
+                                          <DentalExamLayerTypeC :layerNo="1" :studentId="studentInfo.student.id" />
+                                          <DentalExamLayerTypeB :layerNo="3" :studentId="studentInfo.student.id" :layerData="dentalExamLayerData['layer_3']" />
+                                          <DentalExamLayerTypeB :layerNo="4" :studentId="studentInfo.student.id" :layerData="dentalExamLayerData['layer_4']" />
+                                          <DentalExamLayerTypeC :layerNo="2" :studentId="studentInfo.student.id" />
 
-                                          <DentalExamLayerTypeA :layer-no="5" />
-                                          <DentalExamLayerTypeA :layer-no="6" />
+                                          <DentalExamLayerTypeA :layerNo="5" :studentId="studentInfo.student.id" :layerData="dentalExamLayerData['layer_5']" />
+                                          <DentalExamLayerTypeA :layerNo="6" :studentId="studentInfo.student.id" :layerData="dentalExamLayerData['layer_6']" />
                                     </tbody>
                               </table>
                         </div>
