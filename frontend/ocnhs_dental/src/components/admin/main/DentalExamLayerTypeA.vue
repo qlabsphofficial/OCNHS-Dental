@@ -27,15 +27,18 @@ const emit = defineEmits(['update:cells'])
 // Initialize `cells` with layerData when available
 watch(
     () => props.layerData,
-    (newLayerData) => {
-        // Ensure it's always 16 items
-        cells.value = [...newLayerData]
-        while (cells.value.length < 16) {
-        cells.value.push('NA')
+    (layerData) => {
+        const temp = Array(16).fill('NA')  // Default all to NA
+
+        for (const item of layerData) {
+            if (item.cell_no >= 0 && item.cell_no < 16) {
+                temp[item.cell_no] = item.value
+            }
         }
-    },
-    { immediate: true } // Run it once on component mount
+        cells.value = temp
+    }, { immediate: true }
 )
+
 
 // Emit changes when cells are modified
 watch(cells, (newValues) => {
@@ -57,10 +60,10 @@ watch(cells, (newValues) => {
 
 <style scoped>
 td {
-  border: 1px solid black;
-  border-collapse: collapse;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
 select {
-  width: 100%;
+    width: 100%;
 }
 </style>

@@ -1,7 +1,5 @@
 import current_address from "@/address";
 
-
-
 export default async function updateDentalExam(student_id, layer_no, cell_no, value) {
     console.log(student_id)
     console.log(layer_no)
