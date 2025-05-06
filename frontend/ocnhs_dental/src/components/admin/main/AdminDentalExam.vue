@@ -782,7 +782,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                           </tr>
                                     </tbody>
                               </table>
-                              <button @click="updateOralHealthConditionFunc(studentInfo.student.id)">test</button>
+                              <button @click="updateOralHealthConditionFunc(studentInfo.student.id)" class="w-full border border-gray-400 mt-5 hover:bg-gray-600 hover:text-white p-1 transition duration-300 ease-out">Save</button>
                         </div>
                   </div>
 
@@ -873,7 +873,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                           </tr>
                                     </tbody>
                               </table>
-                              <button @click="updateDentalProcedureFunc(studentInfo.student.id)">test</button>
+                              <button @click="updateDentalProcedureFunc(studentInfo.student.id)" class="border border-gray-400 mt-5 hover:bg-gray-600 hover:text-white p-1 transition duration-300 ease-out">Save</button>
                         </div>
 
                         <div class="flex flex-col gap-5 w-5/12 h-full dental-table">
@@ -910,7 +910,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                                 </tr>
                                           </tbody>
                                     </table>
-                                    <button @click="updateTemporaryTeethFunc(studentInfo.student.id)">test</button>
+                                    <button @click="updateTemporaryTeethFunc(studentInfo.student.id)" class="border border-gray-400 mt-5 hover:bg-gray-600 hover:text-white p-1 transition duration-300 ease-out">Save</button>
                               </div>
 
                               <div class="flex flex-col w-full h-1/2">
@@ -958,16 +958,10 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                                 </tr>
                                           </tbody>
                                     </table>
-                                    <button @click="updatePermanentTeethFunc(studentInfo.student.id)">test</button>
+                                    <button @click="updatePermanentTeethFunc(studentInfo.student.id)" class="border border-gray-400 mt-5 hover:bg-gray-600 hover:text-white p-1 transition duration-300 ease-out">Save</button>
                               </div>
                         </div>
                   </div>
-
-                  <!-- Bottom Dental -->
-                   <div>
-                        <div></div>
-                        <div></div>
-                   </div>
             </div>
             
             <div class="flex flex-row justify-end mt-3">
