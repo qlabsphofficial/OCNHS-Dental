@@ -42,7 +42,7 @@ export async function updateDentalExamMultiple(student_id, layer_no, cell_no, va
             'student_id': student_id,
             "layer_no": layer_no,
             "cell_no": cell_no,
-            "value": value
+            "values": value
         })
     });
     

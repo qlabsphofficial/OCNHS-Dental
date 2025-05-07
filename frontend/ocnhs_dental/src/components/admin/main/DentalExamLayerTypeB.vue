@@ -51,14 +51,20 @@ watch(
 watch(
   cells,
   async (newCells) => {
-    const updates = newCells.map((valueArray, idx) => ({
-      cell_no: idx,
-      value: valueArray
-    }))
-    await updateDentalExamMultiple(props.studentId, props.layerNo, updates)
+    for (let i = 0; i < newCells.length; i++) {
+      const value = Array.isArray(newCells[i]) ? newCells[i] : []
+
+      await updateDentalExamMultiple(
+        props.studentId,
+        props.layerNo,
+        i,      // Correct cell index
+        value   // Proper array of strings
+      )
+    }
   },
   { deep: true }
 )
+
 </script>
 
 
