@@ -1449,11 +1449,7 @@ async def create_temp_teeth(records: List[TemporaryTeethSchema],db: Session = De
 @app.get("/get_temporary_teeth/{student_id}")
 def get_temporary_teeth(student_id: int, db: Session = Depends(get_database)):
     records = db.query(TemporaryTeeth).filter(TemporaryTeeth.student_id == student_id).all()
-    
-    if not records:
-        raise HTTPException(status_code=404, detail="Records not found")
-    
-    return records
+    return records  # Just return empty list instead of 404
 
 
 @app.post("/create_perma_teeth")
@@ -1491,10 +1487,6 @@ async def create_perma_teeth(records: List[PermanentTeethSchema],db: Session = D
 @app.get("/get_permarnent_teeth/{student_id}")
 def get_permarnent_teeth(student_id: int, db: Session = Depends(get_database)):
     records = db.query(PermanentTeeth).filter(PermanentTeeth.student_id == student_id).all()
-    
-    if not records:
-        raise HTTPException(status_code=404, detail="Records not found")
-    
     return records
 
 
@@ -1545,10 +1537,6 @@ async def create_oral_health_condition(records: List[OralHealthConditionSchema],
 @app.get("/get_oral_health_condition_teeth/{student_id}")
 def get_oral_health_condition_teeth(student_id: int, db: Session = Depends(get_database)):
     records = db.query(OralHealthCondition).filter(OralHealthCondition.student_id == student_id).all()
-    
-    if not records:
-        raise HTTPException(status_code=404, detail="Records not found")
-    
     return records
 
 
@@ -1599,10 +1587,6 @@ async def create_dental_procedure(records: List[DentalProcedureSchema],db: Sessi
 @app.get("/get_dental_procedure_teeth/{student_id}")
 def get_dental_procedure_teeth(student_id: int, db: Session = Depends(get_database)):
     records = db.query(DentalProcedure).filter(DentalProcedure.student_id == student_id).all()
-    
-    if not records:
-        raise HTTPException(status_code=404, detail="Records not found")
-    
     return records
 
 
