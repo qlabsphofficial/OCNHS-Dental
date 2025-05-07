@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import updateDentalExam from '@/services/DentalService'
+import { updateDentalExam } from '@/services/DentalService'
 
 // Define props
 const props = defineProps({
@@ -21,29 +21,24 @@ const props = defineProps({
 // Reactive array to hold 16 select values
 const cells = ref([])
 
-// Optional: Emit changes to parent component
-const emit = defineEmits(['update:cells'])
-
 // Initialize `cells` with layerData when available
 watch(
-    () => props.layerData,
-    (layerData) => {
-        const temp = Array(16).fill('NA')  // Default all to NA
+  () => props.layerData,
+  (layerData) => {
+    if (!Array.isArray(layerData)) return
 
-        for (const item of layerData) {
-            if (item.cell_no >= 0 && item.cell_no < 16) {
-                temp[item.cell_no] = item.value
-            }
-        }
-        cells.value = temp
-    }, { immediate: true }
+    const temp = Array(16).fill('NA')
+
+    for (const item of layerData) {
+      if (item.cell_no >= 0 && item.cell_no < 16) {
+        temp[item.cell_no] = item.value
+      }
+    }
+
+    cells.value = temp
+  },
+  { immediate: true }
 )
-
-
-// Emit changes when cells are modified
-watch(cells, (newValues) => {
-    emit('update:cells', { layerNo: props.layerNo, values: newValues })
-},  { deep: true })
 </script>
 
 <template>

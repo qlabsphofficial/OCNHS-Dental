@@ -171,7 +171,7 @@ async function listenToFilterChanges() {
 
 async function retrieveStudentInfo(id) {
       studentInfo.value = await retrieveMedicalHistory(id)
-      
+
       goodHealth.value = studentInfo.value.medicalHistory.good_health
       underMedicalTreatment.value = studentInfo.value.medicalHistory.under_medical_treatment
       treatmentCondition.value = studentInfo.value.medicalHistory.condition_being_treated
@@ -196,7 +196,7 @@ async function retrieveStudentInfo(id) {
       this.fetchPermanentTeethFunc(id)
       this.fetchOralHealthConditionFunc(id)
       this.fetchDentalProcedureFunc(id)
-      dentalExamLayerData.value = getDentalExam(studentInfo.value.student.id)
+      dentalExamLayerData.value = await getDentalExam(studentInfo.value.student.id)
 }
 
 async function updateTemporaryTeethFunc(id) {
@@ -790,7 +790,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                   </div>
 
                   <!-- Middle Half Dental -->
-                  <div class="flex flex-row justify-between gap-5 h-11/12 mt-10">
+                  <div class="flex flex-row justify-between gap-5 h-11/12 mt-10 pb-10">
                         <div class="flex flex-col items-center justify-center w-7/12 h-full dental-table">
                               <h4 class="font-bold">DENTAL PROCEDURES</h4>
                               <table class="border-2 w-full h-full">
@@ -876,7 +876,7 @@ watch([fileType, yearGraduated, curriculum, gradeLvl, section], () => {
                                           </tr>
                                     </tbody>
                               </table>
-                              <button @click="updateDentalProcedureFunc(studentInfo.student.id)" class="border border-gray-400 mt-5 hover:bg-gray-600 hover:text-white p-1 transition duration-300 ease-out">Save</button>
+                              <button @click="updateDentalProcedureFunc(studentInfo.student.id)" class="w-full border border-gray-400 mt-5 hover:bg-gray-600 hover:text-white p-1 transition duration-300 ease-out">Save</button>
                         </div>
 
                         <div class="flex flex-col gap-5 w-5/12 h-full dental-table">

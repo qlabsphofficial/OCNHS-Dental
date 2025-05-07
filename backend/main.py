@@ -1626,7 +1626,7 @@ async def create_condition_treatment_need(record: ConditionTreatmentNeedsSchema,
 
 
 @app.post("/create_condition_treatment_needs_array")
-async def create_condition_treatment_needs_array(record: ConditionTreatmentNeedsArraySchema,db: Session = Depends(get_database)):
+async def create_condition_treatment_needs_array(record: ConditionTreatmentNeedsArraySchema, db: Session = Depends(get_database)):
     try:
         db.query(ConditionTreatmentNeeds).filter_by(
             student_id=record.student_id,
