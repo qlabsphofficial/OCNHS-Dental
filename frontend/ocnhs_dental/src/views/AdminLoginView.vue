@@ -60,7 +60,7 @@ async function attemptLogin() {
           <button @click="attemptLogin()" id="submit" class="w-full rounded-md mt-10 mb-20 p-3">Login</button>
 
           <p>DON'T HAVE AN ACCOUNT? <a @click="() => { router.push('/adminSignUp') }">CLICK HERE</a></p>
-          <a href="" class="mt-5">FORGOT PASSWORD</a>
+          <a @click="() => { router.push('/forgotPassword') }" class="mt-5">FORGOT PASSWORD</a>
         </div>
       </div>
   </div>
