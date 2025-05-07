@@ -192,10 +192,10 @@ async function retrieveStudentInfo(id) {
       useToothpaste.value = studentInfo.value.medicalHistory.use_toothpaste
       dentistVisits.value = studentInfo.value.medicalHistory.dentist_visits_per_year
 
-      this.fetchTemporaryTeethFunc(id)
-      this.fetchPermanentTeethFunc(id)
-      this.fetchOralHealthConditionFunc(id)
-      this.fetchDentalProcedureFunc(id)
+      fetchTemporaryTeethFunc(id)
+      fetchPermanentTeethFunc(id)
+      fetchOralHealthConditionFunc(id)
+      fetchDentalProcedureFunc(id)
       dentalExamLayerData.value = await getDentalExam(studentInfo.value.student.id)
 }
 
