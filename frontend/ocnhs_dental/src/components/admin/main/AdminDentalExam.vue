@@ -7,9 +7,9 @@ import { retrieveStudentRecords, submitTemporaryTeethData, fetchTemporaryTeeth, 
 import { retrieveMedicalHistory } from '@/services/MedicalHistoryService';
 import { getDentalExam } from '@/services/DentalService';
 
-import DentalExamLayerTypeA from './DentalExamLayerTypeA.vue';
-import DentalExamLayerTypeB from './DentalExamLayerTypeB.vue';
-import DentalExamLayerTypeC from './DentalExamLayerTypeC.vue';
+import DentalExamLayerTypeA from '@/components/admin/main/DentalExamLayerTypeA.vue';
+import DentalExamLayerTypeB from '@/components/admin/main/DentalExamLayerTypeB.vue';
+import DentalExamLayerTypeC from '@/components/admin/main/DentalExamLayerTypeC.vue';
 
 const fileType = ref('')
 const yearGraduated = ref('')
